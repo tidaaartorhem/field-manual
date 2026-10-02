@@ -344,3 +344,214 @@ def test_cli_edition_arg_parsing():
     args = build_parser().parse_args(["edition", "--hours", "48"])
     assert args.cmd == "edition" and args.hours == 48
     assert args.min_per_section == 3 and args.max_per_section == 6
+
+
+# ---------------------------------------------------------------- v3: RSS / tiers / dedupe / funding / charts
+
+SAMPLE_RSS = """<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0"><channel><title>Test Feed</title>
+<item><title>AI agents take over the enterprise</title>
+<link>https://example.com/agents?utm_source=rss</link>
+<description><p>Agents are <b>everywhere</b> now.</description>
+<pubDate>Fri, 02 Oct 2026 12:00:00 GMT</pubDate></item>
+<item><title>Old news from last month</title>
+<link>https://example.com/old</link>
+<description>Stale.</description>
+<pubDate>Tue, 01 Sep 2026 12:00:00 GMT</pubDate></item>
+<item><title>No date on this one</title>
+<link>https://example.com/nodate</link>
+<description>Undated but fresh.</description></item>
+</channel></rss>"""
+
+
+def test_rss_fetch_parses_entries_and_dates():
+    import feedparser
+    from services import rss as rss_module
+    parsed = feedparser.parse(SAMPLE_RSS)
+    assert len(parsed.entries) == 3
+    # exercise the entry->item path via fetch_feed with a monkeypatched parse
+    orig_parse = feedparser.parse
+    feedparser.parse = lambda *a, **k: orig_parse(SAMPLE_RSS)
+    try:
+        items, err = rss_module.fetch_feed(
+            "test-feed", "https://example.com/feed", "signal", hours=48,
+            now=datetime(2026, 10, 2, 20, 0, tzinfo=timezone.utc), verbose=False)
+    finally:
+        feedparser.parse = orig_parse
+    assert err is None
+    urls = [i["url"] for i in items]
+    assert "https://example.com/agents?utm_source=rss" in urls  # in window
+    assert "https://example.com/old" not in urls  # too old
+    assert "https://example.com/nodate" in urls  # no date: kept
+    ag = next(i for i in items if "agents" in i["url"])
+    assert ag["published"] == "2026-10-02"
+    assert ag["from_rss"] is True
+    assert "<b>" not in ag["description"]  # HTML stripped
+
+
+def test_rss_prefers_feed_dates_in_filter_recent():
+    from services import rss as rss_module
+    import feedparser
+    orig_parse = feedparser.parse
+    feedparser.parse = lambda *a, **k: orig_parse(SAMPLE_RSS)
+    try:
+        items, _ = rss_module.fetch_feed(
+            "test-feed", "https://example.com/feed", "tech", hours=48,
+            now=datetime(2026, 10, 2, 20, 0, tzinfo=timezone.utc), verbose=False)
+    finally:
+        feedparser.parse = orig_parse
+    kept = filter_recent(items, hours=48,
+                         now=datetime(2026, 10, 2, 20, 0, tzinfo=timezone.utc))
+    assert {i["url"] for i in kept} == {
+        "https://example.com/agents?utm_source=rss", "https://example.com/nodate"}
+
+
+def test_source_tiers():
+    assert curator.source_tier("https://arxiv.org/abs/2601.1") == 1
+    assert curator.source_tier("https://www.anthropic.com/news/x") == 1
+    assert curator.source_tier("https://techcrunch.com/2026/01/01/x") == 2
+    assert curator.source_tier("https://www.theverge.com/x") == 2
+    assert curator.source_tier("https://medium.com/@x/y") == 3
+    assert curator.source_tier("https://randomblog.xyz/x") == 3
+
+
+def test_tier_weighting_moves_scores():
+    base = _item(url="https://techcrunch.com/x", shelf="startups")
+    t1 = dict(base, url="https://ycombinator.com/x")   # tier 1, primary for startups
+    t3 = dict(base, url="https://randomblog.xyz/x")    # tier 3, not primary
+    s2, s1, s3 = (curator.score_item(i, "startups") for i in (base, t1, t3))
+    assert s1 > s2 > s3
+
+
+def test_dedupe_title_similarity():
+    items = [
+        {"url": "https://a.com/1", "title": "OpenAI launches new agent framework",
+         "description": "x", "queries": ["a"]},
+        {"url": "https://b.com/2", "title": "OpenAI Launches New Agent Framework | TechCrunch",
+         "description": "y", "queries": ["b"]},
+        {"url": "https://c.com/3", "title": "Completely different story here",
+         "description": "z", "queries": ["c"]},
+    ]
+    out = curator.dedupe(items)
+    assert len(out) == 2
+    merged = next(o for o in out if "TechCrunch" in o["title"] or "launches" in o["title"].lower())
+    assert set(merged["queries"]) == {"a", "b"}
+
+
+def test_extract_funding():
+    f = curator.extract_funding({
+        "title": "Acme raises $50 million Series A to build agents",
+        "description": "Acme raises $50 million in a Series A round.",
+        "url": "https://techcrunch.com/x"})
+    assert f is not None
+    assert f["company"] == "Acme"
+    assert f["amount_usd"] == 50_000_000
+    assert f["round"] == "Series A"
+
+    f2 = curator.extract_funding({
+        "title": "BetaCo secures $120M for AI infra",
+        "description": "", "url": "https://x.com/1"})
+    assert f2 is not None and f2["amount_usd"] == 120_000_000
+
+    # no amount -> None (never invent figures)
+    assert curator.extract_funding({
+        "title": "Acme raises a big round", "description": "",
+        "url": "https://x.com/1"}) is None
+    # no company -> None
+    assert curator.extract_funding({
+        "title": "Startup funding hits $50M record", "description": "",
+        "url": "https://x.com/1"}) is None
+
+
+def _chart_items():
+    return {
+        "signal": [
+            {"title": "Agent framework ships", "description": "Agents and LLMs everywhere.",
+             "url": "https://openai.com/x", "shelf": "signal", "queries": ["r"],
+             "score": 0.9, "published": "2026-10-02"},
+            {"title": "LLM evals update", "description": "New benchmarks for agents.",
+             "url": "https://anthropic.com/y", "shelf": "signal", "queries": ["r"],
+             "score": 0.8, "published": "2026-10-01"},
+        ],
+        "tech": [
+            {"title": "GPU demand surges", "description": "Chips and datacenters.",
+             "url": "https://theverge.com/a", "shelf": "tech", "queries": ["r"],
+             "score": 0.7, "published": "2026-10-02"},
+        ],
+        "startups": [
+            {"title": "Acme raises $50 million Series A",
+             "description": "Acme raises $50 million Series A.",
+             "url": "https://techcrunch.com/1", "shelf": "startups",
+             "queries": ["r"], "score": 0.85, "published": "2026-10-02"},
+            {"title": "BetaCo secures $120M",
+             "description": "BetaCo secures $120M seed.",
+             "url": "https://techcrunch.com/2", "shelf": "startups",
+             "queries": ["r"], "score": 0.8, "published": "2026-10-01"},
+        ],
+        "podcasts": [],
+    }
+
+
+def test_charts_are_honest_aggregates():
+    from services import charts
+    specs = charts.build_charts(_chart_items())
+    by_id = {s["id"]: s for s in specs}
+    funding = by_id["funding"]
+    assert funding["subtitle"] == "$170M raised across 2 rounds"
+    assert [d["label"] for d in funding["data"]] == ["BetaCo", "Acme"]
+    assert funding["data"][0]["value"] == 120.0
+    volume = by_id["volume"]
+    assert {d["label"]: d["value"] for d in volume["data"]}["Startups"] == 2
+    sources = by_id["sources"]
+    assert sources["data"][0]["label"] == "TechCrunch"
+    # every value traces to a real item
+    assert all(d["value"] > 0 for s in specs for d in s["data"])
+
+
+def test_charts_omit_when_no_data():
+    from services import charts
+    assert charts.funding_chart({"startups": [], "tech": []}) is None
+    assert charts.momentum_chart({"signal": []}) is None
+
+
+def test_email_html_is_email_safe():
+    from services import emailer
+    letter = {
+        "edition": "2026-10-02", "window_hours": 48,
+        "lede": "Test lede with <bait> & quotes.",
+        "sections": [{
+            "id": "signal", "title": "The Signal", "kicker": "k",
+            "narrative": "A narrative.",
+            "closing_take": "Take.",
+            "items": [{
+                "id": "signal-001", "title": "Item <one>",
+                "url": "https://example.com/1", "source": "Example",
+                "published": "2026-10-02", "shelf": "signal", "score": 0.9,
+                "briefing": {"lede": "Lede & co.", "what_happened": "Happened.",
+                             "why_it_matters": "Matters.", "steal_this": "Steal."},
+                "takeaways": ["t1"], "queries": ["q"],
+            }],
+        }],
+        "stats": {"items": 1, "sections": 1, "sources": 1},
+    }
+    charts_specs = [{
+        "id": "volume", "title": "Volume", "subtitle": "Sub", "kind": "bar",
+        "unit": "stories", "data": [{"label": "A", "value": 2}],
+        "note": "Note.",
+    }]
+    out = emailer.render_email(letter, charts_specs, "2026-10-02")
+    assert "<table" in out and 'style="' in out
+    assert "flex" not in out and "grid-template" not in out
+    assert "&lt;bait&gt;" in out and "&lt;one&gt;" in out  # escaped
+    assert "https://aadit-field-manual.web.app/charts/2026-10-02/volume.png" in out
+    assert "Reply to this email to unsubscribe" in out
+    assert "<script" not in out
+
+
+def test_subscribers_doc_mapping():
+    from services.subscribers import _doc_to_subscriber
+    doc = {"fields": {"name": {"stringValue": "  Ada  "},
+                      "email": {"stringValue": "ADA@Example.COM "}}}
+    sub = _doc_to_subscriber(doc)
+    assert sub == {"name": "Ada", "email": "ADA@Example.COM"}
+    assert _doc_to_subscriber({"fields": {}}) == {"name": "", "email": ""}

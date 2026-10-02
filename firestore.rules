@@ -16,6 +16,30 @@ service cloud.firestore {
         && request.resource.data.email.matches('^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$');
       allow read, update, delete: if false;
     }
+    // Personal source adder. Visitors submit URLs; the pipeline scrapes
+    // pending docs server-side and flips them to scraped/failed.
+    // NOTE: read is public so visitors can see the status of their own
+    // submissions without auth. Tradeoff: anyone can list submitted URLs
+    // (docs also carry the submitter's email — see README "Privacy notes").
+    // Per-user scoping of *content* is enforced pipeline-side: a scraped URL
+    // only ever appears in its submitter's email, never the global edition.
+    match /user_sources/{docId} {
+      allow create: if request.resource.data.keys().hasOnly(
+                        ['email', 'url', 'title', 'addedAt', 'status'])
+        && request.resource.data.email is string
+        && request.resource.data.email.size() <= 254
+        && request.resource.data.email.matches('^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$')
+        && request.resource.data.url is string
+        && request.resource.data.url.size() >= 12
+        && request.resource.data.url.size() <= 2000
+        && request.resource.data.url.matches('^https?://\\S+$')
+        && request.resource.data.title is string
+        && request.resource.data.title.size() <= 200
+        && request.resource.data.status == 'pending'
+        && request.resource.data.addedAt is timestamp;
+      allow read: if true;
+      allow update, delete: if false;
+    }
     // Default deny for everything else.
     match /{document=**} {
       allow read, write: if false;

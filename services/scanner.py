@@ -18,11 +18,13 @@ Failure policy: a failed query/episode is logged and skipped. If ALL
 queries fail, the scan aborts without writing placeholder data.
 """
 import json
+import re
 import subprocess
 import sys
 import time
 from datetime import datetime, timezone
 from pathlib import Path
+from urllib.parse import urlparse
 
 SEARCH_CLI = Path.home() / "workspace" / "skills" / "firecrawl" / "bin" / "search.py"
 SCRAPE_CLI = Path.home() / "workspace" / "skills" / "firecrawl" / "bin" / "scrape.py"
@@ -50,15 +52,25 @@ QUERY_SETS = {
 
 PODCASTS = [
     {"name": "All In", "site": "allin.com",
-     "query": "All In podcast latest episode"},
+     "query": "All In podcast latest episode",
+     "tokens": ("all-in", "all in podcast", "chamath", "besties")},
     {"name": "Acquired", "site": "acquired.fm",
-     "query": "Acquired podcast latest episode"},
+     "query": "Acquired podcast latest episode",
+     "tokens": ("acquired",),
+     "listing": {
+         "url": "https://www.acquired.fm/episodes",
+         "episode_pattern": r"https://www\.acquired\.fm/episodes/[a-z0-9\-]+/?",
+         "max": 2,
+     }},
     {"name": "Invest Like the Best", "site": "investlikethebest.com",
-     "query": "Invest Like the Best podcast latest episode"},
+     "query": "Invest Like the Best podcast latest episode",
+     "tokens": ("invest like the best", "patrick o")},
     {"name": "Hard Fork", "site": "nytimes.com",
-     "query": "Hard Fork podcast latest episode"},
+     "query": "Hard Fork podcast latest episode",
+     "tokens": ("hard fork",)},
     {"name": "This Week in Startups", "site": "thisweekinstartups.com",
-     "query": "This Week in Startups latest episode"},
+     "query": "This Week in Startups latest episode",
+     "tokens": ("this week in startups", "twist", "jason calacanis")},
 ]
 
 
@@ -138,57 +150,193 @@ def scan_news(limit_per_query=5, verbose=True):
     return items, failures
 
 
+# Domains worth scraping for episodes (real show notes live here).
+EPISODE_HOSTS = ("allin.com", "acquired.fm", "investlikethebest.com",
+                 "thisweekinstartups.com", "podcasts.apple.com",
+                 "open.spotify.com", "podscan.fm", "listennotes.com",
+                 "youtube.com", "www.youtube.com", "youtu.be",
+                 "music.youtube.com")
+
+# Junk hosts: never episode pages.
+SKIP_HOSTS = ("instagram.com", "www.instagram.com", "facebook.com",
+              "www.facebook.com", "tiktok.com", "polymarket.com",
+              "twitter.com", "x.com", "linkedin.com", "www.linkedin.com")
+
+# URL fragments that mark listing pages, not episodes.
+LISTING_FRAGMENTS = ("/@", "/playlist", "/channel/")
+
+
+def _mentions_show(pod, title, desc, url):
+    """Does this result actually concern the show? Guards against
+    wrong-podcast and generic-leadership-blog junk."""
+    blob = f"{title or ''} {desc or ''} {url or ''}".lower()
+    return any(tok in blob for tok in pod.get("tokens", ()))
+
+
+def _looks_like_episode(pod_name, title, url):
+    """Heuristic: is this an episode page rather than a listing or junk?"""
+    t = (title or "").lower()
+    u = (url or "").lower()
+    host = _host(url)
+    # Listing pages.
+    if any(frag in u for frag in LISTING_FRAGMENTS):
+        return False
+    if host == "podcasts.apple.com" and "/podcast/" in u and "?i=" not in u:
+        return False  # Apple show page, not an episode
+    # Bare show-name titles and analytics junk.
+    bare = re.sub(r"[^a-z0-9]", "", pod_name.lower())
+    tnorm = re.sub(r"[^a-z0-9]", "", t)
+    if tnorm == bare or tnorm.startswith(bare + "podcast"):
+        return False
+    if any(j in t for j in ("rate card", "stats:", "audience &")):
+        return False
+    return True
+
+
+def _host(url):
+    h = urlparse(url).netloc.lower()
+    return h[4:] if h.startswith("www.") else h
+
+
+def _scrape_listing_episodes(pod, verbose=True):
+    """Primary path for shows with a listing config: scrape the episode
+    index, take the first episode links, scrape each for title/date/notes.
+    Returns (items, ok)."""
+    cfg = pod["listing"]
+    sc = run_scrape(cfg["url"])
+    if not sc["ok"]:
+        if verbose:
+            print(f"[scan] listing FAILED podcasts :: {pod['name']} -> {sc['error']}",
+                  file=sys.stderr)
+        return [], False
+    md = sc["markdown"]
+    links = re.findall(cfg["episode_pattern"], md)
+    seen, ep_urls = set(), []
+    for u in links:
+        u = u.rstrip("/")
+        if u not in seen:
+            seen.add(u)
+            ep_urls.append(u)
+        if len(ep_urls) >= cfg.get("max", 2):
+            break
+    items = []
+    for url in ep_urls:
+        time.sleep(1)
+        ep = run_scrape(url)
+        if not ep["ok"]:
+            continue
+        paras = [p.strip() for p in ep["markdown"].split("\n\n") if len(p.strip()) > 60]
+        notes = " ".join(paras[:3])[:1200]
+        title = ep["page_title"].strip()
+        if not title:
+            continue
+        items.append({
+            "url": url,
+            "title": title,
+            "description": notes,
+            "shelf": "podcasts",
+            "queries": [f"{pod['name']} episode listing"],
+            "podcast": pod["name"],
+            "scraped_markdown": ep["markdown"][:4000],
+        })
+    if verbose:
+        print(f"[scan] ok      podcasts :: {pod['name']}  ({len(items)} episodes via listing)")
+    return items, True
+
+
 def scan_podcasts(verbose=True):
     """Find the latest episode per show and scrape its show notes.
 
     Returns (items, failures). Each item carries the real episode title,
     show-note excerpt, and the scraped markdown for date extraction.
+    When a page can't be scraped (e.g. Firecrawl blocks the host) but the
+    search result itself carries a real title and a parseable date, the
+    search snippet is kept as a fallback — still nothing invented.
     """
+    from .curator import extract_published
     items, failures = [], []
     for pod in PODCASTS:
         name, site = pod["name"], pod["site"]
-        res = run_search(f"site:{site} {pod['query']}", 5, tbs="qdr:w")
-        if not res["ok"]:
-            res = run_search(pod["query"], 5, tbs="qdr:w")
-        if not res["ok"]:
-            failures.append({"section": "podcasts", "query": pod["query"],
-                             "error": res["error"]})
-            if verbose:
-                print(f"[scan] FAILED  podcasts :: {name} -> {res['error']}",
-                      file=sys.stderr)
+        # Primary: episode listing page, where configured and verified.
+        if pod.get("listing"):
+            got_items, ok = _scrape_listing_episodes(pod, verbose)
+            items.extend(got_items)
+            if not ok:
+                failures.append({"section": "podcasts", "query": pod["query"],
+                                 "error": "listing scrape failed"})
             continue
-        # Prefer results on the show's own domain; take the first two.
-        ranked = sorted(
-            res["results"],
-            key=lambda r: (site not in (r.get("url") or ""), r.get("position") or 99),
-        )[:2]
+        res = run_search(f"site:{site} {pod['query']}", 5, tbs="qdr:w")
+        cands = res.get("results", []) if res["ok"] else []
+        if len(cands) < 2:
+            res2 = run_search(pod["query"], 8, tbs="qdr:w")
+            if res2["ok"]:
+                cands += res2["results"]
+        # Rank: show domain first, then YouTube episodes, then known
+        # episode hosts; skip junk.
+        def rank_key(r):
+            url = r.get("url") or ""
+            host = _host(url)
+            if host in SKIP_HOSTS:
+                return (4, 99)
+            if site in host:
+                return (0, r.get("position") or 99)
+            if host in ("youtube.com", "www.youtube.com", "youtu.be") \
+                    and "/watch" in url:
+                return (1, r.get("position") or 99)
+            if host in EPISODE_HOSTS:
+                return (2, r.get("position") or 99)
+            return (3, r.get("position") or 99)
+        ranked = sorted(cands, key=rank_key)[:3]
         got = 0
         for r in ranked:
             url = (r.get("url") or "").strip()
-            if not url.startswith("http"):
+            title = (r.get("title") or "").strip()
+            if not url.startswith("http") or _host(url) in SKIP_HOSTS:
+                continue
+            if not _looks_like_episode(name, title, url):
+                continue
+            if not _mentions_show(pod, title, r.get("description"), url):
                 continue
             time.sleep(1)  # be polite to show sites
             sc = run_scrape(url)
-            if not sc["ok"]:
-                if verbose:
-                    print(f"[scan] scrape FAILED podcasts :: {name} {url} -> {sc['error']}",
-                          file=sys.stderr)
-                continue
-            md = sc["markdown"]
-            # Show-note excerpt: first substantive paragraphs.
-            paras = [p.strip() for p in md.split("\n\n") if len(p.strip()) > 60]
-            notes = " ".join(paras[:3])[:1200]
-            title = sc["page_title"].strip() or (r.get("title") or "").strip()
-            items.append({
-                "url": url,
-                "title": title,
-                "description": notes,
-                "shelf": "podcasts",
-                "queries": [pod["query"]],
-                "podcast": name,
-                "scraped_markdown": md[:4000],
-            })
-            got += 1
+            title = (r.get("title") or "").strip()
+            desc = (r.get("description") or "").strip()
+            if sc["ok"]:
+                md = sc["markdown"]
+                paras = [p.strip() for p in md.split("\n\n") if len(p.strip()) > 60]
+                notes = " ".join(paras[:3])[:1200]
+                title = sc["page_title"].strip() or title
+                items.append({
+                    "url": url,
+                    "title": title,
+                    "description": notes or desc,
+                    "shelf": "podcasts",
+                    "queries": [pod["query"]],
+                    "podcast": name,
+                    "scraped_markdown": md[:4000],
+                })
+                got += 1
+            else:
+                # Scrape blocked: keep the search snippet only if it has a
+                # real title and a parseable date (nothing invented).
+                if title and extract_published(f"{title} {desc}", url):
+                    items.append({
+                        "url": url,
+                        "title": title,
+                        "description": desc,
+                        "shelf": "podcasts",
+                        "queries": [pod["query"]],
+                        "podcast": name,
+                    })
+                    got += 1
+                    if verbose:
+                        print(f"[scan] snippet podcasts :: {name} (scrape blocked, "
+                              f"dated snippet kept)")
+                elif verbose:
+                    print(f"[scan] scrape FAILED podcasts :: {name} {url} -> "
+                          f"{sc['error']}", file=sys.stderr)
+            if got >= 2:
+                break
         if verbose:
             print(f"[scan] ok      podcasts :: {name}  ({got} episodes)")
         if got == 0:

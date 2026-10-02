@@ -1,684 +1,529 @@
 {
-  "scanned_at": "2026-10-02T17:52:17.793221+00:00",
+  "scanned_at": "2026-10-02T18:26:50.843714+00:00",
+  "window": "48h",
   "queries": {
-    "papers": [
-      "agentic AI arxiv 2026",
-      "LLM agent evaluation benchmark paper 2026",
-      "multi-agent LLM systems research 2026",
-      "retrieval augmented generation research arxiv 2026"
+    "signal": [
+      "agentic AI news this week",
+      "AI agents launch announcement",
+      "LLM agent framework update"
     ],
-    "courses": [
-      "agentic AI certification course 2026",
-      "AI agent engineering course 2026",
-      "LLM application certification program"
+    "tech": [
+      "tech news AI this week",
+      "artificial intelligence industry news",
+      "AI model release announcement"
     ],
-    "news": [
-      "AI agent framework launch 2026",
-      "enterprise AI agents adoption 2026",
-      "AI coding agent announcement 2026"
-    ],
-    "career": [
-      "forward deployed engineer AI hiring",
-      "solutions engineer LLM integration role",
-      "AI engineer job market 2026"
+    "startups": [
+      "AI startup funding round",
+      "startup launches AI agent product",
+      "YC AI startup launch"
     ]
   },
+  "podcasts": [
+    "All In",
+    "Acquired",
+    "Invest Like the Best",
+    "Hard Fork",
+    "This Week in Startups"
+  ],
   "items": [
     {
-      "url": "https://arxiv.org/abs/2601.12560",
-      "title": "[2601.12560] Agentic Artificial Intelligence (AI)",
-      "description": "# Title:Agentic Artificial Intelligence (AI): Architectures, Taxonomies, and Evaluation of Large Language Model Agents\n[View PDF](https://arxiv.org/pdf/2601.12560) [HTML (experimental)](https://arxiv.org/html/2601.12560v1)\n\n|  |  |\n|-|-|\n| Cite as: | [arXiv:2601.12560](https://arxiv.org/abs/2601.12560) [cs.AI] |\n|  | (or [arXiv:2601.12560v1](https://arxiv.org/abs/2601.12560v1) [cs.AI] for this version) |\n\n## Access Paper:\n### Current browse context:\n[< prev](https://arxiv.org/prevnext?id=2601.12560&function=prev&context=cs.AI)  |  [next >](https://arxiv.org/prevnext?id=2601.12560&function=next&context=cs.AI)\n\n[new](https://arxiv.org/list/cs.AI/new) | [recent](https://arxiv.org/list/cs.AI/recent) | [2026-01](https://arxiv.org/list/cs.AI/2026-01)\n\n[cs](https://arxiv.org/abs/2601.12560?context=cs)\n\n### Bookmark\n[![BibSonomy](https://arxiv.org/static/browse/0.3.4/images/icons/social/bibsonomy.png)](http://www.bibsonomy.org/BibtexHandler?requTask=upload&url=https://arxiv.org/abs/2601.12560&description=Agentic%20Artificial%20Intelligence%20(AI):%20Architectures,%20Taxonomies,%20and%20Evaluation%20of%20Large%20Language%20Model%20Agents) [![Reddit](https://arxiv.org/static/browse/0.3.4/images/icons/social/reddit.png)](https://reddit.com/submit?url=https://arxiv.org/abs/2601.12560&title=Agentic%20Artificial%20Intelligence%20(AI):%20Architectures,%20Taxonomies,%20and%20Evaluation%20of%20Large%20Language%20Model%20Agents)",
-      "shelf": "papers",
+      "url": "https://www.nature.com/articles/s41591-026-04658-2",
+      "title": "The missing links in agentic AI autonomy | Nature Medicine",
+      "description": "6 hours ago · A new study tackles issues around operational and decisional trust of agentic artificial intelligence (AI), using locally deployed, on-premise agents and ...",
+      "shelf": "signal",
       "queries": [
-        "agentic AI arxiv 2026"
+        "agentic AI news this week"
       ],
       "position": 1
     },
     {
-      "url": "https://www.reddit.com/r/AI_Agents/comments/1r3p8zk/curated_list_of_ai_agent_papers_2026_filtering/",
-      "title": "Curated list of AI Agent papers (2026) — filtering arXiv so ...",
-      "description": "A collection of AI agent research papers released in 2026, covering agent engineering, memory, evaluation, workflows, and autonomous systems.",
-      "shelf": "papers",
+      "url": "https://www.vtex.com/en-us/news/agentic-ai-in-retail-insight-vs-execution-gap/",
+      "title": "Retail's Real Agentic AI Problem Isn't Insight. It's How Slowly Brands Act ...",
+      "description": "4 hours ago · Gartner separately predicts more than 40% of agentic AI projects will be canceled by the end of 2027 over escalating costs, unclear value, or weak risk controls ...",
+      "shelf": "signal",
       "queries": [
-        "agentic AI arxiv 2026"
+        "agentic AI news this week"
       ],
       "position": 2
     },
     {
-      "url": "https://arxiv.org/abs/2605.14830",
-      "title": "Agentic AI and Human-in-the-Loop Interventions",
-      "description": "# Title:Agentic AI and Human-in-the-Loop Interventions: Field Experimental Evidence from Alibaba's Customer Service Operations\n|  |  |\n|-|-|\n|  | (or [arXiv:2605.14830v2](https://arxiv.org/abs/2605.14830v2) [cs.HC] for this version) |",
-      "shelf": "papers",
+      "url": "https://www.facebook.com/punchnewspaper/posts/%F0%9D%97%98%F0%9D%97%AC-%F0%9D%97%94%F0%9D%97%B9%F0%9D%98%82%F0%9D%97%BA%F0%9D%97%BB%F0%9D%97%B6-%F0%9D%97%AA%F0%9D%97%B2%F0%9D%97%B2%F0%9D%97%B8-%F0%9D%97%98%F0%9D%98%85%F0%9D%97%BD%F0%9D%97%B2%F0%9D%97%BF%F0%9D%98%81%F0%9D%98%80-%F0%9D%98%82%F0%9D%97%BF%F0%9D%97%B4%F0%9D%97%B2-%F0%9D%97%BF%F0%9D%97%B2%F0%9D%98%80%F0%9D%97%BD%F0%9D%97%BC%F0%9D%97%BB%F0%9D%98%80%F0%9D%97%B6%F0%9D%97%AF%F0%9D%97%B9%F0%9D%97%B2-%F0%9D%97%AE%F0%9D%97%B1%F0%9D%97%BC%F0%9D%97%BD%F0%9D%98%81%F0%9D%97%B6%F0%9D%97%BC%F0%9D%97%BB-%F0%9D%97%BC%F0%9D%97%B3-%F0%9D%97%AE%F0%9D%97%B4%F0%9D%97%B2%F0%9D%97%BB%F0%9D%98%81%F0%9D%97%B6%F0%9D%97%B0-%F0%9D%97%94%F0%9D%97%9C-business-leaders-/1571842794979898/",
+      "title": "Experts urge responsible adoption of agentic ...",
+      "description": "14 hours ago · Survey Finds Out That A Large Number of Companies Are Already Using Autonomous AI Agents According to a recent survey by PagerDuty, more than half of companies ...",
+      "shelf": "signal",
       "queries": [
-        "agentic AI arxiv 2026"
+        "agentic AI news this week"
       ],
       "position": 3
     },
     {
-      "url": "https://www.linkedin.com/posts/muhammad-arslan-b591b1285_research-aiagents-agenticai-activity-7474154906019438592-erLD",
-      "title": "5 AI Agent Research Papers for 2026 - Reasoning, Tool ...",
-      "description": "Five papers that define how we build AI agents in 2026 — from reason-and-act loops to agentic RAG and RL-trained search agents.",
-      "shelf": "papers",
+      "url": "https://www.cnbc.com/2026/10/02/interpol-cyberattack-cyberthreat-agentic-ai.html",
+      "title": "Interpol says AI boosts speed, scale of cyber threats. What to watch - CNBC",
+      "description": "### **Agentic AI raises new risks**\n1. [![Traders work on the floor at the New York Stock Exchange (NYSE) in New York City, U.S., Sept. 28, 2026.  ](https://image.cnbcfm.com/api/v1/image/108368839-17906098212026-09-28t153554z_61414151_rc2dsnapy77x_rtrmadp_0_usa-stocks.jpeg?v=1790609915&w=200)](https://www.cnbc.com/2026/10/01/stock-market-today-live-updates-.html)\n[Dow futures leap 400 points as yields back off on weak payrolls data](https://www.cnbc.com/2026/10/01/stock-market-today-live-updates-.html)\n2. [![SUNRISE, FLORIDA - SEPTEMBER 25: Vincent Pinzone of Life Alert speaks with people about job opportunities during the Mega JobNewsUSA South Florida Job Fair at Amerant Bank Arena on September 25, 2026, in Sunrise, Florida. Hiring managers and recruiters from more than 50 companies attended the job fair to recruit workers for opportunities across a range of companies.  (Photo by Joe Raedle/Getty Images)](https://image.cnbcfm.com/api/v1/image/108368238-1790358261069-gettyimages-2297111436-jr_18591_wq7j0ohd.jpeg?v=1790358312&w=200)](https://www.cnbc.com/2026/10/02/jobs-report-september-2026.html)\n[Labor market faltered in September as jobs increased by just 29,000, unemployment rate rose to 4.2%](https://www.cnbc.com/2026/10/02/jobs-report-september-2026.html)\n3. [![President Donald Trump leaves the stage after speaking during the America.gov launch event in Washington, Sept. 29, 2026.](https://image.cnbcfm.com/api/v1/image/108370343-1790783062486-gettyimages-2297724134-kbd14743_rhxmkc0e.jpeg?v=1790803464&w=200)](https://www.cnbc.com/2026/09/30/obamacare-aca-refund-checks.html)\n[Trump administration starts sending $500 Obamacare refund checks — who stands to benefit](https://www.cnbc.com/2026/09/30/obamacare-aca-refund-checks.html)\n4. [![French students set fires as they clash with police during a march on Oct. 1, 2026, in Aubervilliers, a northern suburb of Paris, France. ](https://image.cnbcfm.com/api/v1/image/108371716-1790940456448-gettyimages-2297474772-2c9a3469.jpeg?v=1790940559&w=200)](https://www.cnbc.com/2026/10/02/france-student-protests-budget-debt.html)\n[A violent classroom revolt is becoming France’s next big crisis](https://www.cnbc.com/2026/10/02/france-student-protests-budget-debt.html)\n5. [![The Torrance Refining Company refinery in Torrance, California, US, on Monday, Sept. 28, 2026. ](https://image.cnbcfm.com/api/v1/image/108369309-1790685904761-gettyimages-2297099853-US_DIESEL.jpeg?v=1790685980&w=200)](https://www.cnbc.com/2026/10/02/oil-wti-brent-diesel-stock-release-europe.html)\n[Oil prices fall on report of potential diesel, crude stock release; Brent back below $100](https://www.cnbc.com/2026/10/02/oil-wti-brent-diesel-stock-release-europe.html)",
+      "shelf": "signal",
       "queries": [
-        "agentic AI arxiv 2026"
+        "agentic AI news this week"
       ],
       "position": 4
     },
     {
-      "url": "https://labs.adaline.ai/p/the-ai-research-landscape-in-2026",
-      "title": "The AI Research Landscape in 2026 - Adaline Labs",
-      "description": "Gartner projects that 40% of enterprise applications will embed AI agents by mid-2026, up from less than 5% in early 2025. This eight-fold ...",
-      "shelf": "papers",
+      "url": "https://www.lynchburg.edu/university-of-lynchburg-ai-garage-prepares-business-students-to-solve-real-world-problems-with-agentic-ai/",
+      "title": "University of Lynchburg AI Garage prepares business students to solve ...",
+      "description": "4 hours ago · The AI Garage is an agentic AI laboratory where selected students can experiment with building AI agents to solve a company's real business problems. Jett and ...",
+      "shelf": "signal",
       "queries": [
-        "agentic AI arxiv 2026"
+        "agentic AI news this week"
       ],
       "position": 5
     },
     {
-      "url": "https://arxiv.org/abs/2503.16416",
-      "title": "[2503.16416] Survey on Evaluation of LLM-based Agents - arXiv",
-      "description": "# Title:Survey on Evaluation of LLM-based Agents\nAbstract:LLM-based agents represent a paradigm shift in AI, enabling autonomous systems to plan, reason, and use tools while interacting with dynamic environments. This paper provides the first comprehensive survey of evaluation methods for these increasingly capable agents.",
-      "shelf": "papers",
+      "url": "https://www.youtube.com/watch?v=NIHJL-CGy1I",
+      "title": "OpenAI, Meta & Claude All Launched AI Agents This Week. We Built Ours ...",
+      "description": "## OpenAI, Meta & Claude All Launched AI Agents This Week. We Built Ours Today.\nCopy link\n\nInfo\n\nShopping\n\n•\n\nYou're signed out\n\nTo avoid this, cancel and sign in to YouTube on your computer.\n\nUp next\n\nLive\n\nUpcoming\n\nCancelPlay Now\n\nShare\n\nInclude playlist\n\nPlease try again later.\n\n0:00\n\n[Next (SHIFT+n)](https://www.youtube.com/watch?v=8-MR5mtO36c)\n\n0:00 / 39:40\n\nLive\n\n•Watch full video\n\n•\n\n•\n\n[30:48\\\nThe FTC Is Investigating OpenAI — Here’s WhyProf G Markets and Platypus Economics with Justin Wolfers45K • 4h agoLivePlaylist ()Mix (50+)](https://www.youtube.com/watch?v=IAH9L_CXcI8) [20:28\\\n10 Things You Should Never Tell ChatGPT: AI Chatbots Can’t Keep Your Secrets Like You ThinkEmployee Rights Attorney | Regina Molden 752K • 3mo agoLivePlaylist ()Mix (50+)](https://www.youtube.com/watch?v=xvuQsyAc_rw) [14:21\\\n‘Spike protein was designed to kill…’: Dr McCullough drops chilling COVID vax claim |Allison InquiryThe Economic Times1.2M • 2d agoLivePlaylist ()Mix (50+)](https://www.youtube.com/watch?v=Y9afVwQzsF8) [20:19\\\nWhy AI Agents are either the best or worst thing we’ve ever builtHannah Fry2.4M • 5mo agoLivePlaylist ()Mix (50+)](https://www.youtube.com/watch?v=WnzR5aOElvw) [47:44\\\nEverything You Need to Know About Claude Cowork, in the Right OrderCal Hyslop64K • 1mo agoLivePlaylist ()Mix (50+)](https://www.youtube.com/watch?v=yu7PYU0ONT4) [35:26\\\nHow AI agents & Claude skills work (Clearly Explained)Greg Isenberg869K • 5mo agoLivePlaylist ()Mix (50+)](https://www.youtube.com/watch?v=S_oN3vlzpMw) [26:37\\\nFULL: Elon Musk, Jensen Huang, Tom Brown Discuss the AI Revolution & What's Next - 09/29/26Right Side Broadcasting Network388K • 1d agoLivePlaylist ()Mix (50+)](https://www.youtube.com/watch?v=388P7IFSpwE) [1:46:13\\\nAI Realist vs 20 Pro-AI (ft. Andrew Yang) | SurroundedJubilee1.3M • 3d agoLivePlaylist ()Mix (50+)](https://www.youtube.com/watch?v=020ZvO0FbMM) [26:37\\\nThe AI Revolution Is Just Getting Started: Musk, Huang & Brown Reveal What's NextLearnAI12K • 22h agoLivePlaylist ()Mix (50+)](https://www.youtube.com/watch?v=IQdtlXrIUGk) [30:15\\\nOpenAI Co-Founder: Start Building With AI Before You Feel Ready | Greg BrockmanSilicon Valley Girl102K • 23h agoLivePlaylist ()Mix (50+)](https://www.youtube.com/watch?v=qy8Gr27yLMk) [23:39\\\nThe Leadership Skills for CEOs That Will Matter Most in the Age of AIBloomberg Podcasts435K • 1mo agoLivePlaylist ()Mix (50+)](https://www.youtube.com/watch?v=8-MR5mtO36c) [24:24\\\n10 Remote Jobs That Can't Find Anyone (And Why You Already Qualify)Elevate To The Unknown548K • 2mo agoLivePlaylist ()Mix (50+)](https://www.youtube.com/watch?v=hIvV97d0oow)\n\n# OpenAI, Meta & Claude All Launched AI Agents This Week. We Built Ours Today.\n199K subscribers\n\nShare\n\nDownload\n\nDownload\n\n.\n\nStreamed\n\nToday we built an AI agent at the AI Business Summit.\n\nShow transcript\n\nShow less\n\nShare\n\nDownload\n\nDownload\n\n![](https://yt3.ggpht.com/OPeK8wciDKY2nrc8LpGsLAzdlJ4sVYlyOuwkFCwE9gDF5H7pQ6PwdOZVQXIXIM7xLoFbB9zUhVk=s88-c-k-c0x00ffffff-no-rj)\n\n![](https://yt3.ggpht.com/ytc/AIdro_lstB3YH641mvD7c0F5CsIK1VohS5sGjDHznzqAxeFzDrKoh35mwiEQPb1tQwNdxYWaWA=s88-c-k-c0x00ffffff-no-rj)\n\n![](https://yt3.ggpht.com/ytc/AIdro_lawf9yWTQpDKE0MLo3587nhlwH_ppxDQse0Bw_-WWV25kHUsQnoRSTBnBBFdxj69wZBg=s88-c-k-c0x00ffffff-no-rj)\n\n![](https://yt3.ggpht.com/OPeK8wciDKY2nrc8LpGsLAzdlJ4sVYlyOuwkFCwE9gDF5H7pQ6PwdOZVQXIXIM7xLoFbB9zUhVk=s88-c-k-c0x00ffffff-no-rj)\n\n![](https://yt3.ggpht.com/OPeK8wciDKY2nrc8LpGsLAzdlJ4sVYlyOuwkFCwE9gDF5H7pQ6PwdOZVQXIXIM7xLoFbB9zUhVk=s88-c-k-c0x00ffffff-no-rj)\n\n![](https://yt3.ggpht.com/OPeK8wciDKY2nrc8LpGsLAzdlJ4sVYlyOuwkFCwE9gDF5H7pQ6PwdOZVQXIXIM7xLoFbB9zUhVk=s88-c-k-c0x00ffffff-no-rj)\n\nIn\n\n![](https://yt3.ggpht.com/OPeK8wciDKY2nrc8LpGsLAzdlJ4sVYlyOuwkFCwE9gDF5H7pQ6PwdOZVQXIXIM7xLoFbB9zUhVk=s88-c-k-c0x00ffffff-no-rj)\n\n![](https://yt3.ggpht.com/ytc/AIdro_lawf9yWTQpDKE0MLo3587nhlwH_ppxDQse0Bw_-WWV25kHUsQnoRSTBnBBFdxj69wZBg=s88-c-k-c0x00ffffff-no-rj)\n\n![](https://yt3.ggpht.com/OPeK8wciDKY2nrc8LpGsLAzdlJ4sVYlyOuwkFCwE9gDF5H7pQ6PwdOZVQXIXIM7xLoFbB9zUhVk=s88-c-k-c0x00ffffff-no-rj)\n\nOpenAI, Meta & Claude All Launched AI Agents This Week.\n\nToday we built an AI agent at the AI Business Summit.\n\n🛠️ Build your own no-code superagent with Base44: [[https://www.buildasuperagent.com/](https://www.buildasuperagent.com/)](https://www.youtube.com/redirect?event=video_description&redir_token=QUZZTVljR240ZjNETGhvVEhWMkdlT2hFVlRvTHxBTl9pYzRmZ29iLW9BdFlBaWJFTzNULW5IbW9EdUxpaUhRQ3RYNVJrN3lYT1RKX3hHeVFCRzFHeVpRTUFCNzg3UkVxRUhMbnZWdHh2YVVHSTYwbUpkUlZrSGhuV0pDcGRmSE5E&q=https%3A%2F%2Fwww.buildasuperagent.com%2F&v=NIHJL-CGy1I)\n\nJoin Alicia Lyttle for a 45-minute Day 1 recap: celebrate the AI-generated award you created, revisit your agent build, and get a practical breakdown of what OpenAI, Meta, Claude, xAI, and Google announced.\n\n✅ OpenAI Dots: always-on agents beginning to roll out on eligible paid plans. ✅ Meta Muse for Small Business: a free-to-start agent that connects to business tools. ✅ xAI Team Bots: shared agents in public beta. ✅ What's next on Day 2, including Nan from Meta.\n\nAI InnoVision: [[https://www.aiinnovision.com](https://www.aiinnovision.com)](https://www.youtube.com/redirect?event=video_description&redir_token=QUZZTVljSFdZQ0V1STB0RnZSY3pGVjRuamZfVnxBTl9pYzRkUkgzT3lWVUVFMjJjZ0szT0lLYm0zN0ctMXQ2azVyWjNNVkQ4b0lPZE9JbWdoeVlzekROWDRBVWg5Wmg4SEh6dTdxUEZOSUloYWhKX05aSXg4MzVxNHc4dVJlZjVN&q=https%3A%2F%2Fwww.aiinnovision.com%2F&v=NIHJL-CGy1I)\n\nShow less\n\nShow transcript",
+      "shelf": "signal",
       "queries": [
-        "LLM agent evaluation benchmark paper 2026"
+        "AI agents launch announcement"
       ],
       "position": 1
     },
     {
-      "url": "https://github.com/zhangxjohn/LLM-Agent-Benchmark-List",
-      "title": "LLM-Agent-Benchmark-List - GitHub",
-      "description": "# LLM-Agent-Benchmark-List\n## 💫 List\n#### Agent\n- [2026/07] **Coercion and Deception in AI-to-AI Management: An Agentic Benchmark of Unprompted Escalation (MCB).** _Jasmine Brazilek (CaML) et al. arXiv._ [ [paper](https://arxiv.org/abs/2607.15434)] [ [project page](https://github.com/CompassionML/manager-coercion-bench)] [ [website](https://compassionbench.com/mcb)]\n- [2026/06] **Your AI Travel Agent Would Book You a Bullfight: An Agentic Benchmark for Implicit Animal Welfare in Frontier AI Models (TAC).** _Jasmine Brazilek (CaML) et al. arXiv._ [ [paper](https://arxiv.org/abs/2606.18142)] [ [project page](https://github.com/UKGovernmentBEIS/inspect_evals/tree/main/src/inspect_evals/tac)] [ [website](https://compassionbench.com/)]\n- [2026/06] **PerspectiveGap: A Benchmark for Multi-Agent Orchestration Prompting.** _Youran Sun (Tsinghua) et al. arXiv._ [ [paper](https://arxiv.org/abs/2606.08878)] [ [project page](https://github.com/WhymustIhaveaname/PerspectiveGap)] [ [dataset](https://huggingface.co/datasets/sun1245/PerspectiveGap)]\n- [2026/04] **ClawBench: Can AI Agents Complete Everyday Online Tasks?** _Ziru Yun (University of Alberta) et al. arXiv._ [ [paper](https://arxiv.org/abs/2604.08523)] [ [project page](https://github.com/reacher-z/ClawBench)] [ [website](https://claw-bench.com/)] [ [dataset](https://huggingface.co/datasets/NAIL-Group/ClawBench)]\n- [2026/04] **Beyond Offline A/B Testing: Context-Aware Agent Simulation for Recommender System Evaluation** _Nicolas Bougie (Woven by Toyota) et al. arXiv._ [ [paper](https://arxiv.org/abs/2604.09549)]\n- [2026/07] **CityReal: Human-Aligned Urban Behavior and City Dynamics Simulation with Large-Scale LLM Agents** _Nicolas Bougie (Woven by Toyota) et al. arXiv._ [ [paper](https://arxiv.org/abs/2608.16897)]",
-      "shelf": "papers",
+      "url": "https://aws.amazon.com/blogs/aws/announcing-aws-well-architected-agent-an-ai-powered-intelligence-to-optimize-your-cloud-environment-preview/",
+      "title": "Announcing AWS Well-Architected Agent, an AI-powered intelligence to optimize your cloud environment (preview)",
+      "description": "# Announcing AWS Well-Architected Agent, an AI-powered intelligence to optimize your cloud environment (preview)\nToday, we’re announcing the public preview of **AWS Well-Architected Agent**, an AI-powered service that analyzes your AWS environment to deliver targeted, contextual recommendations for improving your applications’ cost, security, performance, and resilience. It delivers context-aware optimization without relying on manual audits or generic checklists.\n\nIn the [AWS Well-Architected console](https://console.aws.amazon.com/wellarchitected/?trk=d8ec3b19-0f37-4f8c-8c12-189f913e205c&sc_channel=el), choose **Get started with Well-Architected Agent**.",
+      "shelf": "signal",
       "queries": [
-        "LLM agent evaluation benchmark paper 2026"
+        "AI agents launch announcement"
       ],
       "position": 2
     },
     {
-      "url": "https://alopatenko.github.io/LLMEvaluation/",
-      "title": "Awesome LLM Evaluation | LLMEvaluation - GitHub Pages",
-      "description": "# Table of contents\n## 🏢 Verticals [Anchor](https://alopatenko.github.io/LLMEvaluation/#-verticals)\n### Reviews and Surveys [Anchor](https://alopatenko.github.io/LLMEvaluation/#reviews-and-surveys)\n- From benchmarks to deployment: a comprehensive review of agentic AI evaluation, Artificial Intelligence Review, Apr 2026, [Springer](https://link.springer.com/article/10.1007/s10462-026-11571-0?)\n- General Agent Evaluation, Feb 2026, [arxiv](https://arxiv.org/abs/2602.22953)\n\n## LLM Evaluation [Anchor](https://alopatenko.github.io/LLMEvaluation/#llm-evaluation)\n### Agent LLM Architectures [Anchor](https://alopatenko.github.io/LLMEvaluation/#agent-llm-architectures)\\\n- ClawBench: Can AI Agents Complete Everyday Online Tasks?, Apr 2026, [arxiv](https://arxiv.org/abs/2604.08523) [github](https://github.com/TIGER-AI-Lab/ClawBench)\\\n- Demystifying evals for AI agents, Anthropic, Jan 2026, [Anthropic](https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents)\\\n\n## LLM Systems [Anchor](https://alopatenko.github.io/LLMEvaluation/#llm-systems)\\\n### Agentic systems [Anchor](https://alopatenko.github.io/LLMEvaluation/#agentic-systems)\\\n- Efficient Benchmarking in Production: A Study of an Evolving LLM Agent, Sep 2026, [arxiv](https://arxiv.org/abs/2609.21267)\\\n- Policy Loopholes in Agent Evaluation: When Policy Ambiguity Masquerades as Agent Error, Sep 2026, [arxiv](https://arxiv.org/abs/2609.14400)\\\n- EarlyEval: Cheaper Agent Evaluation via Early Outcome Prediction, Sep 2026, [arxiv](https://arxiv.org/abs/2609.02783)\\\n- Benchmarking LLM Judges for Mobile Agent Evaluation, Aug 2026, [arxiv](https://arxiv.org/abs/2608.11434)\\\n- AgentSLABench: Evaluating and Benchmarking Agentic Systems Under Resource Constraints, Aug 2026, [arxiv](https://arxiv.org/abs/2608.00805)\\\n- The Hidden Footprint: Making Storage a First-Class Metric for LLM Agent Evaluation, Jul 2026, [arxiv](https://arxiv.org/abs/2607.11149)\\\n- HAS-Bench: Evaluating LLM-Based Human-Agent Systems under Configurable Human Participation, Jul 2026, [arxiv](https://arxiv.org/abs/2607.04329)\\\n- SWE-Milestone: Evaluating AI Agents on Continuous Software Evolution, Jul 2026, [arxiv](https://arxiv.org/abs/2603.13428)\\\n- Act As a Real Researcher: A Suite of Benchmarks Evaluating Frontier LLMs and Agentic Harnesses in Research Lifecycle, Jun 2026, [arxiv](https://arxiv.org/abs/2606.07462)\\\n- What Twelve LLM Agent Benchmark Papers Disclose About Themselves: A Pilot Audit and an Open Scoring Schema, May 2026, [arxiv](https://arxiv.org/abs/2605.21404)\\\n- General Agent Evaluation, Feb 2026, [arxiv](https://arxiv.org/abs/2602.22953)  \n\\\n\n### Evaluation Agentic Search [Anchor](https://alopatenko.github.io/LLMEvaluation/#evaluation-agentic-search)\\\n- Characterizing Deep Research: A Benchmark and Formal Definition, Apr 2026, [ICLR](https://proceedings.iclr.cc/paper_files/paper/2026/hash/114e1dc345fe31b8b9b0c6f7b55a0644-Abstract-Conference.html)\\\n- DRBench: A Realistic Benchmark for Enterprise Deep Research, Apr 2026, [ICLR](https://proceedings.iclr.cc/paper_files/paper/2026/hash/0ba520d93c3df592c83a611961314c98-Abstract-Conference.html)\\\n- DeepSearchQA Benchmark, Feb 2026, [GitHub](https://github.com/Parcha-ai/benchmarks/tree/main/deepsearchqa)\\",
-      "shelf": "papers",
+      "url": "https://www.tomshardware.com/tech-industry/artificial-intelligence/nvidia-launches-open-agent-safety-platform-to-restrain-rogue-ai-agents-new-hardware-and-software-security-stack-can-quarantine-agents-in-milliseconds",
+      "title": "Nvidia launches Open Agent Safety Platform to restrain rogue AI agents — new hardware-and-software security stack can quarantine agents in milliseconds",
+      "description": "",
+      "shelf": "signal",
       "queries": [
-        "LLM agent evaluation benchmark paper 2026"
+        "AI agents launch announcement"
       ],
       "position": 3
     },
     {
-      "url": "https://dl.acm.org/doi/10.1145/3711896.3736570",
-      "title": "Evaluation and Benchmarking of LLM Agents: A Survey",
-      "description": "## References\nAgentHarm: a benchmark for measuring harmfulness of LLM agents.\n\nSpa-bench: A comprehensive benchmark for smartphone agent evaluation.\n\nAgentBench: Evaluating LLMs as Agents.\n\nAgentBench: Evaluating LLMs as Agents. arXiv:2308.03688 [cs.AI] [https://arxiv.org/abs/2308.03688](https://arxiv.org/abs/2308.03688)\n\nACM, Würzburg Germany, 1-8.\n\nSurvey on Evaluation of LLM-based Agents.",
-      "shelf": "papers",
+      "url": "https://investors.digitalocean.com/news/news-details/2026/DigitalOcean-Introduces-Agent-Droplets-Everything-an-AI-Agent-Needs-One-Simple-Monthly-Price/default.aspx",
+      "title": "DigitalOcean Introduces Agent Droplets: Everything an AI Agent Needs, One Simple Monthly Price",
+      "description": "### DigitalOcean Introduces Agent Droplets: Everything an AI Agent Needs, One Simple Monthly Price\nOctober 1, 2026\n\n_Start with DigitalOcean and scale as your business grows: one subscription for compute, memory, storage, inference, and tools_\n\nBROOMFIELD, Colo.--(BUSINESS WIRE)-- DigitalOcean Holdings, Inc. (NYSE: DOCN), the AI-Native Cloud, today announced **Agent Droplets** giving companies a simple way to start their agentic journey on DigitalOcean and scale with predictable spending controls. DigitalOcean Managed Agents, launched in public preview on September 22, gave builders a managed runtime, governed access to 16,000+ tools, Serverless Inference, and persistent agent memory and storage on one cloud. Agent Droplets bundle those capabilities into a single monthly subscription simplifying adoption of emerging agent technologies without the guesswork of assembling a stack. Agent Droplets come in two sizes, Pro at $50 a month and Team at $200 a month, with discounts of 15% and 20%, respectively, across all included resources.\n\n_We take the guesswork out of adopting new agent technologies and managing spend, so companies can start their journey with DigitalOcean and scale it with us._ _You pick a size and start.”_\n\n— Vinay Kumar, Chief Product and Technology Officer, DigitalOcean\n\nThe relevant discount applies automatically to the included Managed Agents resources their agents use:\n\n- **Harness Runtime:** dedicated microVM sandboxes that start in about a second, resume from a pause in about 300 milliseconds (in DigitalOcean testing), and pause automatically when idle, with memory and session storage included in the discount. Use them to scale agent execution as workloads grow or run arbitrary code generated by an agent.\n- **Inference Engine:** DigitalOcean-hosted open models including Kimi K3 and GLM 5.3. Frontier models such as Claude and GPT remain available on a pay-as-you-go basis at list price.\n- **Also included:** unlimited agents, no seat charges, observability, and enterprise security (single sign-on, multi-factor authentication, role-based access, audit logs, cloud firewalls, and DDoS protection) on every size.\n\nDigitalOcean plans to add more resources to Agent Droplets over time, helping customers adopt additional agentic capabilities as their needs evolve.\n\n**Try it free, then scale into a plan**\n\nNew customers can start with a free trial: $5 in credit, no card required, enough to take an idea from zero to running this afternoon. To scale, Agent Droplet Pro and Team apply a bigger discount to every hour, token, and gigabyte included in the plan, 15% off on Pro and 20% off on Team.\n\n|  |  |  |  |\n|-|-|-|-|\n|  | **Free Trial** | **Pro** | **Team** |\n| Monthly price | $5 credit | $50 | $200 |\n| Discount on agent usage | - | 15% | 20% |\n| Designed for | Testing a PR review or a coding session | Teams starting their Agentic Journey | Teams scaling their Agentic Journey |\n| Discounted resources | - Inference on DigitalOcean-hosted models<br>- Compute (dedicated microVMs)<br>- Memory<br>- Session storage<br>- Governed access to 16,000+ tools |\n| Agents and seats | Unlimited, no seat charges |\n| Enterprise security | Included: Single sign-on, MFA, role-based access, audit logs, cloud firewalls, DDoS protection |\n|  |  |\n| _Models not hosted on DigitalOcean (e.g., Claude and GPT) are billed at list price._ |\n\nDigitalOcean also announced **Inference and Agents Balance** to make it easier for customers to prepay for their agents. Fund your Inference and Agents Balance directly, and your agents draw on it automatically once your Agent Droplet allowance is used up.\n\nNew DigitalOcean users receive a $5 promotional credit to launch their first agent session, subject to eligibility and DigitalOcean’s promotional credit terms ( [[https://www.digitalocean.com/legal/terms-of-service-agreement](https://www.digitalocean.com/legal/terms-of-service-agreement)](https://cts.businesswire.com/ct/CT?id=smartlink&url=https%3A%2F%2Fwww.digitalocean.com%2Flegal%2Fterms-of-service-agreement&esheet=54614183&newsitemid=20261001453753&lan=en-US&anchor=https%3A%2F%2Fwww.digitalocean.com%2Flegal%2Fterms-of-service-agreement&index=1&md5=6d4d763ac8f10c68c1124aa51751835e); [[https://www.digitalocean.com/legal/promotional-credit-discount-terms](https://www.digitalocean.com/legal/promotional-credit-discount-terms)](https://cts.businesswire.com/ct/CT?id=smartlink&url=https%3A%2F%2Fwww.digitalocean.com%2Flegal%2Fpromotional-credit-discount-terms&esheet=54614183&newsitemid=20261001453753&lan=en-US&anchor=https%3A%2F%2Fwww.digitalocean.com%2Flegal%2Fpromotional-credit-discount-terms&index=2&md5=f85800bc217a21bdc91a5baaf9c74083)). To learn more, read the launch blog at digitalocean.com/blog or visit [digitalocean.com/products/managed-agents](https://cts.businesswire.com/ct/CT?id=smartlink&url=https%3A%2F%2Fwww.digitalocean.com%2Fproducts%2Fmanaged-agents&esheet=54614183&newsitemid=20261001453753&lan=en-US&anchor=digitalocean.com%2Fproducts%2Fmanaged-agents&index=3&md5=0f14766bf531a9b53c41c11dfacfabc7).\n\nIts five-layer integrated platform, spanning GPU and CPU infrastructure, core cloud, inference, data, and managed agent orchestration, is open throughout with no vendor lock-in, giving builders everything they need to start fast, scale production AI workloads, and improve unit economics.\n\nForward-looking statements. This press release contains forward-looking statements regarding product capabilities, pricing, and availability, including plans to add resources to Agent Droplets.\n\n**Media contact**\n\n[press@digitalocean.com](mailto:press@digitalocean.com)\n\nSource: DigitalOcean Holdings, Inc.\n\n[View All News](https://investors.digitalocean.com/news/default.aspx)\n\nRedirecting to Studio\n\nreCAPTCHA\n\n|  |  |  |  |\n|-|-|-|-|\n| ![](https://www.google.com/recaptcha/api2/payload?p=06AFcWeA6qnbrHDKtxmMAMCPtYMMX57HWA_Zq2LKY1vEEcV7GaGMuEiLe7He76lEkMu1Wf9Gmapf2uI_AQJAEJSF1e72LOG4NsRko9Yjl9PtJeingunYWcMWi3czHSmgAgbMo2MBHH2RoqBl9MFH8ysV1eyoBp-_bO7-GFnrnJYc7kIdlyk3uCmuQT03Jbdca7twfqaHm0PtrEoFLEMn6dAMTn1Qd_nmJrUQ&k=6LcKf8wZAAAAADYEeFvKUvdj80FVct5G98mSJ29W) | ![](https://www.google.com/recaptcha/api2/payload?p=06AFcWeA6qnbrHDKtxmMAMCPtYMMX57HWA_Zq2LKY1vEEcV7GaGMuEiLe7He76lEkMu1Wf9Gmapf2uI_AQJAEJSF1e72LOG4NsRko9Yjl9PtJeingunYWcMWi3czHSmgAgbMo2MBHH2RoqBl9MFH8ysV1eyoBp-_bO7-GFnrnJYc7kIdlyk3uCmuQT03Jbdca7twfqaHm0PtrEoFLEMn6dAMTn1Qd_nmJrUQ&k=6LcKf8wZAAAAADYEeFvKUvdj80FVct5G98mSJ29W) | ![](https://www.google.com/recaptcha/api2/payload?p=06AFcWeA6qnbrHDKtxmMAMCPtYMMX57HWA_Zq2LKY1vEEcV7GaGMuEiLe7He76lEkMu1Wf9Gmapf2uI_AQJAEJSF1e72LOG4NsRko9Yjl9PtJeingunYWcMWi3czHSmgAgbMo2MBHH2RoqBl9MFH8ysV1eyoBp-_bO7-GFnrnJYc7kIdlyk3uCmuQT03Jbdca7twfqaHm0PtrEoFLEMn6dAMTn1Qd_nmJrUQ&k=6LcKf8wZAAAAADYEeFvKUvdj80FVct5G98mSJ29W) | ![](https://www.google.com/recaptcha/api2/payload?p=06AFcWeA6qnbrHDKtxmMAMCPtYMMX57HWA_Zq2LKY1vEEcV7GaGMuEiLe7He76lEkMu1Wf9Gmapf2uI_AQJAEJSF1e72LOG4NsRko9Yjl9PtJeingunYWcMWi3czHSmgAgbMo2MBHH2RoqBl9MFH8ysV1eyoBp-_bO7-GFnrnJYc7kIdlyk3uCmuQT03Jbdca7twfqaHm0PtrEoFLEMn6dAMTn1Qd_nmJrUQ&k=6LcKf8wZAAAAADYEeFvKUvdj80FVct5G98mSJ29W) |\n| ![](https://www.google.com/recaptcha/api2/payload?p=06AFcWeA6qnbrHDKtxmMAMCPtYMMX57HWA_Zq2LKY1vEEcV7GaGMuEiLe7He76lEkMu1Wf9Gmapf2uI_AQJAEJSF1e72LOG4NsRko9Yjl9PtJeingunYWcMWi3czHSmgAgbMo2MBHH2RoqBl9MFH8ysV1eyoBp-_bO7-GFnrnJYc7kIdlyk3uCmuQT03Jbdca7twfqaHm0PtrEoFLEMn6dAMTn1Qd_nmJrUQ&k=6LcKf8wZAAAAADYEeFvKUvdj80FVct5G98mSJ29W) | ![](https://www.google.com/recaptcha/api2/payload?p=06AFcWeA6qnbrHDKtxmMAMCPtYMMX57HWA_Zq2LKY1vEEcV7GaGMuEiLe7He76lEkMu1Wf9Gmapf2uI_AQJAEJSF1e72LOG4NsRko9Yjl9PtJeingunYWcMWi3czHSmgAgbMo2MBHH2RoqBl9MFH8ysV1eyoBp-_bO7-GFnrnJYc7kIdlyk3uCmuQT03Jbdca7twfqaHm0PtrEoFLEMn6dAMTn1Qd_nmJrUQ&k=6LcKf8wZAAAAADYEeFvKUvdj80FVct5G98mSJ29W) | ![](https://www.google.com/recaptcha/api2/payload?p=06AFcWeA6qnbrHDKtxmMAMCPtYMMX57HWA_Zq2LKY1vEEcV7GaGMuEiLe7He76lEkMu1Wf9Gmapf2uI_AQJAEJSF1e72LOG4NsRko9Yjl9PtJeingunYWcMWi3czHSmgAgbMo2MBHH2RoqBl9MFH8ysV1eyoBp-_bO7-GFnrnJYc7kIdlyk3uCmuQT03Jbdca7twfqaHm0PtrEoFLEMn6dAMTn1Qd_nmJrUQ&k=6LcKf8wZAAAAADYEeFvKUvdj80FVct5G98mSJ29W) | ![](https://www.google.com/recaptcha/api2/payload?p=06AFcWeA6qnbrHDKtxmMAMCPtYMMX57HWA_Zq2LKY1vEEcV7GaGMuEiLe7He76lEkMu1Wf9Gmapf2uI_AQJAEJSF1e72LOG4NsRko9Yjl9PtJeingunYWcMWi3czHSmgAgbMo2MBHH2RoqBl9MFH8ysV1eyoBp-_bO7-GFnrnJYc7kIdlyk3uCmuQT03Jbdca7twfqaHm0PtrEoFLEMn6dAMTn1Qd_nmJrUQ&k=6LcKf8wZAAAAADYEeFvKUvdj80FVct5G98mSJ29W) |\n| ![](https://www.google.com/recaptcha/api2/payload?p=06AFcWeA6qnbrHDKtxmMAMCPtYMMX57HWA_Zq2LKY1vEEcV7GaGMuEiLe7He76lEkMu1Wf9Gmapf2uI_AQJAEJSF1e72LOG4NsRko9Yjl9PtJeingunYWcMWi3czHSmgAgbMo2MBHH2RoqBl9MFH8ysV1eyoBp-_bO7-GFnrnJYc7kIdlyk3uCmuQT03Jbdca7twfqaHm0PtrEoFLEMn6dAMTn1Qd_nmJrUQ&k=6LcKf8wZAAAAADYEeFvKUvdj80FVct5G98mSJ29W) | ![](https://www.google.com/recaptcha/api2/payload?p=06AFcWeA6qnbrHDKtxmMAMCPtYMMX57HWA_Zq2LKY1vEEcV7GaGMuEiLe7He76lEkMu1Wf9Gmapf2uI_AQJAEJSF1e72LOG4NsRko9Yjl9PtJeingunYWcMWi3czHSmgAgbMo2MBHH2RoqBl9MFH8ysV1eyoBp-_bO7-GFnrnJYc7kIdlyk3uCmuQT03Jbdca7twfqaHm0PtrEoFLEMn6dAMTn1Qd_nmJrUQ&k=6LcKf8wZAAAAADYEeFvKUvdj80FVct5G98mSJ29W) | ![](https://www.google.com/recaptcha/api2/payload?p=06AFcWeA6qnbrHDKtxmMAMCPtYMMX57HWA_Zq2LKY1vEEcV7GaGMuEiLe7He76lEkMu1Wf9Gmapf2uI_AQJAEJSF1e72LOG4NsRko9Yjl9PtJeingunYWcMWi3czHSmgAgbMo2MBHH2RoqBl9MFH8ysV1eyoBp-_bO7-GFnrnJYc7kIdlyk3uCmuQT03Jbdca7twfqaHm0PtrEoFLEMn6dAMTn1Qd_nmJrUQ&k=6LcKf8wZAAAAADYEeFvKUvdj80FVct5G98mSJ29W) | ![](https://www.google.com/recaptcha/api2/payload?p=06AFcWeA6qnbrHDKtxmMAMCPtYMMX57HWA_Zq2LKY1vEEcV7GaGMuEiLe7He76lEkMu1Wf9Gmapf2uI_AQJAEJSF1e72LOG4NsRko9Yjl9PtJeingunYWcMWi3czHSmgAgbMo2MBHH2RoqBl9MFH8ysV1eyoBp-_bO7-GFnrnJYc7kIdlyk3uCmuQT03Jbdca7twfqaHm0PtrEoFLEMn6dAMTn1Qd_nmJrUQ&k=6LcKf8wZAAAAADYEeFvKUvdj80FVct5G98mSJ29W) |\n| ![](https://www.google.com/recaptcha/api2/payload?p=06AFcWeA6qnbrHDKtxmMAMCPtYMMX57HWA_Zq2LKY1vEEcV7GaGMuEiLe7He76lEkMu1Wf9Gmapf2uI_AQJAEJSF1e72LOG4NsRko9Yjl9PtJeingunYWcMWi3czHSmgAgbMo2MBHH2RoqBl9MFH8ysV1eyoBp-_bO7-GFnrnJYc7kIdlyk3uCmuQT03Jbdca7twfqaHm0PtrEoFLEMn6dAMTn1Qd_nmJrUQ&k=6LcKf8wZAAAAADYEeFvKUvdj80FVct5G98mSJ29W) | ![](https://www.google.com/recaptcha/api2/payload?p=06AFcWeA6qnbrHDKtxmMAMCPtYMMX57HWA_Zq2LKY1vEEcV7GaGMuEiLe7He76lEkMu1Wf9Gmapf2uI_AQJAEJSF1e72LOG4NsRko9Yjl9PtJeingunYWcMWi3czHSmgAgbMo2MBHH2RoqBl9MFH8ysV1eyoBp-_bO7-GFnrnJYc7kIdlyk3uCmuQT03Jbdca7twfqaHm0PtrEoFLEMn6dAMTn1Qd_nmJrUQ&k=6LcKf8wZAAAAADYEeFvKUvdj80FVct5G98mSJ29W) | ![](https://www.google.com/recaptcha/api2/payload?p=06AFcWeA6qnbrHDKtxmMAMCPtYMMX57HWA_Zq2LKY1vEEcV7GaGMuEiLe7He76lEkMu1Wf9Gmapf2uI_AQJAEJSF1e72LOG4NsRko9Yjl9PtJeingunYWcMWi3czHSmgAgbMo2MBHH2RoqBl9MFH8ysV1eyoBp-_bO7-GFnrnJYc7kIdlyk3uCmuQT03Jbdca7twfqaHm0PtrEoFLEMn6dAMTn1Qd_nmJrUQ&k=6LcKf8wZAAAAADYEeFvKUvdj80FVct5G98mSJ29W) | ![](https://www.google.com/recaptcha/api2/payload?p=06AFcWeA6qnbrHDKtxmMAMCPtYMMX57HWA_Zq2LKY1vEEcV7GaGMuEiLe7He76lEkMu1Wf9Gmapf2uI_AQJAEJSF1e72LOG4NsRko9Yjl9PtJeingunYWcMWi3czHSmgAgbMo2MBHH2RoqBl9MFH8ysV1eyoBp-_bO7-GFnrnJYc7kIdlyk3uCmuQT03Jbdca7twfqaHm0PtrEoFLEMn6dAMTn1Qd_nmJrUQ&k=6LcKf8wZAAAAADYEeFvKUvdj80FVct5G98mSJ29W) |",
+      "shelf": "signal",
       "queries": [
-        "LLM agent evaluation benchmark paper 2026"
+        "AI agents launch announcement"
       ],
       "position": 4
     },
     {
-      "url": "https://galtea.ai/blog/llm-evaluation-complete-guide",
-      "title": "the complete guide for LLM evaluations in 2026 | Galtea Blog",
-      "description": "LLM evaluation measures whether a language model does what your specific application needs it to do — correctness, faithfulness, relevance, and ...What LLM evaluation actually... · Evaluation methods",
-      "shelf": "papers",
+      "url": "https://www.facebook.com/TechnologyInnovation1/posts/openai-has-introduced-dots-ai-agents-designed-to-keep-working-on-tasks-after-use/1407257234894252/",
+      "title": "OpenAI has introduced Dots, AI agents designed to keep working ...",
+      "description": "21 hours ago · OpenAI has introduced Dots, AI agents designed to keep working on tasks after users give them a goal. Announced on September 29, 2026, Dots are powered by GPT-6 ...",
+      "shelf": "signal",
       "queries": [
-        "LLM agent evaluation benchmark paper 2026"
+        "AI agents launch announcement"
       ],
       "position": 5
     },
     {
-      "url": "https://arxiv.org/list/cs.MA/current",
-      "title": "Multiagent Systems Sep 2026 - arXiv",
-      "description": "# Multiagent Systems\n## Authors and titles for September 2026\nTotal of 341 entries : 1-50 [51-100](https://arxiv.org/list/cs.MA/current?skip=50&show=50) [101-150](https://arxiv.org/list/cs.MA/current?skip=100&show=50) [151-200](https://arxiv.org/list/cs.MA/current?skip=150&show=50)...\n\n10 pages, 7 figures, accepted by CaGIS Conference 2026, [this https URL](https://cartogis.org/docs/conferences/CaGIS_2026/abstracts/research/Yang_and_Zou_research_abstract_CaGIS_2026.pdf)\n\n[2] [arXiv:2609.01167](https://arxiv.org/abs/2609.01167)\n\n15 pages, 7 figures, 8 tables. Extends SafeDriver-IQ, published in the 2026 IEEE International Conference on Electro Information Technology (eIT), DOI: [[https://doi.org/10.1109/eIT68936.2026.11670411](https://doi.org/10.1109/eIT68936.2026.11670411)](https://doi.org/10.1109/eIT68936.2026.11670411)\n\nTowards Scaling Reinforcement Learning to Massive Populations: Learning Mean-Field Representations\n\nLLM-Guided Reinforcement Learning for Adaptive NPC Behavior in Multi-Agent Combat Games\n\n18 pages, 11 figures, 2 tables\n\n44 pages, 4 tables.\n\nAt Equal Inference Cost, Multi-Agent Structure Does Not Beat a Single Frozen Agent\n\n[14] [arXiv:2609.04243](https://arxiv.org/abs/2609.04243)\n\nMulti-dimensional Bias in Modeling Multi-dimensional Preferences: Evaluating the Ability of Synthetic Agents to Replace Human Participants in Conjoint Experiments\n\n[Zixuan Ke](https://arxiv.org/search/cs?searchtype=author&query=Ke,+Z), [Vaidehi Patil](https://arxiv.org/search/cs?searchtype=author&query=Patil,+V), [Haizhou Shi](https://arxiv.org/search/cs?searchtype=author&query=Shi,+H), [Yang Li](https://arxiv.org/search/cs?searchtype=author&query=Li,+Y), [Ye Liu](https://arxiv.org/search/cs?searchtype=author&query=Liu,+Y), [Sarath Shekkizhar](https://arxiv.org/search/cs?searchtype=author&query=Shekkizhar,+S), [Anurag Koul](https://arxiv.org/search/cs?searchtype=author&query=Koul,+A), [Jiayu Wang](https://arxiv.org/search/cs?searchtype=author&query=Wang,+J), [Xuan Phi Nguyen](https://arxiv.org/search/cs?searchtype=author&query=Nguyen,+X+P), [Semih Yavuz](https://arxiv.org/search/cs?searchtype=author&query=Yavuz,+S), [Mohit Bansal](https://arxiv.org/search/cs?searchtype=author&query=Bansal,+M), [Shafiq Joty](https://arxiv.org/search/cs?searchtype=author&query=Joty,+S)\n\nSubjects:Multiagent Systems (cs.MA); Artificial Intelligence (cs.AI); Computation and Language (cs.CL); Computer Science and Game Theory (cs.GT)\n\n12 pages, 2 figures. This is the original pre-peer-review manuscript submitted to PAAMS 2026. Following peer review and minor revisions, the paper was accepted for the main track of PAAMS 2026 and will be presented in October 2026\n\nAdaptive stabilization of a leaderless bearing-constrained formation with disturbances\n\n12 pages, 6 figures, preprint, submitted to a journal\n\nCertifying cooperation: a novel approach to cooperative multi-agent task generation\n\n18 pages, 5 figures. Pre-registration: [this https URL](https://doi.org/10.17605/OSF.IO/GBR3V).\n\nAccepted to Findings of EMNLP 2026\n\nSubjects:Multiagent Systems (cs.MA); Computer Science and Game Theory (cs.GT)\n\nFrom Evidence to Effect: Authority Semantics and Runtime Infrastructure for Stateful Agents\n\n36 pages, 4 figures, 22 tables\n\n[Hanyi Zhang](https://arxiv.org/search/cs?searchtype=author&query=Zhang,+H), [Maximilian Hoermann](https://arxiv.org/search/cs?searchtype=author&query=Hoermann,+M), [Lion J. Gleiter](https://arxiv.org/search/cs?searchtype=author&query=Gleiter,+L+J), [Yiling Xu](https://arxiv.org/search/cs?searchtype=author&query=Xu,+Y), [Bettina Katalin Budai](https://arxiv.org/search/cs?searchtype=author&query=Budai,+B+K), [Hans-Ulrich Kauczor](https://arxiv.org/search/cs?searchtype=author&query=Kauczor,+H), [Carsten Marr](https://arxiv.org/search/cs?searchtype=author&query=Marr,+C), [Tingying Peng](https://arxiv.org/search/cs?searchtype=author&query=Peng,+T)\n\nAccepted at the 2nd Agentic AI for Medicine Workshop, MICCAI 2026. 15 pages, 3 figures, 2 tables\n\nCopying explains the collective behavior of AI agents in the wild\n\nSubjects:Multiagent Systems (cs.MA); Statistical Mechanics (cond-mat.stat-mech); Computation and Language (cs.CL)\n\n[Yaohan Guan](https://arxiv.org/search/cs?searchtype=author&query=Guan,+Y), [Yen-Ju Lu](https://arxiv.org/search/cs?searchtype=author&query=Lu,+Y), [Yuzhe Wang](https://arxiv.org/search/cs?searchtype=author&query=Wang,+Y), [Junhyeok Lee](https://arxiv.org/search/cs?searchtype=author&query=Lee,+J), [Jesus Villalba](https://arxiv.org/search/cs?searchtype=author&query=Villalba,+J), [Laureano Moro Velazquez](https://arxiv.org/search/cs?searchtype=author&query=Velazquez,+L+M), [Thomas Thebaud](https://arxiv.org/search/cs?searchtype=author&query=Thebaud,+T), [Najim Dehak](https://arxiv.org/search/cs?searchtype=author&query=Dehak,+N)\n\n[34] [arXiv:2609.10430](https://arxiv.org/abs/2609.10430)\n\n[35] [arXiv:2609.10817](https://arxiv.org/abs/2609.10817)\n\n[Kunal Jha](https://arxiv.org/search/cs?searchtype=author&query=Jha,+K), [Francesco Cicala](https://arxiv.org/search/cs?searchtype=author&query=Cicala,+F), [Blaise Agüera y Arcas](https://arxiv.org/search/cs?searchtype=author&query=Arcas,+B+A+y), [Blake Aaron Richards](https://arxiv.org/search/cs?searchtype=author&query=Richards,+B+A), [Natasha Jaques](https://arxiv.org/search/cs?searchtype=author&query=Jaques,+N), [Max Kleiman-Weiner](https://arxiv.org/search/cs?searchtype=author&query=Kleiman-Weiner,+M), [Eyvind Niklasson](https://arxiv.org/search/cs?searchtype=author&query=Niklasson,+E)\n\n[36] [arXiv:2609.10939](https://arxiv.org/abs/2609.10939)\n\nEvaluating Scaffolding-Oriented Multi-Agent Large Language Model System for Clinical Interview Training\n\n[Luming Yang](https://arxiv.org/search/cs?searchtype=author&query=Yang,+L), [Haoxian Liu](https://arxiv.org/search/cs?searchtype=author&query=Liu,+H), [Siqing Li](https://arxiv.org/search/cs?searchtype=author&query=Li,+S), [Rong Jia](https://arxiv.org/search/cs?searchtype=author&query=Jia,+R), [Yue Xiao](https://arxiv.org/search/cs?searchtype=author&query=Xiao,+Y), [Guanhua Chen](https://arxiv.org/search/cs?searchtype=author&query=Chen,+G), [Li Lu](https://arxiv.org/search/cs?searchtype=author&query=Lu,+L)\n\n[37] [arXiv:2609.11108](https://arxiv.org/abs/2609.11108)\n\n8 pages, 7 figures, 6 tables. Dataset and analysis code: [this https URL](https://huggingface.co/datasets/sajalregmi4/agent-town-economy)\n\n[38] [arXiv:2609.11737](https://arxiv.org/abs/2609.11737)\n\nOrganizational Principles Enable Collective Intelligence in Embodied AI\n\nThe Mechanics of a Swarm: A Reproducible External Reconstruction of an Unintended Agent-Coordination Episode on a Third-Party Wiki\n\n[Philipp Lütje](https://arxiv.org/search/cs?searchtype=author&query=L%C3%BCtje,+P) (Philflow, Schenefeld, Germany)\n\n52 pages, 10 figures. Code and derived artefacts: [this https URL](https://doi.org/10.5281/zenodo.22689980)\n\nMachine learning-assisted calibration of Agent-based Models: surrogate-based optimization with Genetic Algorithm and Particle Swarm Optimization\n\n[41] [arXiv:2609.13253](https://arxiv.org/abs/2609.13253)\n\n[42] [arXiv:2609.13261](https://arxiv.org/abs/2609.13261)\n\nFrom Process Loss to Assembly Bonus: Human-Grounded Diagnosis of Multi-Agent LLM Collaboration\n\nAccepted at EMNLP 2026.\n\n[43] [arXiv:2609.13304](https://arxiv.org/abs/2609.13304)\n\nConceptualization and experimentation of asset market with price manipulation\n\n[45] [arXiv:2609.14767](https://arxiv.org/abs/2609.14767)\n\nLoop-Back Authority in LLM Agent Teams: A Paired Experiment on Flat and Hierarchical Coordination\n\n8 pages, 3 figures, 3 tables, plus 21 pages of supplementary material.\n\n[46] [arXiv:2609.16051](https://arxiv.org/abs/2609.16051)\n\n\"Looking for Something Weird to Happen\": How Humans Sustain AI Agent Novelty Amid Semantic Collapse\n\n[47] [arXiv:2609.16270](https://arxiv.org/abs/2609.16270)\n\nCheap Talk Stabilizes Strategic Interaction in LLM Agents\n\n23 pages, 8 figures, 14 tables.\n\n[48] [arXiv:2609.16917](https://arxiv.org/abs/2609.16917)\n\n[49] [arXiv:2609.16986](https://arxiv.org/abs/2609.16986)\n\nCode and data: [this https URL](https://doi.org/10.5281/zenodo.22685705)\n\n[50] [arXiv:2609.17017](https://arxiv.org/abs/2609.17017)\n\nTotal of 341 entries : 1-50 [51-100](https://arxiv.org/list/cs.MA/current?skip=50&show=50) [101-150](https://arxiv.org/list/cs.MA/current?skip=100&show=50) [151-200](https://arxiv.org/list/cs.MA/current?skip=150&show=50)...",
-      "shelf": "papers",
+      "url": "https://github.com/microsoft/agent-framework-go",
+      "title": "Welcome to Microsoft Agent Framework for Go! - GitHub",
+      "description": "13 hours ago · Microsoft Agent Framework (MAF) is an open, multi-language framework for building production-grade AI agents and multi-agent workflows.",
+      "shelf": "signal",
       "queries": [
-        "multi-agent LLM systems research 2026"
+        "LLM agent framework update"
       ],
       "position": 1
     },
     {
-      "url": "https://dl.acm.org/doi/10.1145/3806262.3806263",
-      "title": "LLM-Powered Multi-Agent Systems: A Survey of Collaboration and ...",
-      "description": "## Abstract\nThis has led to the development of LLM-based Multi-Agent Systems (MAS), which use multiple advanced models trained on large amounts of data. The main goal is to mimic human-like teamwork, allowing different agents to work together to solve complex problems. By splitting tasks among specialized agents, these systems can overcome challenges that a single LLM agent might struggle with, making them more efficient and effective. Next, we review the learning methods and evaluation metrics employed in MAS, highlighting how agents adapt their responses and optimize their performance for improved results, and how we can evaluate them based on the domain, and whether it is single or multi-agents’ structure.\n\n## 7 Conclusion\nOur findings show that well-designed agent frameworks can make teamwork more effective, and results in better decision-making and adaptive learning. This study also emphasizes how MAS can leverage the strengths of multiple specialized agents to enhance efficiency and problem-solving capabilities.\n\n## References\nImproving factuality and reasoning in language models through multiagent debate.\n\nLoCaL: Logical and causal fact-checking with LLM-based multi-agents.\n\nSelf-adaptive large language model (LLM)-based multiagent systems.\n\nA survey on large language model based autonomous agents.",
-      "shelf": "papers",
+      "url": "https://learn.microsoft.com/en-us/agent-framework/get-started/hosting",
+      "title": "Step 7: Host Your Agent | Microsoft Learn",
+      "description": "# Step 7: Host Your Agent\n## Hosting in ASP.NET Core\n### Core Hosting Library\n#### AddAIAgent\n```csharp\nvar pirateAgent = builder.AddAIAgent(\n    \"pirate\",\n    instructions: \"You are a pirate. Speak like a pirate\",\n    description: \"An agent that speaks like a pirate.\",\n    chatClientServiceKey: \"chat-model\");\n```\n\n### Implementation Details\n```csharp\n// Register the agent\nvar pirateAgent = builder.AddAIAgent(\"pirate\",\n    instructions: \"You are a pirate. Speak like a pirate\",\n    description: \"An agent that speaks like a pirate.\");\n\n// Expose via a protocol (e.g. A2A)\nbuilder.Services.AddA2AServer();\nvar app = builder.Build();\napp.MapA2AServer();\napp.Run();\n```\n\n```bash\npip install agent-framework-azurefunctions agent-framework-foundry azure-identity\n```\n\n```python\n# 2. Register the agent with AgentFunctionApp so Azure Functions exposes the required triggers.\napp = AgentFunctionApp(agents=[_create_agent()], enable_health_check=True, max_poll_retries=50)\n```",
+      "shelf": "signal",
       "queries": [
-        "multi-agent LLM systems research 2026"
+        "LLM agent framework update"
       ],
       "position": 2
     },
     {
-      "url": "https://solace.com/blog/analysts-say-mas-needs-real-time-context-eda/",
-      "title": "Why Multi-Agent Systems Need Real-Time Context in 2026 - Solace",
-      "description": "The more innovative organizations are trying their hand at multi-agent systems (MAS), which is more complex, but yields much bigger payoffs in the long term.\n\n- Design multi-agent systems for interoperability and governance;",
-      "shelf": "papers",
+      "url": "https://medium.com/@topuzas/harness-framework-or-sdk-i-audited-my-own-agent-stack-against-a-real-source-code-study-1e16eec382db",
+      "title": "I Audited My Own Agent Stack Against a Real Source-Code Study - Medium",
+      "description": "1 day ago · The framework decides how steps are wired, persisted, and resumed. Join Medium for free to get updates from this writer. LLM, Microsoft Agent Framework,",
+      "shelf": "signal",
       "queries": [
-        "multi-agent LLM systems research 2026"
+        "LLM agent framework update"
       ],
       "position": 3
     },
     {
-      "url": "https://www.superannotate.com/blog/multi-agent-llms",
-      "title": "Multi-agent LLMs in 2026 [+frameworks] - SuperAnnotate",
-      "description": "For instance, in scenarios where constant updates are needed, like monitoring climate change or managing city traffic, these multi-agent LLMs can continuously exchange fresh data and strategies, keeping the system effective and up-to-date.\n\nIn this article, we’ll explore multi-agent LLMs, how they work, their benefits over single-agent systems, and some widely favored multi-agent frameworks.\n\n## What are multi-agent LLMs?\n![multi-agent llms papers](https://cdn.sanity.io/images/f9xfqka1/production/1862db1287a995575fdf5d589917ebb5723ce2cb-1732x1140.webp?w=1400&auto=format&fit=max)The rising trend in the research field of LLM-based multi-agents: Source [Source](https://arxiv.org/pdf/2402.01680)\n\n## Common Questions\n### What are multi-agent LLMs?\nTypically, these systems include a central coordinating agent that assigns duties to various specialized sub-agents, which can then communicate and collaborate with one another to accomplish a shared objective more effectively than a single-agent system.\n\n### How do multi-agent LLMs work?\nMulti-agent LLM systems work by breaking a complex task into smaller subtasks assigned to specialized LLM agents, which then collaborate, communicate, and share information to achieve a collective goal.",
-      "shelf": "papers",
+      "url": "https://mobilions.com/blog/multi-agent-ai-frameworks-guide/",
+      "title": "Best Multi-Agent AI Frameworks (2026): Full Guide - Mobilions",
+      "description": "1 day ago · A practical guide to the best multi-agent AI frameworks in 2026: LangGraph, CrewAI, AutoGen and more, and how to pick the right one for production.",
+      "shelf": "signal",
       "queries": [
-        "multi-agent LLM systems research 2026"
+        "LLM agent framework update"
       ],
       "position": 4
     },
     {
-      "url": "https://www.yangchen.info/talks/aamas26-tutorial/",
-      "title": "A Concise Introduction to LLM-based Multi-agent Systems - Yang Chen",
-      "description": "We discuss how multi-agent mechanisms such as debate, role specialization, coordination protocols, and strategic interaction improve reliability and robustness ...",
-      "shelf": "papers",
+      "url": "https://www.swarms.ai/blog",
+      "title": "Swarms Blog | Multi-Agent AI Insights, Tutorials & Updates",
+      "description": "1 day ago · Engineering notes, product updates, and guides for building multi-agent systems with Swarms. The Swarms Marketplace Is Faster: September Performance Update.",
+      "shelf": "signal",
       "queries": [
-        "multi-agent LLM systems research 2026"
+        "LLM agent framework update"
       ],
       "position": 5
     },
     {
-      "url": "https://arxiv.org/abs/2312.10997",
-      "title": "Retrieval-Augmented Generation for Large Language Models: A Survey",
-      "description": "# Title:Retrieval-Augmented Generation for Large Language Models: A Survey\nAuthors: [Yunfan Gao](https://arxiv.org/search/cs?searchtype=author&query=Gao,+Y), [Yun Xiong](https://arxiv.org/search/cs?searchtype=author&query=Xiong,+Y), [Xinyu Gao](https://arxiv.org/search/cs?searchtype=author&query=Gao,+X), [Kangxiang Jia](https://arxiv.org/search/cs?searchtype=author&query=Jia,+K), [Jinliu Pan](https://arxiv.org/search/cs?searchtype=author&query=Pan,+J), [Yuxi Bi](https://arxiv.org/search/cs?searchtype=author&query=Bi,+Y), [Yi Dai](https://arxiv.org/search/cs?searchtype=author&query=Dai,+Y), [Jiawei Sun](https://arxiv.org/search/cs?searchtype=author&query=Sun,+J), [Meng Wang](https://arxiv.org/search/cs?searchtype=author&query=Wang,+M), [Haofen Wang](https://arxiv.org/search/cs?searchtype=author&query=Wang,+H)\n\n[View PDF](https://arxiv.org/pdf/2312.10997) [HTML (experimental)](https://arxiv.org/html/2312.10997v5)\n\nRetrieval-Augmented Generation (RAG) has emerged as a promising solution by incorporating knowledge from external databases. It meticulously scrutinizes the tripartite foundation of RAG frameworks, which includes the retrieval, the generation and the augmentation techniques. The paper highlights the state-of-the-art technologies embedded in each of these critical components, providing a profound understanding of the advancements in RAG systems.\n\n|  |  |\n|-|-|\n| Comments: | Ongoing Work |\n| Subjects: | Computation and Language (cs.CL); Artificial Intelligence (cs.AI) |\n| Cite as: | [arXiv:2312.10997](https://arxiv.org/abs/2312.10997) [cs.CL] |\n|  | (or [arXiv:2312.10997v5](https://arxiv.org/abs/2312.10997v5) [cs.CL] for this version) |\n|  | [[https://doi.org/10.48550/arXiv.2312.10997](https://doi.org/10.48550/arXiv.2312.10997)](https://doi.org/10.48550/arXiv.2312.10997)<br>Focus to learn more<br>arXiv-issued DOI via DataCite |\n\n## Submission history\nFrom: Yunfan Gao [ [view email](https://arxiv.org/show-email/c3ea0ed7/2312.10997)]\n\n**[[v1]](https://arxiv.org/abs/2312.10997v1)**\n\n**[[v2]](https://arxiv.org/abs/2312.10997v2)**\n\n**[[v3]](https://arxiv.org/abs/2312.10997v3)**\n\n**[[v4]](https://arxiv.org/abs/2312.10997v4)**\n\n## Access Paper:\n- [View PDF](https://arxiv.org/pdf/2312.10997)\n- [HTML (experimental)](https://arxiv.org/html/2312.10997v5)\n- [TeX Source](https://arxiv.org/src/2312.10997)\n\n[view license](http://arxiv.org/licenses/nonexclusive-distrib/1.0/)\n\n### Current browse context:\n[< prev](https://arxiv.org/prevnext?id=2312.10997&function=prev&context=cs.CL)  |  [next >](https://arxiv.org/prevnext?id=2312.10997&function=next&context=cs.CL)\n\n[cs](https://arxiv.org/abs/2312.10997?context=cs)\n\n[cs.AI](https://arxiv.org/abs/2312.10997?context=cs.AI)\n\n### [4 blog links](https://arxiv.org/tb/2312.10997)\n( [what is this?](https://info.arxiv.org/help/trackback.html))\n\nexport BibTeX citation\n\n### Bookmark\n[![BibSonomy](https://arxiv.org/static/browse/0.3.4/images/icons/social/bibsonomy.png)](http://www.bibsonomy.org/BibtexHandler?requTask=upload&url=https://arxiv.org/abs/2312.10997&description=Retrieval-Augmented%20Generation%20for%20Large%20Language%20Models:%20A%20Survey) [![Reddit](https://arxiv.org/static/browse/0.3.4/images/icons/social/reddit.png)](https://reddit.com/submit?url=https://arxiv.org/abs/2312.10997&title=Retrieval-Augmented%20Generation%20for%20Large%20Language%20Models:%20A%20Survey)",
-      "shelf": "papers",
+      "url": "https://www.theguardian.com/technology/artificialintelligenceai",
+      "title": "AI (artificial intelligence) | The Guardian",
+      "description": "## AI (artificial intelligence)\n### This Week in Trumpland  Trump’s AI chatbot turns on its master\n- [US trade regulator opens investigation into AI giants including Anthropic and OpenAI](https://www.theguardian.com/us-news/2026/sep/30/ftc-investigation-anthropic-openai)\n\n![a man speaks in front of other men](https://i.guim.co.uk/img/media/3d30d827d1d773b0eebf29cea6f8de1d46538a88/0_13_6445_5157/master/6445.jpg?width=120&dpr=1&s=none&crop=5%3A4)",
+      "shelf": "tech",
       "queries": [
-        "retrieval augmented generation research arxiv 2026"
+        "tech news AI this week"
       ],
       "position": 1
     },
     {
-      "url": "https://arxiv.org/abs/2501.09136",
-      "title": "Agentic Retrieval-Augmented Generation: A Survey on Agentic RAG",
-      "description": "# Title:Agentic Retrieval-Augmented Generation: A Survey on Agentic RAG\nAuthors: [Aditi Singh](https://arxiv.org/search/cs?searchtype=author&query=Singh,+A), [Abul Ehtesham](https://arxiv.org/search/cs?searchtype=author&query=Ehtesham,+A), [Saket Kumar](https://arxiv.org/search/cs?searchtype=author&query=Kumar,+S), [Tala Talaei Khoei](https://arxiv.org/search/cs?searchtype=author&query=Khoei,+T+T), [Athanasios V. Vasilakos](https://arxiv.org/search/cs?searchtype=author&query=Vasilakos,+A+V)\n\n[View PDF](https://arxiv.org/pdf/2501.09136) [HTML (experimental)](https://arxiv.org/html/2501.09136v4)\n\nIt traces the evolution of RAG paradigms, introduces a principled taxonomy of Agentic RAG architectures based on agent cardinality, control structure, autonomy, and knowledge representation, and provides a comparative analysis of design trade-offs across existing frameworks. The survey examines applications in healthcare, finance, education, and enterprise document processing, and distills practical lessons for system designers and practitioners. Finally, it identifies key open research challenges related to evaluation, coordination, memory management, efficiency, and governance, outlining directions for future research.\n\n|  |  |\n|-|-|\n| Subjects: | Artificial Intelligence (cs.AI); Computation and Language (cs.CL); Information Retrieval (cs.IR) |\n| Cite as: | [arXiv:2501.09136](https://arxiv.org/abs/2501.09136) [cs.AI] |\n|  | (or [arXiv:2501.09136v4](https://arxiv.org/abs/2501.09136v4) [cs.AI] for this version) |\n|  | [[https://doi.org/10.48550/arXiv.2501.09136](https://doi.org/10.48550/arXiv.2501.09136)](https://doi.org/10.48550/arXiv.2501.09136)<br>Focus to learn more<br>arXiv-issued DOI via DataCite |\n\n## Submission history\nFrom: Abul Ehtesham [ [view email](https://arxiv.org/show-email/367a5eec/2501.09136)]\n\n**[[v1]](https://arxiv.org/abs/2501.09136v1)**\n\n**[[v2]](https://arxiv.org/abs/2501.09136v2)**\n\n**[[v3]](https://arxiv.org/abs/2501.09136v3)**\n\n## Access Paper:\n- [View PDF](https://arxiv.org/pdf/2501.09136)\n- [HTML (experimental)](https://arxiv.org/html/2501.09136v4)\n- [TeX Source](https://arxiv.org/src/2501.09136)\n\n[view license](http://arxiv.org/licenses/nonexclusive-distrib/1.0/)\n\n### Current browse context:\n[< prev](https://arxiv.org/prevnext?id=2501.09136&function=prev&context=cs.AI)  |  [next >](https://arxiv.org/prevnext?id=2501.09136&function=next&context=cs.AI)\n\n[cs](https://arxiv.org/abs/2501.09136?context=cs)\n\n[cs.CL](https://arxiv.org/abs/2501.09136?context=cs.CL)\n\n[cs.IR](https://arxiv.org/abs/2501.09136?context=cs.IR)\n\n### Bookmark\n[![BibSonomy](https://arxiv.org/static/browse/0.3.4/images/icons/social/bibsonomy.png)](http://www.bibsonomy.org/BibtexHandler?requTask=upload&url=https://arxiv.org/abs/2501.09136&description=Agentic%20Retrieval-Augmented%20Generation:%20A%20Survey%20on%20Agentic%20RAG) [![Reddit](https://arxiv.org/static/browse/0.3.4/images/icons/social/reddit.png)](https://reddit.com/submit?url=https://arxiv.org/abs/2501.09136&title=Agentic%20Retrieval-Augmented%20Generation:%20A%20Survey%20on%20Agentic%20RAG)",
-      "shelf": "papers",
+      "url": "https://www.bbc.co.uk/news/topics/ce1qrvleleqt",
+      "title": "Artificial intelligence | Latest News & Updates - BBC",
+      "description": "10 hours ago · OpenAI fires workers for 'mishandling sensitive information' · More than 100 turn out for data centre meeting amid concerns · Police force launches AI tool to ...",
+      "shelf": "tech",
       "queries": [
-        "retrieval augmented generation research arxiv 2026"
+        "tech news AI this week"
       ],
       "position": 2
     },
     {
-      "url": "https://link.springer.com/article/10.1007/s41019-025-00335-5",
-      "title": "Retrieval-Augmented Generation for AI-Generated Content: A Survey",
-      "description": "# Retrieval-Augmented Generation for AI-Generated Content: A Survey\n## Abstract\nIn this paper, we comprehensively review existing efforts that integrate RAG techniques into AIGC scenarios. We first classify RAG foundations according to how the retriever augments the generator, distilling the fundamental abstractions of the augmentation methodologies for various retrievers and generators. We also summarize additional enhancement methods for RAG, facilitating effective engineering and implementation of RAG systems. Then from another view, we survey practical applications of RAG across different modalities and tasks, offering valuable references for researchers and practitioners. Furthermore, we introduce the benchmarks for RAG, discuss the limitations of current RAG systems, and suggest potential directions for future research.\n\n## 7 Conclusion\nIn this paper, we conducted a thorough and comprehensive survey on RAG within the context of AIGC, with a particular focus on augmentation foundations, enhancements, and applications.\n\n## References\n8. Ramesh A, Dhariwal P, Nichol A et al (2022) Hierarchical text-conditional image generation with CLIP latents. [arXiv:2204.06125](http://arxiv.org/abs/2204.06125)\n144. Zhang P, Xiao S., Liu Z, Dou Z, Nie J-Y (2023) Retrieve anything to augment large language models. [arxiv:2310.07554](http://arxiv.org/abs/2310.07554)\n148. Yan S-Q, Gu J-C, Zhu Y, Ling Z-H (2024) Corrective retrieval augmented generation. [arXiv:2401.15884](http://arxiv.org/abs/2401.15884)\n334. Jia H, Zhao P, Wu H, Gao Y, Tao Y, Cui B (2025) Learning from history: a retrieval-augmented framework for spatiotemporal prediction. arXiv preprint [arXiv:2510.24049](http://arxiv.org/abs/2510.24049)\n345. Chen J, Lin H, Han X, Sun L (2023) Benchmarking large language models in retrieval-augmented generation. [arxiv:2309.01431](http://arxiv.org/abs/2309.01431)\n372. Singh A, Ehtesham A, Kumar S, Khoei TT (2025) Agentic retrieval-augmented generation: a survey on agentic rag. arXiv preprint [arXiv:2501.09136](http://arxiv.org/abs/2501.09136)\n373. Xu Z, Wang M, Wang Y, Ye W, Du Y, Ma Y, Tian Y (2025) Recon: reasoning with condensation for efficient retrieval-augmented generation. arXiv preprint [arXiv:2510.10448](http://arxiv.org/abs/2510.10448)\n376. Wu P, Zhang M, Wan K, Zhao W, He K, Du X, Chen Z (2025) Hiprag: hierarchical process rewards for efficient agentic retrieval augmented generation. arXiv preprint [arXiv:2510.07794](http://arxiv.org/abs/2510.07794)",
-      "shelf": "papers",
+      "url": "https://www.youtube.com/watch?v=dDgncbBAA0c",
+      "title": "Dots, GPT-6.1 Sol, Sonnet 5.5, Gemini 4, and everything you need to know",
+      "description": "## AI News: Dots, GPT-6.1 Sol, Sonnet 5.5, Gemini 4, and everything you need to know\nCopy link\n\nInfo\n\nShopping\n\n•\n\nUp next\n\nLive\n\n[Matt Wolfe](https://www.youtube.com/channel/UChpleBmo18P08aKCIgti38g)\n\nDiscover More:\n\n❌ Twiter/X: [https://x.com/mreflow](https://x.com/mreflow) 🖼️ Instagram: [https://instagram.com/mr.eflow](https://instagram.com/mr.eflow) 🟦 LinkedIn: [https://www.linkedin.com/in/matt-wolfe-30841712/](https://www.linkedin.com/in/matt-wolfe-30841712/)\n\nLet’s work together!\n\n[He Built The Ultimate Spy Tool (Free and Open-Source)\\\n\\\n21:48](https://www.youtube.com/watch?v=S2VJU5DQqlU)\n\n[Claude Opus 5.5 Didn’t Need to Go This Hard\\\n\\\n18:17](https://www.youtube.com/watch?v=0t-eWrGFZyA)\n\nCancelConfirm\n\nHide\n\nShare\n\nAn error occurred while retrieving sharing information. Please try again later.\n\n0:00\n\n[Next (SHIFT+n)](https://www.youtube.com/watch?v=rRrBbyv3ChM)\n\n0:00 / 30:21\n\nLive\n\n•Watch full video\n\n• Intro\n\n•\n\n[29:03\\\nHuge AI News Week: ChatGPT Dots, Gemini 4 Argon, 6.1 Sol, Sonnet 5.5, & A Whole Lot MorePaul J Lipsky4K • 2h agoLivePlaylist ()Mix (50+)](https://www.youtube.com/watch?v=MS5VMqyuwjU) [21:22\\\nHow AI Solved a 90-year old Math Problem in 88 hoursStarTalk1.2M • 18h agoLivePlaylist ()Mix (50+)](https://www.youtube.com/watch?v=s7KhLuc3Mck) [1:44:54\\\nAI is So Good They’ll Pay You to Get Out of the WayTom Bilyeu133K • 1d agoLivePlaylist ()Mix (50+)](https://www.youtube.com/watch?v=WsdcF7EEvhM) [13:06\\\nTrump Makes Up New Racial Stereotypes, Shows Off Billion Dollar Ballroom & Hegseth Crazy at QuanticoJimmy Kimmel Live1.7M • 11h agoLivePlaylist ()Mix (50+)](https://www.youtube.com/watch?v=4VIErDWXDKs) [15:32\\\nStop Chatting With Claude. (Use This 1% Blueprint Instead)One Person Empire119K • 4d agoLivePlaylist ()Mix (50+)](https://www.youtube.com/watch?v=YbrrHwwBv1o) [15:03\\\nWhat Is Jev? The AI Model That Doesn't Generate TextIBM Technology208K • 1d agoLivePlaylist ()Mix (50+)](https://www.youtube.com/watch?v=YGgNBcIgI4s) [17:20\\\nWhat REALLY Happened Inside the Cockpit of Flydubai 1073?!Captain Steeeve1.6M • 21h agoLivePlaylist ()Mix (50+)](https://www.youtube.com/watch?v=39QxhRn2v3I) [49:17\\\nFULL Claude Tutorial for Beginners in 2026! (Become a PRO!)AI Foundations1.3M • 6mo agoLivePlaylist ()Mix (50+)](https://www.youtube.com/watch?v=rRrBbyv3ChM) [30:48\\\nThe FTC Is Investigating OpenAI — Here’s WhyProf G Markets and Platypus Economics with Justin Wolfers212K • 1d agoLivePlaylist ()Mix (50+)](https://www.youtube.com/watch?v=IAH9L_CXcI8) [20:03\\\nAI Expert WARNS: \"You're Not Ready For 2027\"The Diary Of A CEO Clips1.9M • 2d agoLivePlaylist ()Mix (50+)](https://www.youtube.com/watch?v=m94OMx1eBy0) [19:19\\\nChatGPT Dots: from beginner to expert in 19 minutesAlex Finn54K • 19h agoLivePlaylist ()Mix (50+)](https://www.youtube.com/watch?v=e29WTzoOKxk) [25:12\\\n\"They're Not Superintelligent\": Timnit Gebru Discredits Big Tech's AI ClaimsDemocracy Now!170K • 1d agoLivePlaylist ()Mix (50+)](https://www.youtube.com/watch?v=XqxbWdJ51K0)\n\n# AI News: Dots, GPT-6.1 Sol, Sonnet 5.5, Gemini 4, and everything you need to know\nHere's the AI News you probably missed this week.\n\n[**GPT-6.1 Sol**  **GPT-6.1 Sol** \\\n\\\n7:31](https://www.youtube.com/watch?v=dDgncbBAA0c&t=451s)\n\nOct 2, 2026\n\n[**GPT-6.1 Sol**  **GPT-6.1 Sol** \\\n\\\n7:31](https://www.youtube.com/watch?v=dDgncbBAA0c&t=451s)\n\n[**Claude Sonnet 5.5**  **Claude Sonnet 5.5** \\\n\\\n15:07](https://www.youtube.com/watch?v=dDgncbBAA0c&t=907s)\n\n[**Mod Claude Code**  **Mod Claude Code** \\\n\\\n19:12](https://www.youtube.com/watch?v=dDgncbBAA0c&t=1152s)\n\n19:12\n\n[**Gemini 4 Argon**  **Gemini 4 Argon** \\\n\\\n19:39](https://www.youtube.com/watch?v=dDgncbBAA0c&t=1179s)\n\n[**Ideogram 4.5**  **Ideogram 4.5** \\\n\\\n22:03](https://www.youtube.com/watch?v=dDgncbBAA0c&t=1323s)\n\n[**Strands Decider 2B**  **Strands Decider 2B** \\\n\\\n23:17](https://www.youtube.com/watch?v=dDgncbBAA0c&t=1397s)\n\n[**Grok Team Bots**  **Grok Team Bots** \\\n\\\n24:04](https://www.youtube.com/watch?v=dDgncbBAA0c&t=1444s)\n\n[**Eleven V4**  **Eleven V4** \\\n\\\n24:34](https://www.youtube.com/watch?v=dDgncbBAA0c&t=1474s)\n\n[**MAI-Voice-2.1**  **MAI-Voice-2.1** \\\n\\\n25:24](https://www.youtube.com/watch?v=dDgncbBAA0c&t=1524s&pp=0gcJCSoDDuyUWbzu)\n\n[**MAI-Transcribe**  **MAI-Transcribe** \\\n\\\n25:52](https://www.youtube.com/watch?v=dDgncbBAA0c&t=1552s&pp=0gcJCSoDDuyUWbzu)\n\n## AI News: Dots, GPT-6.1 Sol, Sonnet 5.5, Gemini 4, and everything you need to know\nHere's the AI News you probably missed this week.\n\nxAI Trolls Dots Launch: [[https://techcrunch.com/2026/09/29/the](https://techcrunch.com/2026/09/29/the)...](https://www.youtube.com/redirect?event=video_description&redir_token=QUZZTVljSG9yYXBxdjBVOHhNc0pJVUJINWlFUnxBTl9pYzRlcjVXRFQ4em9lZGtHSVBmei1vNnFSc0NwZ3N2T05zMGFNVDQwcVduMk1WMmpEMzNYekxRSmszRW9kVjNsOF9LUVBzX0JYMlJJb1B2QjNhRmhTdEVTVUVOTHNMTm55&q=https%3A%2F%2Ftechcrunch.com%2F2026%2F09%2F29%2Fthe-internet-is-convinced-elon-musks-xai-trolled-openais-dots-launch%2F&v=dDgncbBAA0c) Ideogram 4.5: [[https://ideogram.ai/models/4.5/](https://ideogram.ai/models/4.5/)](https://www.youtube.com/redirect?event=video_description&redir_token=QUZZTVljR3NpeGZOZjAwZ1pfc0xTQi1jM1Jnd3xBTl9pYzRjaHEzTkF4V3Izb1ZoX1VPMkY0aEdackRpbWlMMU91a2VEaktYVnYxWHhhdEdWTkwwSGZWS2l4b3NIeWRKZW9ST2FrS0gwOUNWR0NIWjQtc2xuLTdrdGdLZ3VnV29s&q=https%3A%2F%2Fideogram.ai%2Fmodels%2F4.5%2F&v=dDgncbBAA0c) Microsoft MAI-Voice-2.1: [[https://microsoft.ai/models/mai-voice](https://microsoft.ai/models/mai-voice)...](https://www.youtube.com/redirect?event=video_description&redir_token=QUZZTVljSGt5THhMTHhDTXItOW1hTTB0dEdyd3xBTl9pYzRjMEdxaE45NWd1aG9STzl1RmwxcUJwWjRpNHM0TWUtSEtoMlBaVHBsMGl2SloxY0FJR243ODlsUUdiN0ZCbmZYWkt6NDF2YnZUcFJ5aGw3a3Uwakx6cWEtaEU0WEF5&q=https%3A%2F%2Fmicrosoft.ai%2Fmodels%2Fmai-voice-2-1%2F&v=dDgncbBAA0c)\n\n[![](https://i.ytimg.com/vi/MS5VMqyuwjU/hqdefault.jpg?sqp=-oaymwEnCNACELwBSFryq4qpAxkIARUAAIhCGAHYAQHiAQoIGBACGAY4AUAB&rs=AOn4CLAM_EUdP-G_5yVPOwg20F8sk298ww)\\\n\\\n29:03\\\n\\\nNew](https://www.youtube.com/watch?v=MS5VMqyuwjU)\n\n### [Trump Makes Up New Racial Stereotypes, Shows Off Billion Dollar Ballroom & Hegseth Crazy at Quantico](https://www.youtube.com/watch?v=4VIErDWXDKs)\n[![](https://i.ytimg.com/vi/YbrrHwwBv1o/hqdefault.jpg?sqp=-oaymwEnCNACELwBSFryq4qpAxkIARUAAIhCGAHYAQHiAQoIGBACGAY4AUAB&rs=AOn4CLCMmycmeXPjW7zrD-sFLJYmwda2yA)\\\n\\\n15:32\\\n\\\nNew](https://www.youtube.com/watch?v=YbrrHwwBv1o&pp=ugUHEgVlbi1VUw%3D%3D)\n\n### [AI Expert WARNS: \"You're Not Ready For 2027\"](https://www.youtube.com/watch?v=m94OMx1eBy0&pp=ugUEEgJlbg%3D%3D)\n[![](https://i.ytimg.com/vi/e29WTzoOKxk/hqdefault.jpg?sqp=-oaymwEnCNACELwBSFryq4qpAxkIARUAAIhCGAHYAQHiAQoIGBACGAY4AUAB&rs=AOn4CLB2Y612i8DreqspBxjyQDEHqXC9hA)\\\n\\\n19:19\\\n\\\nNew](https://www.youtube.com/watch?v=e29WTzoOKxk&pp=ugUEEgJlbg%3D%3D)",
+      "shelf": "tech",
       "queries": [
-        "retrieval augmented generation research arxiv 2026"
+        "tech news AI this week"
       ],
       "position": 3
     },
     {
-      "url": "https://arxiv.org/abs/2601.06141",
-      "title": "An LLM -Powered Assessment Retrieval-Augmented Generation ...",
-      "description": "This study presents an LLM-powered, agentic assessment system built on a Retrieval-Augmented Generation (RAG) architecture to address these challenges.",
-      "shelf": "papers",
+      "url": "https://www.foxnews.com/live-news/gop-senator-hawley-ai-google-gemini-frontier-model-10-1-26",
+      "title": "AI liability fight reaches Senate as Google releases powerful new model",
+      "description": "18 hours ago · GOP senator joins push for AI liability as Google announces new frontier AI model · WHAT TO KNOW · Chinese AI model investigated after researcher flags bioweapon, ...",
+      "shelf": "tech",
       "queries": [
-        "retrieval augmented generation research arxiv 2026"
+        "tech news AI this week"
       ],
       "position": 4
     },
     {
-      "url": "https://arxiv.org/abs/2602.03442",
-      "title": "[2602.03442] A-RAG: Scaling Agentic Retrieval-Augmented Generation ...",
-      "description": "# Title:A-RAG: Scaling Agentic Retrieval-Augmented Generation via Hierarchical Retrieval Interfaces\nAuthors: [Mingxuan Du](https://arxiv.org/search/cs?searchtype=author&query=Du,+M), [Benfeng Xu](https://arxiv.org/search/cs?searchtype=author&query=Xu,+B), [Chiwei Zhu](https://arxiv.org/search/cs?searchtype=author&query=Zhu,+C), [Shaohan Wang](https://arxiv.org/search/cs?searchtype=author&query=Wang,+S), [Pengyu Wang](https://arxiv.org/search/cs?searchtype=author&query=Wang,+P), [Xiaorui Wang](https://arxiv.org/search/cs?searchtype=author&query=Wang,+X), [Zhendong Mao](https://arxiv.org/search/cs?searchtype=author&query=Mao,+Z)\n\nWe will release our code and evaluation suite to facilitate future research.\n\n|  |  |\n|-|-|\n| Comments: | 18 pages, 8 figures |\n| Subjects: | Computation and Language (cs.CL) |\n| Cite as: | [arXiv:2602.03442](https://arxiv.org/abs/2602.03442) [cs.CL] |\n|  | (or [arXiv:2602.03442v1](https://arxiv.org/abs/2602.03442v1) [cs.CL] for this version) |\n|  | [[https://doi.org/10.48550/arXiv.2602.03442](https://doi.org/10.48550/arXiv.2602.03442)](https://doi.org/10.48550/arXiv.2602.03442)<br>Focus to learn more<br>arXiv-issued DOI via DataCite |\n\n## Access Paper:\n- [TeX Source](https://arxiv.org/src/2602.03442)\n\n### Current browse context:\n[new](https://arxiv.org/list/cs.CL/new) | [recent](https://arxiv.org/list/cs.CL/recent) | [2026-02](https://arxiv.org/list/cs.CL/2026-02)",
-      "shelf": "papers",
+      "url": "https://techxplore.com/",
+      "title": "Tech Xplore - Technology and Engineering news",
+      "description": "# Technology news\n## [Robots approaching from behind are perceived as moving faster, experiments reveal](https://techxplore.com/news/2026-10-robots-approaching-faster-reveal.html)\n[![](https://scx1.b-cdn.net/csz/news/tmb/2026/ai-chatbot-americagov.jpg)**US government's new AI chatbot pulls back from debunking Trump**\\\n\\\nOct 1, 2026](https://techxplore.com/news/2026-10-ai-chatbot-debunking-trump.html)",
+      "shelf": "tech",
       "queries": [
-        "retrieval augmented generation research arxiv 2026"
+        "tech news AI this week"
       ],
       "position": 5
     },
     {
-      "url": "https://online.stanford.edu/programs/agentic-ai",
-      "title": "Agentic AI | Program - Stanford Online",
-      "description": "# Agentic AI\n[**Certificate of Completion**](https://online.stanford.edu/programs/agentic-ai#what-you-will-earn)\n\n## What You'll Earn\nYou’ll earn a **Stanford Certificate of Completion in Agentic AI** when you successfully complete the course requirements.",
-      "shelf": "courses",
+      "url": "https://www.nytimes.com/2026/10/02/opinion/ai-tech-innovation.html",
+      "title": "Opinion | Six Charts That Show Just How Much We Need A.I.",
+      "description": "9 hours ago · The walls are closing in on artificial intelligence: moratoriums on new data center construction, job-loss concerns and rising alarm over safety.",
+      "shelf": "tech",
       "queries": [
-        "agentic AI certification course 2026"
+        "artificial intelligence industry news"
       ],
       "position": 1
     },
     {
-      "url": "https://www.deeplearning.ai/courses/agentic-ai",
-      "title": "Agentic AI - DeepLearning.AI",
-      "description": "# Agentic AI\nEarn a certificate with [PRO](https://www.deeplearning.ai/membership) · Updated Feb 2, 2026\n\n- 9h55m\n\n## Agentic AI\n- Earn a certificate with PRO",
-      "shelf": "courses",
+      "url": "https://www.bbc.com/news/articles/cv8e30enrkxyo",
+      "title": "AI boom could trigger market shocks, Bank of England boss warns - BBC",
+      "description": "# AI boom could trigger market shocks, Bank of England boss warns\nAI chipmaker Nvidia is currently the world's most valuable listed company, with a market valuation of $5.5tn (£4.14tn), thanks largely to investors who believe in the big profits AI could create.\n\nAnd two of the largest AI companies in the world – Anthropic and OpenAI – are also preparing to sell shares in their firms on the US stock market in moves which many believe will lead to hundreds of billions of dollars more flowing into the industry.",
+      "shelf": "tech",
       "queries": [
-        "agentic AI certification course 2026"
+        "artificial intelligence industry news"
       ],
       "position": 2
     },
     {
-      "url": "https://www.edureka.co/agentic-ai-training-course",
-      "title": "Agentic AI Course with Advanced Training and Certification - Edureka",
-      "description": "Agentic AI Course helps you build LLM-powered AI agents with real-world projects, hands-on skills, no coding needed. Get certified and boost your AI career.",
-      "shelf": "courses",
+      "url": "https://www.wsj.com/tech/ai/will-america-spend-9-of-its-gdp-on-ai-the-industry-is-counting-on-it-3501bb4f",
+      "title": "Will America Spend 9% of Its GDP on AI? The Industry Is Counting on It",
+      "description": "9 hours ago · 9% of GDP. . AI evangelists think artificial intelligence will, in effect, become a third factor of production, alongside capital and labor.",
+      "shelf": "tech",
       "queries": [
-        "agentic AI certification course 2026"
+        "artificial intelligence industry news"
       ],
       "position": 3
     },
     {
-      "url": "https://www.reddit.com/r/learnmachinelearning/comments/1t0ouwv/looking_for_a_good_agentic_ai_course_in_2026_any/",
-      "title": "Looking for a Good Agentic AI Course in 2026. Any Suggestions? - Reddit",
-      "description": "one program you could also look at is the professional certificate course in generative ai and agentic ai by simplilearn in collaboration ...",
-      "shelf": "courses",
+      "url": "https://www.youtube.com/watch?v=02vPEZT5GlA",
+      "title": "Industry Advocates Testify on Risks of Artificial Intelligence - YouTube",
+      "description": "## Industry Advocates Testify on Risks of Artificial Intelligence\nelectron media group, inc. 291 views 9 hours ago\n\nInfo\n\nShopping\n\n![](https://i.ytimg.com/an/tsXo-byBtzhxPIdokIXHpw/featured_channel.jpg?v=66a3bd9a)\n\nLive\n\nUpcoming\n\n[Pete Buttigieg Speaks With Constituents in Ohio\\\n\\\n19:36](https://www.youtube.com/watch?v=gU1gS4nVPcU)\n\n[President Trump Speaks to Reporters\\\n\\\n12:50](https://www.youtube.com/watch?v=DTSnbC0jRls)\n\n[electron media group, inc.](https://www.youtube.com/channel/UCtsXo-byBtzhxPIdokIXHpw)\n\nSubscribed\n\nAn error occurred while retrieving sharing information.\n\n0:00\n\n[Next (SHIFT+n)](https://www.youtube.com/watch?v=XqxbWdJ51K0)\n\n0:00 / 2:04:02\n\n•Watch full video\n\n[1:46:13\\\nAI Realist vs 20 Pro-AI (ft. Andrew Yang) | SurroundedJubilee1.4M • 4d agoLivePlaylist ()Mix (50+)](https://www.youtube.com/watch?v=020ZvO0FbMM) [2:03:59\\\nSenator Hawley Chairs Hearing: Rogue AI: Securing The Homeland Against AI Agent AttacksSenator Josh Hawley9.8K • 12h agoLivePlaylist ()Mix (50+)](https://www.youtube.com/watch?v=kwx4Imv0dds) [37:28\\\nBlack Hat USA 2026 | The 'Breaking' News: The OpenAI–Hugging Face IncidentBlack Hat1.1M • 1mo agoLivePlaylist ()Mix (50+)](https://www.youtube.com/watch?v=87DyyMV0kCY) [2:03:49\\\nBREAKING NEWS: Josh Hawley Leads Senate Homeland Security Committee Hearing On 'Rogue' AI AgentsForbes Breaking News3.8K • 1d agoLivePlaylist ()Mix (50+)](https://www.youtube.com/watch?v=TE5Jir5VBiM) [2:53:38\\\nSenate holds hearing on rogue AI attacks | full videoCBS News8.8K • Streamed 1d agoLivePlaylist ()Mix (50+)](https://www.youtube.com/watch?v=LfDXO4VjUbE) [1:13:50\\\nBill Gates: A.I. ‘Makes Nuclear Weapons Look Like Nothing’ | The Ezra Klein ShowThe Ezra Klein Show and 2 more814K • 2d agoLivePlaylist ()Mix (50+)](https://www.youtube.com/watch?v=A_156w0aYtU) [34:38\\\nTHESE Apps Are SPYING on You — Shut Them Off NOW!Rossen Reports1.8M • Streamed 7mo agoLivePlaylist ()Mix (50+)](https://www.youtube.com/watch?v=xa43V8iJDfI) [17:12\\\n🚨 If Cops Say \"I Smell Alcohol\" — Say THIS Immediately (It's a Trap)Traffic Rights USA and Laws775K • 1mo agoLivePlaylist ()Mix (50+)](https://www.youtube.com/watch?v=P9A7N2Wcq6c) [11:07\\\nSchiff Leaves Republicans Speechless With This 1 Line At Jack Smith Hearing| Trump,Jan 6,MidtermsProject America | News599K • 8h agoLivePlaylist ()Mix (50+)](https://www.youtube.com/watch?v=tftZyJ4Fz4A) [23:45\\\nIf YOU Think God Isn't Real, You NEED To See ThisThe Diary Of A CEO Clips2.6M • 3w agoLivePlaylist ()Mix (50+)](https://www.youtube.com/watch?v=tmEvJaqg1Ow) [25:12\\\n\"They're Not Superintelligent\": Timnit Gebru Discredits Big Tech's AI ClaimsDemocracy Now!118K • 12h agoLivePlaylist ()Mix (50+)](https://www.youtube.com/watch?v=XqxbWdJ51K0) [12:09\\\nWe Investigated Starlink. The Corruption We Found Will Shock You.More Perfect Union224K • 12h agoLivePlaylist ()Mix (50+)](https://www.youtube.com/watch?v=LQYnlg4pO9o)\n\n# Industry Advocates Testify on Risks of Artificial Intelligence\n[![electron media group, inc.](https://yt3.ggpht.com/mMAbuaMMyWV2wNn8N93FsoJxw1FIKGih-rUFcxbs3rw9ThCYVIBHid4XVYrFArhv5sMmfb9aINc=s48-c-k-c0x00ffffff-no-rj)](https://www.youtube.com/@emginc)\n\nArtificial intelligence industry advocates and researchers testified on AI risks to U.S. security. Witnesses testified on ways to avoid AI attacks on critical infrastructure, noting previous attacks on water treatment plants in the U.S. and Mexico.\n\n[Videos](https://www.youtube.com/channel/UCtsXo-byBtzhxPIdokIXHpw/videos)[About](https://www.youtube.com/channel/UCtsXo-byBtzhxPIdokIXHpw/about)[instagram](https://www.youtube.com/redirect?event=Watch_SD_EP&redir_token=QUZZTVljRVdjaDJsVkt4ZHNNSTNwMDdVMlFIRXxBTl9pYzRmMnVkZVpqMU9seUZWTDF4Vl9BMk9mcUFvTDVSM3dWRlgxY2RZZXpEeFNIN1ZIeGY0MDI5RGlHdTAwREFORHl6dkZTZjRmX2RMVmtsbWNvNGQxQjNLRW9hajZUbVJI&q=instagram.com%2Felectronsinc)\n\nby electron media group, inc.\n\nOct 1, 2026\n\nArtificial intelligence industry advocates and researchers testified on AI risks to U.S. security. Witnesses testified on ways to avoid AI attacks on critical infrastructure, noting previous attacks on water treatment plants in the U.S. and Mexico.\n\nLawmakers also questioned witnesses on the complexity of containing AI systems to prevent hacks such as the 2026 cyberattack on Hugging Face, an online hub for AI models and datasets.\n\n[Videos](https://www.youtube.com/channel/UCtsXo-byBtzhxPIdokIXHpw/videos)[About](https://www.youtube.com/channel/UCtsXo-byBtzhxPIdokIXHpw/about)[instagram](https://www.youtube.com/redirect?event=Watch_SD_EP&redir_token=QUZZTVljRVdjaDJsVkt4ZHNNSTNwMDdVMlFIRXxBTl9pYzRmMnVkZVpqMU9seUZWTDF4Vl9BMk9mcUFvTDVSM3dWRlgxY2RZZXpEeFNIN1ZIeGY0MDI5RGlHdTAwREFORHl6dkZTZjRmX2RMVmtsbWNvNGQxQjNLRW9hajZUbVJI&q=instagram.com%2Felectronsinc)\n\nby electron media group, inc.\n\n[![](https://i.ytimg.com/vi/020ZvO0FbMM/hqdefault_custom_3.jpg?sqp=CLC8_NUG-oaymwEnCNACELwBSFryq4qpAxkIARUAAIhCGAHYAQHiAQoIGBACGAY4AUAB&rs=AOn4CLDE1uWyx4Iuxg-RVHLUUrbsjGeUxA)\\\n\\\n1:46:13\\\n\\\nNew](https://www.youtube.com/watch?v=020ZvO0FbMM&pp=ugUEEgJlbg%3D%3D)\n\n### [Black Hat USA 2026 | The 'Breaking' News: The OpenAI–Hugging Face Incident](https://www.youtube.com/watch?v=87DyyMV0kCY&pp=ugUEEgJlbg%3D%3D)\nBlack Hat\n\n1.1M1mo ago\n\n[![](https://i.ytimg.com/vi/TE5Jir5VBiM/hqdefault.jpg?sqp=-oaymwEnCNACELwBSFryq4qpAxkIARUAAIhCGAHYAQHiAQoIGBACGAY4AUAB&rs=AOn4CLBB4u-LmLmf9_gETPM-NuYyZ52AFw)\\\n\\\n2:03:49\\\n\\\nNew](https://www.youtube.com/watch?v=TE5Jir5VBiM)\n\n### [BREAKING NEWS: Josh Hawley Leads Senate Homeland Security Committee Hearing On 'Rogue' AI Agents](https://www.youtube.com/watch?v=TE5Jir5VBiM)\nForbes Breaking News\n\n3.8K1d ago\n\n[![](https://i.ytimg.com/vi/LfDXO4VjUbE/hqdefault.jpg?sqp=-oaymwEnCNACELwBSFryq4qpAxkIARUAAIhCGAHYAQHiAQoIGBACGAY4AUAB&rs=AOn4CLAxHqv1KnB5vPcvNv7MMEIp5E74HA)\\\n\\\n2:53:38\\\n\\\nNew](https://www.youtube.com/watch?v=LfDXO4VjUbE&pp=0gcJCS0MAYcqIYzv)\n\n### [Senate holds hearing on rogue AI attacks | full video](https://www.youtube.com/watch?v=LfDXO4VjUbE&pp=0gcJCS0MAYcqIYzv)\n8.8KStreamed 1d ago\n\n[![](https://i.ytimg.com/vi/A_156w0aYtU/hqdefault.jpg?sqp=-oaymwEnCNACELwBSFryq4qpAxkIARUAAIhCGAHYAQHiAQoIGBACGAY4AUAB&rs=AOn4CLBwcIvK-4X8Hw6Pd9VNOfUPDRfepQ)\\\n\\\n1:13:50\\\n\\\nNew](https://www.youtube.com/watch?v=A_156w0aYtU&pp=ugUEEgJlbg%3D%3D)\n\n### [THESE Apps Are SPYING on You — Shut Them Off NOW!](https://www.youtube.com/watch?v=xa43V8iJDfI)\n1.8MStreamed 7mo ago\n\n[![](https://i.ytimg.com/vi/P9A7N2Wcq6c/hqdefault.jpg?sqp=-oaymwEnCNACELwBSFryq4qpAxkIARUAAIhCGAHYAQHiAQoIGBACGAY4AUAB&rs=AOn4CLA5amS_ER3jNuUtFylKRFqcq_-SqQ)\\\n\\\n17:12](https://www.youtube.com/watch?v=P9A7N2Wcq6c)\n\n### [\"They're Not Superintelligent\": Timnit Gebru Discredits Big Tech's AI Claims](https://www.youtube.com/watch?v=XqxbWdJ51K0)\nDemocracy Now!\n\n[![](https://i.ytimg.com/vi/LQYnlg4pO9o/hqdefault.jpg?sqp=-oaymwEnCNACELwBSFryq4qpAxkIARUAAIhCGAHYAQHiAQoIGBACGAY4AUAB&rs=AOn4CLAqa5QLg8U55K0coEmKbYAwxO9xKw)\\\n\\\n12:09\\\n\\\nNew](https://www.youtube.com/watch?v=LQYnlg4pO9o&pp=ugUEEgJlbg%3D%3D)\n\n### [AI Leaders Sign Trump's \"Self-Policing\" Pact & Eric Schmitt's Ambush Backfires | The Daily Show](https://www.youtube.com/watch?v=Rb0KxHkguOo)\nThe Daily Show\n\n2.3M1d ago\n\n[![](https://i.ytimg.com/vi/U4zGLSlLo5A/hqdefault.jpg?sqp=-oaymwEnCNACELwBSFryq4qpAxkIARUAAIhCGAHYAQHiAQoIGBACGAY4AUAB&rs=AOn4CLByOQhIth6l45FqTc4n7XTyq1ANuQ)\\\n\\\n32:29](https://www.youtube.com/watch?v=U4zGLSlLo5A&pp=ugUHEgVlbi1VUw%3D%3D)\n\n### [Bill Gates Changes His Mind on AI](https://www.youtube.com/watch?v=U4zGLSlLo5A&pp=ugUHEgVlbi1VUw%3D%3D)\nThe Atlantic\n\n[![](https://i.ytimg.com/vi/7_U3FrpVU8Q/hqdefault.jpg?sqp=-oaymwEnCNACELwBSFryq4qpAxkIARUAAIhCGAHYAQHiAQoIGBACGAY4AUAB&rs=AOn4CLA5gmdIwGK8_nPaPwawrNnjdhzQug)\\\n\\\n12:31\\\n\\\nNew](https://www.youtube.com/watch?v=7_U3FrpVU8Q&pp=ugUHEgVlbi1JTtIHCQktDAGHKiGM7w%3D%3D)",
+      "shelf": "tech",
       "queries": [
-        "agentic AI certification course 2026"
+        "artificial intelligence industry news"
       ],
       "position": 4
     },
     {
-      "url": "https://online.lifelonglearning.jhu.edu/jhu-certificate-program-agentic-ai",
-      "title": "Agentic AI Certificate Program from Johns Hopkins University",
-      "description": "# Build Production-Ready AI Agents and Multi-Agent Systems from JHU\n## Certificate Program in Agentic AI\n18 Weeks Online\n\n- 18 Weeks\n\n30th Sep 2026",
-      "shelf": "courses",
+      "url": "https://www.facebook.com/newshour/posts/the-federal-trade-commission-is-reportedly-launching-an-investigation-into-a-num/1567498605245380/",
+      "title": "The Federal Trade Commission is reportedly launching an ... - Facebook",
+      "description": "22 hours ago · The Federal Trade Commission is reportedly launching an investigation into a number of AI companies over the potential dangers their technology poses to...",
+      "shelf": "tech",
       "queries": [
-        "agentic AI certification course 2026"
+        "artificial intelligence industry news"
       ],
       "position": 5
     },
     {
-      "url": "https://online.stanford.edu/programs/agentic-ai",
-      "title": "Agentic AI | Program - Stanford Online",
-      "description": "You'll learn to design and build AI agents that handle complex, real-world applications. The course covers test-time scaling, self-improvement methods ( ...",
-      "shelf": "courses",
+      "url": "https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-4-argon/",
+      "title": "Gemini 4 Argon: our next era of frontier intelligence - Google Blog",
+      "description": "# Gemini 4 Argon: our next era of frontier intelligence\n- Google’s new Gemini 4 Argon model brings advanced reasoning to complex, long-horizon professional tasks.\n\nToday, we’re announcing our new frontier model, Gemini 4 Argon, which is rolling out to a set of trusted cyber defenders through our [Fairwind Program](https://deepmind.google/fairwind-program/).\n\n## Related stories\n[![](https://storage.googleapis.com/gweb-uniblog-publish-prod/images/gemini_3-8_live___key.2e16d0ba.fill-300x300.format-webp.webp)\\\n\\\n\\\nGemini models\\\n\\\n**Introducing Gemini 3.8 Live and 3.8 Live Extended Thinking**\\\n\\\nBy\\\n\\\n\\\nTom Ouyang\\\n\\\n& \\\nMalini Jaganathan](https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-3-8-live-gemini-3-8-live-extended-thinking/)",
+      "shelf": "tech",
       "queries": [
-        "AI agent engineering course 2026"
+        "AI model release announcement"
       ],
       "position": 1
     },
     {
-      "url": "https://www.youtube.com/watch?v=EsTrWCV0Ph4",
-      "title": "AI Agents Full Course 2026: Master Agentic AI (2 Hours) - YouTube",
-      "description": "... AI agent design and advanced prompt engineering both. You will also have mastered a bunch of key agentic AI principles, like context ...",
-      "shelf": "courses",
+      "url": "https://openai.com/index/introducing-gpt-6-sol-and-luna/",
+      "title": "Introducing GPT-6 Sol and Luna - OpenAI",
+      "description": "Introducing GPT-6 Sol and Luna | OpenAI\n\n# Introducing GPT‑6 Sol and Luna\nShare\n\n_**Update on September 29, 2026:**_ _Learn about OpenAI's latest model:_ [_GPT‑6 .1 Sol⁠_ ⁠](https://openai.com/index/introducing-gpt-6-1-sol/) _._\n\nEarlier this month, we introduced [GPT‑6 Astra](https://openai.com/index/gpt-6-astra/), the most intelligent and aligned model in the world.\n\n## A step up across the model family\n### Computer use\n_We report the partial reward on the offline set from the v2026.08.08 release._",
+      "shelf": "tech",
       "queries": [
-        "AI agent engineering course 2026"
+        "AI model release announcement"
       ],
       "position": 2
     },
     {
-      "url": "https://www.udemy.com/topic/ai-agents/?srsltid=AU7gw4WQ7Tls3rB0_gwqLadSeqcp4WIF2ZBMXXLB-2Q5iB287e89DszF",
-      "title": "Top AI Agents & Agentic AI Courses Online - Updated [October 2026]",
-      "description": "Looking to advance your skills in AI Agents & Agentic AI? We've got you. Get everything you need to reach your goals in one convenient bundle.",
-      "shelf": "courses",
+      "url": "https://www.reuters.com/legal/litigation/google-announces-gemini-4-flagship-ai-model-after-months-delays-2026-09-30/",
+      "title": "Google announces Gemini 4 flagship AI model after months of delays",
+      "description": "SAN FRANCISCO, Sept 30 (Reuters) - Alphabet's Google [(GOOGL.O), opens new tab](https://www.reuters.com/markets/companies/GOOGL.O) on Wednesday announced a new top-tier artificial intelligence model to ​anchor its Gemini 4 generation of models in a fresh bid ‌to catch up to rivals Anthropic and OpenAI in the AI race.",
+      "shelf": "tech",
       "queries": [
-        "AI agent engineering course 2026"
+        "AI model release announcement"
       ],
       "position": 3
     },
     {
-      "url": "https://www.reddit.com/r/learnmachinelearning/comments/1t0ouwv/looking_for_a_good_agentic_ai_course_in_2026_any/",
-      "title": "Looking for a Good Agentic AI Course in 2026. Any Suggestions? - Reddit",
-      "description": "My honest suggestion: start with SimplAI University to build your mental model of how agentic systems are designed, then layer DeepLearning.AI ...",
-      "shelf": "courses",
+      "url": "https://www.facebook.com/AletihadEn/posts/alphabets-google-on-wednesday-announced-a-new-top-tier-artificial-intelligence-m/959710810521309/",
+      "title": "Google announces gemini 4 ai model - Facebook",
+      "description": "1 day ago · Alphabet's Google on Wednesday announced a new top-tier artificial intelligence model to anchor its Gemini 4 generation of models in a fresh bid in the AI race.",
+      "shelf": "tech",
       "queries": [
-        "AI agent engineering course 2026"
+        "AI model release announcement"
       ],
       "position": 4
     },
     {
-      "url": "https://online.lifelonglearning.jhu.edu/jhu-certificate-program-agentic-ai",
-      "title": "Agentic AI Certificate Program from Johns Hopkins University",
-      "description": "Rating 4.8(30)Develop the skills to design, build and deploy production-grade autonomous AI Agents and multi-agent systems. Application closes 8th Oct 2026",
-      "shelf": "courses",
+      "url": "https://www.reddit.com/r/GeminiAI/comments/1wv038r/why_publicly_announce_a_model_that_the_public/",
+      "title": "Why publicly announce a model that the public can't use yet?? : r/GeminiAI",
+      "description": "1 day ago · I am yet to see an AI lab release on a different day than announced on a webpage. At most you'll see hints by staff or rumors (obviously pushed by insiders) ...",
+      "shelf": "tech",
       "queries": [
-        "AI agent engineering course 2026"
+        "AI model release announcement"
       ],
       "position": 5
     },
     {
-      "url": "https://mentorcruise.com/certifications/llm/",
-      "title": "Top 12 LLM Certifications (2026 Edition) - MentorCruise",
-      "description": "The top 12 LLM certifications recommended by working experts in 2026. Compare paths, prep timelines, and how a 1-on-1 mentor helps you pass on the first ...TL;DR · How the top LLM certifications...",
-      "shelf": "courses",
+      "url": "https://www.reuters.com/legal/transactional/ai-cybersecurity-startup-armadin-valued-over-25-billion-after-new-funding-round-2026-10-01/",
+      "title": "AI cybersecurity startup Armadin valued at over $2.5 billion after new ...",
+      "description": "Oct 1 (Reuters) - Armadin said on Thursday that it raised $255.5 million in ​a Series B funding round, ‌which values the AI cybersecurity company at more than $2.5 billion.\n\n- Andreessen Horowitz and Accel ​co-led the round, joined by new ​investors Bain Capital Ventures and Redpoint as well as existing backers, including ​Google Ventures, Kleiner Perkins, Menlo ​Ventures and In-Q-Tel\n- The round took total funding ‌to $445 ⁠million, Armadin said",
+      "shelf": "startups",
       "queries": [
-        "LLM application certification program"
+        "AI startup funding round"
       ],
       "position": 1
     },
     {
-      "url": "https://www.cmu.edu/online/generative-ai-llms",
-      "title": "Generative AI & Large Language Models | Online Education",
-      "description": "# Generative AI & Large Language Models\n## Application Requirements\nThis online graduate certificate program is highly selective and offers a rigorous curriculum.\n\n## Start Your Application\nIn 500 words or less, tell us why you are interested in this certificate program and how you anticipate using it in your professional capacity.",
-      "shelf": "courses",
+      "url": "https://www.calcalistech.com/ctechnews/article/ryurpyo5fl",
+      "title": "Israel's startup funding hits $2.77 billion in September, driven by five ...",
+      "description": "# z.calcalist.co.il is blocked\nKeewano raised $12 million to develop a database designed for AI agents, and DataAgent emerged from stealth with a $10 million pre-seed round to develop self-healing infrastructure using autonomous agents.\n\nIn addition to the mega-rounds for Cyera, Island and Upwind, the month included investments in Rig Security, Reco, Cymphony, Huskeys, Euno and AIR Security.\n\n(This includes funding rounds of over $5 million that were officially announced during September):\n\n[Wiz, Cyera and Eon founders back Israeli AI startup Euno in $23 million round](https://www.calcalistech.com/ctechnews/article/h1snf20ugx)",
+      "shelf": "startups",
       "queries": [
-        "LLM application certification program"
+        "AI startup funding round"
       ],
       "position": 2
     },
     {
-      "url": "https://www.lsac.org/llm-other-law-program-applicants/application-process-llm-other-law-programs",
-      "title": "Application Process for LLM & Other Law Programs - LSAC",
-      "description": "LLM CAS simplifies the application process for eligible graduates of universities or law schools. Applicants who use LLM CAS only have to submit academic ...",
-      "shelf": "courses",
+      "url": "https://www.facebook.com/NEWSMAX/posts/israel-innovation-spotlight-an-israeli-ai-company-is-transforming-construction-m/1684567647049164/",
+      "title": "ISRAEL INNOVATION SPOTLIGHT: An Israeli AI company is ... - Facebook",
+      "description": "4 hours ago · With only six employees and no external funding, the startup caught Wix's eye with its innovative conversational AI. ... Beewise Secures $50M Series D to Scale AI ...",
+      "shelf": "startups",
       "queries": [
-        "LLM application certification program"
+        "AI startup funding round"
       ],
       "position": 3
     },
     {
-      "url": "https://www.salesforce.com/agentforce/llm-course/",
-      "title": "LLM Course: Free Online Training - Salesforce",
-      "description": "Explore our LLM courses designed to enhance your skills in large language models. Start learning with free online training today.",
-      "shelf": "courses",
+      "url": "https://www.openvc.app/investor-lists/ai-investors",
+      "title": "The Top AI Investors & VC Firms for Startups in 2026 - OpenVC",
+      "description": "10 hours ago · In 2025, nearly half of all global venture funding went into AI (up from roughly a third the year before). More than $200 billion has already flowed into AI ...",
+      "shelf": "startups",
       "queries": [
-        "LLM application certification program"
+        "AI startup funding round"
       ],
       "position": 4
     },
     {
-      "url": "https://www.coursera.org/learn/generative-ai-with-llms",
-      "title": "Generative AI with Large Language Models - Coursera",
-      "description": "# See how employees at top companies are mastering in-demand skills\n## There are 3 modules in this course\n### Week 3\n#### What's included\n##### 21 videos•Total 141 minutes\n- Using the LLM in applications•10 minutes",
-      "shelf": "courses",
+      "url": "https://fundraiseinsider.com/blog/series-a-startups/",
+      "title": "List of Funded Series A Startups (2026) - Fundraise Insider",
+      "description": "## Series A Startup Funding Statistics and Trends (YTD)\n- Range: $0 (to 7 rounds) up to $350 million (max)\n\n## Exceptionally Large and Small Series A Startup Funding Rounds\n### Exceptionally Large Series A Startup Rounds (>$47.5 M)\n- Apptronik – $350 M on 2025-02-26\n- QuEra Computing – $230 M on 2025-04-11\n- Tenvie Therapeutics – $200 M on 2025-01-22\n- Merida Biosciences – $121 M on 2025-03-05\n- Nexthop AI – $110 M on 2025-01-30\n- (Plus 10 more rounds between $48 M and $76 M)\n\n### Exceptionally Small Series A Startup Funding Rounds (≤$2.955 M)\n- CONTXTFUL Technologies – $1.90 M on 2025-04-15\n- Wicked Smart Pad – $2.10 M on 2025-02-20",
+      "shelf": "startups",
       "queries": [
-        "LLM application certification program"
+        "AI startup funding round"
       ],
       "position": 5
     },
     {
-      "url": "https://learn.microsoft.com/en-us/agent-framework/overview/",
-      "title": "Microsoft Agent Framework Overview",
-      "description": "# Microsoft Agent Framework\n## Get started\n```dotnetcli\ndotnet add package Microsoft.Agents.AI.Foundry --prerelease\n```\n\n```csharp\nusing System;\nusing Azure.AI.Projects;\nusing Azure.Identity;\nusing Microsoft.Agents.AI;\n\nAIAgent agent = new AIProjectClient(\n        new Uri(\"https://your-foundry-service.services.ai.azure.com/api/projects/your-foundry-project\"),\n        new AzureCliCredential())\n    .AsAIAgent(\n        model: \"gpt-5.4-mini\",\n        instructions: \"You are a friendly assistant. Keep your answers brief.\");\n\nConsole.WriteLine(await agent.RunAsync(\"What is the largest city in France?\"));\n```\n\n```bash\npip install agent-framework\n```\n\n```python\nfrom agent_framework import Agent\nfrom agent_framework.foundry import FoundryChatClient\nfrom azure.identity import AzureCliCredential\n\nagent = Agent(\n    client=FoundryChatClient(\n        project_endpoint=\"https://your-foundry-service.services.ai.azure.com/api/projects/your-foundry-project\",\n        model=\"gpt-5.4-mini\",\n        credential=AzureCliCredential(),\n    ),\n    name=\"HelloAgent\",\n    instructions=\"You are a friendly assistant. Keep your answers brief.\",\n)\n```\n\n```python\n# Non-streaming: get the complete response at once\nresult = await agent.run(\"What is the largest city in France?\")\nprint(f\"Agent: {result}\")\n```\n\n```bash\ngo get github.com/microsoft/agent-framework-go\n```",
-      "shelf": "news",
+      "url": "https://www.facebook.com/bongoowiki/posts/openais-new-always-on-ai-agent-launched-tuesday-but-the-biggest-buzz-online-is-n/122272193798089289/",
+      "title": "OpenAI's new always-on AI agent launched Tuesday, but the biggest ...",
+      "description": "1 day ago · OpenAI's new always-on AI agent launched Tuesday, but the biggest buzz online is not about the product itself. It is about a domain name and who owns it.",
+      "shelf": "startups",
       "queries": [
-        "AI agent framework launch 2026"
+        "startup launches AI agent product"
       ],
       "position": 1
     },
     {
-      "url": "https://www.langchain.com/resources/ai-agent-frameworks",
-      "title": "The best AI agent frameworks in 2026 - LangChain",
-      "description": "This guide compares seven frameworks: LangChain, CrewAI, Microsoft Agent Framework, LlamaIndex Workflows, Google ADK, OpenAI Agents SDK, and ...",
-      "shelf": "news",
+      "url": "https://dealroom.co/news/158277-enso-raises-15m-series-a-for-ai-growth-hacking-agents/",
+      "title": "enso raises $15M Series A for AI 'growth hacking' agents - Dealroom",
+      "description": "[News](https://dealroom.co/news/)›enso raises $15M Series A for AI 'growth hacking' agents\n\nFounded in 2024, the company builds AI agent systems for marketing and sales.",
+      "shelf": "startups",
       "queries": [
-        "AI agent framework launch 2026"
+        "startup launches AI agent product"
       ],
       "position": 2
     },
     {
-      "url": "https://rhesis.ai/post/picking-agentic-framework-2026",
-      "title": "How to pick an agentic framework in 2026 | Rhesis AI Blog",
-      "description": "Side-by-side comparison of 8 agent frameworks—LangGraph, CrewAI, AutoGen, OpenAI Agents SDK, Google ADK, Semantic Kernel.",
-      "shelf": "news",
+      "url": "https://www.instagram.com/reel/Dd9ptTkDJha/",
+      "title": "Three companies launched autonomous AI agents in the same ...",
+      "description": "23 hours ago · Three companies launched autonomous AI agents in the same week. Meta Muse connects to Shopify, Stripe, Slack, QuickBooks. OpenAI Dots runs 24/7 on its own ...",
+      "shelf": "startups",
       "queries": [
-        "AI agent framework launch 2026"
+        "startup launches AI agent product"
       ],
       "position": 3
     },
     {
-      "url": "https://dev.to/thedailyagent/top-5-ai-agent-frameworks-for-2026-honest-guide-13jn",
-      "title": "Top 5 AI Agent Frameworks for 2026 (Honest Guide) - DEV Community",
-      "description": "Compare 5 AI agent frameworks -- LangGraph, CrewAI, AutoGen, Dify, and Nebula -- with features, pricing, and honest trade-offs for each.",
-      "shelf": "news",
+      "url": "https://investors.digitalocean.com/news/news-details/2026/DigitalOcean-Introduces-Agent-Droplets-Everything-an-AI-Agent-Needs-One-Simple-Monthly-Price/default.aspx",
+      "title": "DigitalOcean Introduces Agent Droplets: Everything an AI Agent ...",
+      "description": "### DigitalOcean Introduces Agent Droplets: Everything an AI Agent Needs, One Simple Monthly Price\n_Start with DigitalOcean and scale as your business grows: one subscription for compute, memory, storage, inference, and tools_\n\nDigitalOcean Managed Agents, launched in public preview on September 22, gave builders a managed runtime, governed access to 16,000+ tools, Serverless Inference, and persistent agent memory and storage on one cloud.\n\n|  |  |  |  |\n|-|-|-|-|\n| Designed for | Testing a PR review or a coding session | Teams starting their Agentic Journey | Teams scaling their Agentic Journey |",
+      "shelf": "startups",
       "queries": [
-        "AI agent framework launch 2026"
+        "startup launches AI agent product"
       ],
       "position": 4
     },
     {
-      "url": "https://www.digitalapplied.com/blog/microsoft-agent-framework-1-0-dotnet-python-guide",
-      "title": "Microsoft Agent Framework 1.0: .NET and Python 2026 - Digital Applied",
-      "description": "## Key Takeaways\nMicrosoft shipped **Agent Framework 1.0 GA on April 3, 2026** — the production-ready convergence of Semantic Kernel and AutoGen into a single unified SDK.\n\n## Release Facts\n| Fact | Detail |\n|-|-|\n| GA date | April 3, 2026 (announced April 6) |\n\n## .NET Setup and Hello World\n```\ndotnet new console -n HelloAgent\ncd HelloAgent\ndotnet add package Microsoft.Agents.AI\ndotnet add package Microsoft.Agents.AI.OpenAI\n```\n\n## Python Setup and Hello World\n```\npip install microsoft-agents-ai microsoft-agents-ai-openai\n```",
-      "shelf": "news",
+      "url": "https://www.reddit.com/r/OpenAI/comments/1wuzygv/did_openai_just_kill_ai_agent_startups_at_devday/",
+      "title": "Did OpenAI just kill AI agent startups at DevDay? I run one. Here's my ...",
+      "description": "1 day ago · Here's a brief summary of their Tuesday launches: Dots, an AI agent that always runs inside ChatGPT. This agent comes with its own cloud computing power and ...",
+      "shelf": "startups",
       "queries": [
-        "AI agent framework launch 2026"
+        "startup launches AI agent product"
       ],
       "position": 5
     },
     {
-      "url": "https://writer.com/blog/enterprise-ai-adoption-2026/",
-      "title": "Enterprise AI adoption in 2026: Why 79% face challenges despite high ...",
-      "description": "# Enterprise AI adoption in 2026: Why 79% face challenges despite high investment\n[Facebook](https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fwriter.com%2Fblog%2Fenterprise-ai-adoption-2026%2F)[X](https://twitter.com/intent/tweet?text=Enterprise%20AI%20adoption%20in%202026%3A%20Why%2079%25%20face%20challenges%20despite%20high%20investment&url=https%3A%2F%2Fwriter.com%2Fblog%2Fenterprise-ai-adoption-2026%2F)[Linkedin](https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fwriter.com%2Fblog%2Fenterprise-ai-adoption-2026%2F)\n\nWRITER’s 2026 [AI adoption in the Enterprise survey](https://go.writer.com/ai-adoption-enterprise-2026), conducted with independent research firm Workplace Intelligence, reveals a defining shift in how executives and employees globally are navigating the biggest technological change in a generation. We surveyed 1,200 non-technical employees actively using AI at work, as well as 1,200 C-suite executives. Last year’s theme was tension — [budgets climbing](https://writer.com/blog/tokenomics-token-budget-efficiency-intelligence-model-harness/), pilots multiplying, but progress messy. In 2026, that tension has evolved into something much more consequential: it’s now cultural, organizational, and deeply structural.\n\nThe shift toward agentic AI has moved at a pace that’s hard to overstate. Nearly all executives (97%) say their company deployed AI agents in the past year, with 52% of employees already using them.\n\nSeventy-five percent of executives expect AI agents will be part of their company’s C-suite within the next five years.\n\nThe 2026 survey findings reveal 79% of organizations face challenges in adopting AI —  a double-digit increase from 2025 — with 54% of C-suite executives admitting that adopting AI is tearing their company apart.\n\n## Key findings from the 2026 enterprise AI adoption survey\n- 97% of executives deployed AI agents in the past year, with 52% of employees already using them\n- 92% of the C-suite are actively cultivating “AI elite” employees, while 60% plan layoffs for non-adopters\n\n## From individual wins to organizational impact: What separates leaders from laggards\nThe 2026 survey captures a pivotal moment.\n\n“AI transformation is ultimately about people, and the future belongs to the companies putting agent-building power directly into the hands of people closest to the work,” said May Habib, CEO and co-founder of WRITER.\n\n## [The Agentic Compact: The trust blueprint for the human-agent enterprise](https://writer.com/blog/agentic-compact/)\n![May Habib](https://writer.com/wp-content/uploads/2024/12/may-habib-profile.png)\n\n**May Habib**",
-      "shelf": "news",
+      "url": "https://www.ycombinator.com/companies/industry/video",
+      "title": "Video Startups funded by Y Combinator (YC) 2026",
+      "description": "# Video Startups funded by Y Combinator (YC) 2026\nai\n\nai\n\nAt Tavus, we're building the human layer of AI. By enabling AI to see, hear, and communicate with human-like authenticity, we're creating the foundation for developers to create the next generation of AI employees, assistants, and companions.",
+      "shelf": "startups",
       "queries": [
-        "enterprise AI agents adoption 2026"
+        "YC AI startup launch"
       ],
       "position": 1
     },
     {
-      "url": "https://sema4.ai/blog/best-ai-platforms-of-2026/",
-      "title": "Enterprise AI Platform Guide: The Best of 2026 - Sema4.ai",
-      "description": "# Top AI Platforms: The Best AI Platforms of 2026\n## Choosing among the top AI platforms: what matters most\nThis is the era of the enterprise AI agent, and 2026 is the year they become indispensable.",
-      "shelf": "news",
+      "url": "https://www.ycombinator.com/companies/industry/automation",
+      "title": "Automation Startups funded by Y Combinator (YC) 2026",
+      "description": "22 hours ago · Browse 94 of the top Automation startups funded by Y Combinator. to scale the process of organism engineering using software and hardware automation. an AI app ...",
+      "shelf": "startups",
       "queries": [
-        "enterprise AI agents adoption 2026"
+        "YC AI startup launch"
       ],
       "position": 2
     },
     {
-      "url": "https://www.digitalapplied.com/blog/ai-agent-adoption-2026-enterprise-data-points",
-      "title": "AI Agent Adoption 2026: 120+ Enterprise Data Points",
-      "description": "## Key Takeaways\nAgents Are Now Embedded by Default:80% of enterprise applications shipped or updated in Q1 2026 embed at least one AI agent, per Gartner — up from 33% in 2024.\n\nProduction Adoption Is Real but Concentrated:31% of enterprises have at least one AI agent in production, per S&P Global Market Intelligence and McKinsey, with banking and insurance leading at 47% and healthcare and government trailing at 18% and 14% respectively.\n\nEnterprise AI agent adoption crossed a real threshold in the first quarter of 2026. 80% of enterprise applications shipped or updated in Q1 now embed at least one AI agent, per Gartner — but only 31% of organizations have an agent running in production, per S&P Global Market Intelligence.\n\n## The 2026 Enterprise AI Agent Landscape\nThe headline statistics describe a market shifting from experimentation to operating posture. Of the enterprises Gartner surveyed in Q1 2026, 80% report that at least one production application now embeds an AI agent — a feature ranging from a customer-service deflection bot to a fully autonomous coding agent opening pull requests against shared repositories. Two years ago that share was 33%.\n\n### Adoption Trajectory (2024 → 2026)\n| Metric | 2024 | 2025 | 2026 |\n|-|-|-|-|\n| Apps embedding at least one agent | 33% | 58% | 80% |\n| Enterprises with ≥1 agent in production | 9% | 19% | 31% |\n| Multi-agent (3+) orchestration share | 1% | 6% | 22% |\n| Median monthly LLM spend (YoY growth) | 1.0x baseline | 3.1x | 7.2x |\n| Enterprises with named \"agent owner\" | 11% | 27% | 56% |\n\nThe 2024-to-2026 jump is steeper than any comparable enterprise software adoption curve since cloud computing in 2010-2012. Three structural shifts explain the slope: foundation models reached tool-use reliability that is plausibly production-grade for scoped tasks; the Model Context Protocol standardized how agents connect to enterprise data; and the average enterprise has now written off enough abandoned pilots to develop institutional memory about what scoping actually requires.\n\nThe 80/31 Gap\n\nThe headline number to internalize is the spread between 80% of applications embedding an agent and 31% of organizations actually running one in production. That 49-point gap is where most enterprise AI dollars are being spent in 2026, and also where most of the year's quiet write-offs are happening. For the cross-reference on the embedding side, see our deep dive on [the 80% embedding statistic and what it actually means](https://www.digitalapplied.com/blog/80-percent-enterprise-apps-embed-ai-agents-2026-checklist).\n\nOur [AI Digital Transformation](https://www.digitalapplied.com/services/ai-transformation) team converts industry benchmarks into a scoped agent portfolio with eval coverage, ownership, and a 90-day production target.\n\n## Conclusion\nThe 2026 enterprise AI agent picture is straightforward to summarize but uncomfortable to absorb. 80% of applications now embed an agent. 31% of organizations have one in production. 88% of pilots never make that crossing.",
-      "shelf": "news",
+      "url": "https://www.instagram.com/reel/Dd7MlbyD_eu/",
+      "title": "YCombinator's Startup Requests These are Y Combinator's top ...",
+      "description": "2 days ago · Y Combinator just published its public wish list of startups it wants funded in 2026, and one idea is a genuinely open lane. Twice a year YC (the accelerator ...",
+      "shelf": "startups",
       "queries": [
-        "enterprise AI agents adoption 2026"
+        "YC AI startup launch"
       ],
       "position": 3
     },
     {
-      "url": "https://www.databricks.com/blog/enterprise-ai-agent-trends-top-use-cases-governance-evaluations-and-more",
-      "title": "Enterprise AI agent trends: Top use cases, governance + ... - Databricks",
-      "description": "This report shares insights across AI in the enterprise: common use cases, evaluations and governance, database transformation, and more. full ...",
-      "shelf": "news",
+      "url": "https://www.ycombinator.com/companies/industry/api",
+      "title": "API Startups funded by Y Combinator (YC) 2026",
+      "description": "# API Startups funded by Y Combinator (YC) 2026\nai\n\nai\n\nai\n\nGenerate AI agents with plain English, edit visually, customize with code in your own IDE.",
+      "shelf": "startups",
       "queries": [
-        "enterprise AI agents adoption 2026"
+        "YC AI startup launch"
       ],
       "position": 4
     },
     {
-      "url": "https://www.linkedin.com/pulse/how-enterprises-building-ai-agents-2026-creativebitsai-ermkf",
-      "title": "How Enterprises Are Building AI Agents in 2026 - LinkedIn",
-      "description": "In 2026, 81% plan to tackle more complex use cases, including 39% developing agents for multi-step processes and 29% deploying them for cross- ...",
-      "shelf": "news",
+      "url": "https://www.ycombinator.com/launches/Ufw-evalrouter-by-kimpton-one-api-for-ai-evaluation",
+      "title": "Launch YC: EvalRouter by Kimpton: One API for AI evaluation",
+      "description": "21 hours ago · Today we're introducing EvalRouter. One API for evaluating any model against any benchmark. AI models. EvalRouter makes those evaluations accessible through ...",
+      "shelf": "startups",
       "queries": [
-        "enterprise AI agents adoption 2026"
+        "YC AI startup launch"
       ],
       "position": 5
     },
     {
-      "url": "https://blog.jetbrains.com/research/2026/08/ai-coding-agent-adoption-2026/",
-      "title": "AI Coding Agents: Adoption Trends - The JetBrains Blog",
-      "description": "As of May–July 2026, 90% of professional developers were using AI coding agents at work at least weekly in one form or another (local agents or ...",
-      "shelf": "news",
+      "url": "https://www.acquired.fm/episodes/home-depot",
+      "title": "The Home Depot | Acquired",
+      "description": "![The Home Depot PDF Cover](https://imagedelivery.net/4Iq_5OuN3Oq3QRRKSY6D4w/pdf-cover_home-depot/main) A PDF companion to the episode, including: timelines, detailed explainers, and data visualizations. [receive the companion](https://www.acquired.fm/episodes/home-depot#)",
+      "shelf": "podcasts",
       "queries": [
-        "AI coding agent announcement 2026"
+        "Acquired episode listing"
       ],
-      "position": 1
+      "podcast": "Acquired",
+      "scraped_markdown": "chapters\n\nIntro\n\n00:00\n\n[Close](https://www.acquired.fm/episodes/home-depot#)\n\n![The Home Depot PDF Cover](https://imagedelivery.net/4Iq_5OuN3Oq3QRRKSY6D4w/pdf-cover_home-depot/main)\n\nThe Home Depot\n\nA PDF companion to the episode, including: timelines, detailed explainers, and data visualizations.\n\n[receive the companion](https://www.acquired.fm/episodes/home-depot#)\n\n[View Companion](https://library.acquired.fm/episodes/home-depot.pdf)\n\nSomething didn't quite work out. Try again?\n\n[View Companion](https://library.acquired.fm/episodes/home-depot.pdf)\n\n[Home](https://www.acquired.fm/) [Episodes](https://www.acquired.fm/episodes) [Library](https://www.acquired.fm/library) [Artifacts](https://www.acquired.fm/artifacts) [About](https://www.acquired.fm/about) [Sponsor](https://acquired.fm/sponsor) [ACQ2 Show](https://www.acquired.fm/acq2)\n\nEmails from Ben & David\n\nOur key takeaways, research photos, hints at the next episode, and your vote on future topics.\n\n[join our list](https://www.acquired.fm/episodes/home-depot#)\n\nWelcome to the email list.\n\nCheck your inbox for a short note from Ben & David.\n\nSomething didn't quite work out. Try again?\n\nThis episode on Acquired\n\n[Spotify](https://open.spotify.com/episode/1FUhxMXgI9vW55zfPzpXAA) [Apple Podcasts](https://podcasts.apple.com/us/podcast/home-depot/id1050462261?i=1000789467893)\n\n[YouTube](https://www.youtube.com/watch?v=6Kq5e49MD6U) [Overcast](https://overcast.fm/itunes1050462261/acquired) [Pocket Casts](https://pocketcasts.com/podcast/acquired/eed80bc0-599b-0133-cb25-0d11918ab357)\n\n![Home Depot Email Preview](https://imagedelivery.net/4Iq_5OuN3Oq3QRRKSY6D4w/artifacts/home-depot/first-stores/w=900)\n\nEMAIL PREVIEW — The first stores, opened in former locations of JCPenney's discount chain.\n\nThis episode on Acquired\n\n[Spotify](https://open.spotify.com/episode/1FUhxMXgI9vW55zfPzpXAA) [Apple Podcasts](https://podcasts.apple.com/us/podcast/home-depot/id1050462261?i=1000789467893)\n\n[YouTube](https://www.youtube.com/watch?v=6Kq5e49MD6U) [Overcast](https://overcast.fm/itunes1050462261/acquired) [Pocket Casts](https://pocketcasts.com/podcast/acquired/eed80bc0-599b-0133-cb25-0d11918ab357)\n\n[copy svg](https://www.acquired.fm/episodes/home-depot#) [media kit](https://www.acquired.fm/media-kit)\n\n[Press](https://www.acquired.fm/press)\n\n[all episodes](https://www.acquired.fm/episodes)\n\n![The Home Depot](https://imagedelivery.net/4Iq_5OuN3Oq3QRRKSY6D4w/episodes_og_home-depot/main)\n\nNo items found.\n\n[Retail](https://www.acquired.fm/industry/retail)\n\n[E-commerce](https://www.acquired.fm/industry/e-commerce)\n\nNo items found.\n\nThe Home Depot\n\n[Fall 2026](https://www.acquired.fm/season/fall-2026)\n\nEpisode\n\n2\n\n·\n\nSeptember 14, 2026\n\n[PDF Companion](https://www.acquired.fm/episodes/home-depot#companion) [PDF Companion](https://library.acquired.fm/episodes/home-depot.pdf)\n\n[transcript](https://www.acquired.fm/episodes/home-depot#transcript)\n\n[Sources](https://www.acquired.fm/episodes/home-depot#sources)\n\nMany thanks to our season partners\n\n[Sierra](https://sierra.ai/acquired)\n\n[WorkOS](https://bit.ly/workos25)\n\n[Anthropic](https://bit.ly/acquiredclaude25)\n\n[Sentry](https://sentry.io/?utm_source=podcast&utm_campaign=acquired&utm_id=acquired&utm_term=acquired&utm_content=acquired)\n\n![The Home Depot](https://imagedelivery.net/4Iq_5OuN3Oq3QRRKSY6D4w/episodes_video-covers_home-depot/feature)\n\n[Presented by](https://sierra.ai/acquired)\n\n[Presented by](https://sierra.ai/acquired)\n\n# More saving. More compounding.\n\noverview\n\nThe Home Depot's founding story is like an Avengers movie… if the Avengers got fired, went broke, and stacked empty paint cans ten feet high to look legitimate. After being unceremoniously fired from their previous hardware chain at ages 48 and 35, Bernie Marcus and Arthur Blank took the words of their New York banker Ken Langone (who had also just accidentally caused their firings) to heart: they'd just been \"kicked in the ass with a golden horseshoe.” They proceeded to author the greatest"
     },
     {
-      "url": "https://dev.to/blackgirlbytes/my-predictions-for-mcp-and-ai-assisted-coding-in-2026-16bm",
-      "title": "My Predictions for MCP and AI-Assisted Coding in 2026",
-      "description": "CodeMender: AI Code Security Agent. Attackers now use AI to find software vulnerabilities faster than humans can patch them. Join our experts ...",
-      "shelf": "news",
+      "url": "https://www.acquired.fm/episodes/disney-the-renaissance-and-the-empire",
+      "title": "Disney: The Renaissance and the Empire | Acquired",
+      "description": "[Close](https://www.acquired.fm/episodes/disney-the-renaissance-and-the-empire#) ![Disney: The Renaissance and the Empire PDF Cover](https://imagedelivery.net/4Iq_5OuN3Oq3QRRKSY6D4w/pdf-cover_disney-the-renaissance-and-the-empire/main) A PDF companion to the episode, including: timelines, detailed explainers, and data visualizations.",
+      "shelf": "podcasts",
       "queries": [
-        "AI coding agent announcement 2026"
+        "Acquired episode listing"
       ],
-      "position": 2
-    },
-    {
-      "url": "https://www.linkedin.com/pulse/why-ai-coding-agents-finally-work-2026-louis-fran%C3%A7ois-bouchard-uzw5c",
-      "title": "Why AI Coding Agents Finally Work in 2026 - LinkedIn",
-      "description": "3 days ago · Today, you can give a coding agent an issue, walk away, and return to a tested pull request. That did not happen because models finally beat a ...",
-      "shelf": "news",
-      "queries": [
-        "AI coding agent announcement 2026"
-      ],
-      "position": 3
-    },
-    {
-      "url": "https://www.faros.ai/blog/best-ai-coding-agents-2026",
-      "title": "Best AI Coding Agents for 2026: Real-World Developer Reviews",
-      "description": "TL;DR: The front-runners for 2026 are Cursor, Claude Code, Codex, GitHub Copilot, and Cline, and the right pick depends on whether you want ...",
-      "shelf": "news",
-      "queries": [
-        "AI coding agent announcement 2026"
-      ],
-      "position": 4
-    },
-    {
-      "url": "https://blog.google/products-and-platforms/products/search/search-io-2026/",
-      "title": "Google Search's I/O 2026 updates: AI agents and more",
-      "description": "We're bringing our advanced model capabilities to Search with new AI features, enabling you to use agents just by asking a question.",
-      "shelf": "news",
-      "queries": [
-        "AI coding agent announcement 2026"
-      ],
-      "position": 5
-    },
-    {
-      "url": "https://www.reddit.com/r/ExperiencedDevs/comments/1u1ytv7/i_keep_seeing_forward_deployed_engineer_openings/",
-      "title": "I keep seeing Forward Deployed Engineer openings. What's ... - Reddit",
-      "description": "It's a role working hand in hand with end users to fix some problem using software. You need to be proficient in navigating the business in ...",
-      "shelf": "career",
-      "queries": [
-        "forward deployed engineer AI hiring"
-      ],
-      "position": 1
-    },
-    {
-      "url": "https://www.indeed.com/q-forward-deployed-ai-engineer-jobs.html",
-      "title": "Forward deployed ai engineer jobs - Indeed",
-      "description": "# forward deployed ai engineer jobs\n## Employer Resources:\n- [How to Write a Job Description](https://www.indeed.com/hire/how-to-write-a-job-description?from=jobsearch_footer)\n- - [How to Hire Employees](https://www.indeed.com/hire/how-to-hire?from=jobsearch_footer)\n\n#### Job details\n$40 - $60 an hour\n\nFull-time\n\nRemote\n\n#### Full job description\nExtended team\n\n$40 - $60/hourpay\n\n## **Required Skills**\n### **About micro1**\nOur platform identifies and vets top talent through an AI recruiter, enabling high-quality expert contributions at scale. We aim to enable 1 billion people to do meaningful work by applying their expertise to AI.\n\n**Job Title:** Associate Forward Deployed Engineer (aFDE)\n\n**Job Type:** Full-time\n\n**Location**: Remote\n\n**Work Arrangement:** Hourly, with expected weekly hours agreed upfront\n\n**The Role**\n\nWe’re hiring junior engineers to help scale data ingestion and customer data workflows.\n\nYou’ll work alongside core FDEs to prepare and transfer data, troubleshoot issues, build scripts and automations, and keep customers informed. You’ll start with clearly scoped responsibilities and receive guidance as you take on more technical ownership.\n\nThe initial work will combine hands-on engineering with operational execution, with the opportunity to grow into a full FDE role over time.\n\n**What You’ll Do**\n\n## **Apply now**\n#### Explore other jobs\n[Easily apply\\\n\\\n**SAP Lead** \\\n\\\nBiocon Biologics Limited\\\n\\\nRemote in Remote\\\n\\\n$120,000 - $150,000 a year\\\n\\\nFull-time\\\n\\\nHealth insurance\\\n\\\nDental insurance\\\n\\\n401(k)\\\n\\\nPaid time off\\\n\\\nParental leave\\\n\\\nEmployee assistance program\\\n\\\nVision insurance\\\n\\\n401(k) matching\\\n\\\nLife insurance\\\n\\\nReferral program\\\n\\\nRetirement plan](https://www.indeed.com/pagead/clk?mo=r&ad=-6NYlbfkN0BzHm9HUY8T3y-hz_AleEm3U42m-rfPSds_V88DJcTgD4WcwyJbwV6rIWc_7-3yj_zRJgwhDbMtTK4FPwdDSbxQ2T6mmDSYv6Y8lLdl7R3F6MDs0AoHbGCbCNmH-qmlFATHrTtFxSMgu47FIFsgNqenv7I2Ncms8MMPhy-LBfAdkrwlD1ZDjYnf4q_jjGgXJ1PM4IayxkTNFt_IzHC1g3D0AhGwYZZ_YC47wW4e0AJyYeLrzLw5lvwZ9RPoQb9Q28_SDhdRx7plEWk8s9RLVUXoeIpqI0_uzkh2qqN8PBngMcGEVBqc16NG4UsAp5al2jtdLHEJJ1K8Ry7CV16ScaJqyA_Cp-BkK_tLVtRPj1Z6POAa5n3psDpXVHyQfCMTy4Aw9Z2M5354wSTe0_poz_uQfuqrJZMXspnrVjzhArolnxWt2W3LWn6bnrlSGuKbUFDMIcFcB3_NpytXygloGBxSLoQaB51AT6rrhl3GZV0Vr9LC-z2lgXFK-G2LyTvt_Bv8e_ceL4TzOuRsoMVidtQI8yBqKynzuHa8aM2Bskl_QFJFaXzRM5wwPsIjObBkNSFleTt7UfWuSF-Qa_7vjd6gIIip8-9YLaoZIDDVCcAoTjghOIkGC-tfsoEuxI2aGHo_tg11Y1YLXj686_ByfkLnyGCzmBYBHxhkCEoEVViHpZyh4I1ZzfFkLQhK3N_o5Pe0-SobBYG_oWFtvbGHSkDuznOw3HxpGRtBbQXmzQUOSkk00Ox1dPWWJTjvHhBE0Aob_ECGbmq5sw%3D%3D&rm=0&xkcb=SoCl6_M2e7X9lryTz50cbzkdCdPP&ctk=1k3rfsgjtgmun800&jsa=5094&camk=ethIe0s0hed8YzF_WZHHwg%3D%3D&vjs=3)\n\n[Easily apply\\\n\\\nNew\\\n\\\n**Integration Analyst/Engineer** \\\n\\\nKavant Solutions\\\n\\\nRemote in Remote\\\n\\\n$75,000 - $120,000 a year\\\n\\\nFull-time\\\n\\\n401(k)\\\n\\\n401(k) matching\\\n\\\nFlexible schedule\\\n\\\nRetirement plan](https://www.indeed.com/pagead/clk?mo=r&ad=-6NYlbfkN0CRJSX1Xwj8ybnsUJcYhmTu9sUFFbFW7Imz24NWT2EXOiEMA9CQNHJu6FgEJuOqB60HbMzk90Vt87hAukk6e_N-TmLizKRT1Ywu5scwJbBPjNRHQE_mPMSqlPimUv9FMlaVi0TkVjP6nO6aR-0ghEcLUQjLnmdOCOP505cs6EsK9LZEiOvfrci-F--udiIJsPWQyteyYRaNHy_93vMdRlX_uplgr30WbKbynrAWB2-KeP0umTZWxLja3GcM17j4mA_sFTng3d7k35cWSx9cjiwaHZeYREzwqC9UhueMKmh4OU6NCquZH8VL4BN4s-Nh-QePA1p-OrvkTTsfa0OFAF_JfY3rLj7PApP8X3zVvISxRepFBY4XyQcjKopG_Eqecz64RBlxSzPIDo1f7butSpVIEYZf4NF1GvITyltNFAi_O1FS-sM3YMS1QLktd8r2nX21ai-VxJCLx61SwgAlRkMDoJZA-B6upD1_ly1GEXY0QlXLHz-GnuCQI5itmI7cIZH-_q9q_62KzESmeO24xxuJ7tswvJWGXiuw3F6t_sQkUZKXCtXMY87fPsSHPO3NQxebkmN1x0IS3nJ2aDB_HuhuJQedBSNoJtBZ4ct4e_Rv9OxMEGg9hqkVEf8iMQUqBUxpLUSmMmU_mLKUHjEr43oXIDfwlKO6kNnjb1EDvWEpRvZIsTGZG67OemgAfnoEbMwxecaOi9_iSyqo_xBWKbbpeMnfN1QXF_LpSaABCeVTB2Er0lDovp1Q-69cpHmoa57xbPonr1oF4AISNjoFaZNFHyVKOycLoP8%3D&rm=0&xkcb=SoBr6_M2e7X9lqSTz50LbzkdCdPP&ctk=1k3rfsgjtgmun800&jsa=5094&camk=C3EPSzFlQw_t_ITdHCbajA%3D%3D&vjs=3)\n\n[Easily apply\\\n\\\nNew\\\n\\\n**SaaS and API Platform Tester** \\\n\\\nKavant Solutions\\\n\\\nRemote in Remote\\\n\\\n$75,000 - $120,000 a year\\\n\\\nFull-time\\\n\\\n401(k)\\\n\\\n401(k) matching\\\n\\\nFlexible schedule\\\n\\\nRetirement plan](https://www.indeed.com/pagead/clk?mo=r&ad=-6NYlbfkN0CRJSX1Xwj8ybnsUJcYhmTu9sUFFbFW7Imz24NWT2EXOiEMA9CQNHJuzR-hnbWoG8EwCu8omtytneF3xOyGWiVbp-L7b4NcOB4igXWt7fyUW8ebPTC5tlqu1qXsL5wbfJYcThfkDbdYo7QJHfIMl2iHWkZxFLrYsrf8CxA0nSiLkC8p91pr6GwBKZQwLfkqIXyASGOUdcbecpOVvVVEV3cw9gbhQdoiUqxaQYWgaUO39ZMICL6BUJjFOUyYSrIsP3Zb_ilKPxZnEXorUXRh_jfbl9kMj86Wy5u_BiLYIlvPze22OIavGHpa0xclF3dXOejypIVVcqfKsVmFPU2t05KKJbreOCtxyYH6EFnJiT4Cy_3vrBEJoIqmlkOJ85vTdnzGA596SMj44Zuzw6GWCyagEVPO9Ii-YNGXHItMM4LLAaFJCU3BdeLdEOXDg5U6B4aRk4V3Mk_WxKEa_YeK2YWyQxUchApWhBGEXlYfiBPoiMcsZ6tRuPTKUWZQo2lQuMS-0XM60xkMkn9eIreNTHARJDgNrnFJVKKEXM2lDOT2BWHVmvk0gguS5d1AB9_U_W9I1WPzuVGyI8wnXSVoPf0pFws8AGmM4YEETp3XvBY0_p213XqIyt29MxDYmuSyWuc6_KIfXoQDYlv4dOhKzLq7TtsslfkdoC9m6iYRPvSvpNi4p42kc45FM9gDdxymP93x0YL57IDPWfIMldFISBj9I_juUNROtsfTloQptyID0kqbtR5hwCED1jZXGu5HDERukku0txXNrs4qrhiHeecJ-AZznKNURozQj81OKyvLVg%3D%3D&rm=0&xkcb=SoDf6_M2e7X9lqSTz50KbzkdCdPP&ctk=1k3rfsgjtgmun800&jsa=5094&camk=C3EPSzFlQw8aX6CiIGqgBg%3D%3D&vjs=3)\n\n[Easily apply\\\n\\\n**Senior Software Product Manager** \\\n\\\nArgonDigital\\\n\\\nRemote in Remote\\\n\\\n$100,000 - $140,000 a year\\\n\\\nFull-time\\\n\\\nHealth savings account\\\n\\\nHealth insurance\\\n\\\nDental insurance\\\n\\\n401(k)\\\n\\\nFlexible spending account\\\n\\\nPaid time off\\\n\\\nParental leave\\\n\\\nEmployee assistance program\\\n\\\nVision insurance\\\n\\\n401(k) matching\\\n\\\nFlexible schedule\\\n\\\nLife insurance](https://www.indeed.com/pagead/clk?mo=r&ad=-6NYlbfkN0BW3AOTTCkL3z_Fvs2r1QBEaoyWbprDeN-0evsS0l8XQ_QounJJBL7c8PatbKPgCAqLSDSiXmiSb1K2jV4HeS1aXpzCIYmFCodjdD7TjjsmU5llwo2xz2SYW2tht9HyIORh-PBoQxEyF4PbAP7ZK9nwzmBXOdeHhNv4fzIlDm5mBlBPR_B_Wt-7FYM7BhgeCBgNe0S7NPJvSVyOZylF4ELQ-EC4eeDmzPAYXmcIrMrr1tOR__b4beidZ2oSYaHkBz8nPMUntMkJtCSRsCC0tmly8Ic67RKSTi2yXslhVtugH4DdQKk49Z6PVuQu7hcKdFZ8sD7YDq1FGLjR29IScpx-9MeP2fSDj7HvibIOks3d6aQ8VAD1681MZdYlxeAWwTBjGf8AwKiSEGpr66Dne5p7b4BuN5zRHbCEIEI402GKiE0F1uj3wdWhQTc3Jkd0Din_LYeQ--TWW4LZuPLLWG0fiQe7WxwwfcuoJ83KntHZt2m5dKQFQd1fiAObk4T1zqzMKJAF7vKEeqEeUJVr-Fw8pxlXwa2_lcjlHcNsljrwpR4O3AQW_0PSzYhm4xqTu64ydmnhBYN0z6HZK0ttqgnafbnps4Sh9wGNsGDfw-5ZqQJWv2lR1ondWqXqiLPJwmI8LpTORfTw_zTH_iDC4mAU7QCcabrXDFusomUmSDc3mNM4ItG1jrVwPNLZg726ywTpT-eFnSZTEyoIHH6l9GtxbyRIq9_gQRZJ9Qe7SvHduXmWlWjOFE0uejnvLD1ZWVQ%3D&rm=0&xkcb=SoBC6_M2e7X9lqSTz50JbzkdCdPP&ctk=1k3rfsgjtgmun800&jsa=5094&camk=C3EPSzFlQw9WWKW7GS2jQw%3D%3D&vjs=3)\n\n[**Tamil Interpreter** \\\n\\\nLanguageLine Solutions\\\n\\\nRemote in Remote\\\n\\\nPay information not provided\\\n\\\nPart-time\\\n\\\nOpportunities for advancement\\\n\\\nReferral program](https://www.indeed.com/pagead/clk?mo=r&ad=-6NYlbfkN0B3OVqTL-eYdLRkdBf4mcQ10T8hYHRIs6AwT4tcaGWTVFMuj7c6cBCZwgafUKhFIHEsPwODgX30vpSrHA0e0a6tTEjxlTVYes7ukLy8CT2TedfXzpY6ZN29673hmzaOetyX57G6ZWfz0PG39hFPZA5NL9S6XOr_nGbgA1Zg7XfVHHCA1nyHGHKkU0ehhPXJymCNqQrOWmJSt54o30sn4vbXC31JzBLxfsbB9qg4sDMu4a2lh6DC66p4OWz8xtyYIjkDyEIGD4O1wGGovtgZXePynU-5hPFHBjcr1yg1YKL8laT8glhwLOaXWdts59SZlDcfrDsnbBRim2Izy0-2S6ZfeuR8Jy7qbo_goVTUhgguLbTlUjf6HF-DEqJJUapuBgW_19opb-6mUWt3JVXugCm5Us0ITADLOHPcZayEEf834GcV5hT1jQe8qFRIiRFtfLyEUeSmRusfDvkf4K6LBXY89X0J7uztLYrqGjnrwDpgHKBheuUKX18iXRz2k73iLgWUTdC2CRnN3mGr-BaGw4iDA_qBFEtjWkW12vj_983e3rlKYKyY27aNCknlhxmIX0L2cfr-SSXwQeU-_003RByq2cE7VfdDovWtudAqfDUpt1_8zQH1mBU_4Qcl9z_2zDkpdrIHlyIN1xqW096xAh-i0WhkzWKtFEiDmftJvopFJtlwd0EDzroRPshX_HaQEMtb-8VROGzT7K1ZgqsCGDltwnM_-P4o2gTiTq1ZEAT-VQpKHatrSkmCs-4qbVLSqQBbioudt2XbvdxfFBuo1TKt&rm=0&xkcb=SoAu6_M2e7X9lqyTz50LbzkdCdPP&ctk=1k3rfsgjtgmun800&jsa=5094&camk=C3EPSzFlQw_ODYfS1boCVw%3D%3D&vjs=3)\n\n[Easily apply\\\n\\\nNew\\\n\\\n**Senior DevSecOps & Platform Engineer** \\\n\\\nFedScale, Inc\\\n\\\nRemote\\\n\\\n$150,000 - $170,000 a year\\\n\\\nFull-time\\\n\\\nHealth insurance\\\n\\\nDental insurance\\\n\\\n401(k)\\\n\\\nPaid time off\\\n\\\nVision insurance\\\n\\\nLife insurance](https://www.indeed.com/pagead/clk?mo=r&ad=-6NYlbfkN0ASgB9qpr0XNRfajk3Qo2QxNxcw46oqTi1qeabATPHfKrg6W1f98-r3vNNiku8h45RX5aL6Ob2E-XMDz0AmZr6RyKD2T0B2s6hEfxYYaxgmzQ5MgIib0xhaw0woeAAyOCH1MoapU9lOjh5wV_RH3l1WqQqJa6Y6SDUYtCOoR1imR40ocJfgpSkvLsAOzaXZTXqlVmDNjDC_wlxUshb7963eBVSsiUVlBVc3BcqH41oL7HXZGJvTHMYLRBpVL3W6rOsy3JBJ37yu37fEZ_q_zdvfXQXiy0ulEwbzuuqlbBQ_wEk9gYugpqFvKc_xJ6MWMa9jE4AIjLZRAEceX3hQji9RNi_3eHt-FKuuX8i0xgUN5sOvnKJI71RAiksGW5U_cIFpdUDdATgd2gn44P5rbYM216abwOu4P5YrBQZnmExjMIFTqrDg4d0H-PQNb1BDoepjyQXFPyBLTKH6tF08gQwyVIJq3Xc44_BGhsNAoS4RacOgLAvTP3cTVLoYT9HysgK0LfDsNcEP-XMiw62afKuR-YqJJL_vpp_QPjsZgHTpsFH_yPuQmvVobRdpYPADDc6OQI2qVzk4HUynxwItV0Yne6x5J-PaygfMSCoOnxX16Qretxpzbj5KDeJjjGqN0GbY__fi3yJoMXYJTJUa0i-uvKzTiVlDJo3u0YMHCgB4NZb90Z0sadPsJW_Qmz4nzxg7fAs6CXAZSarNONYXZ0oCiDSjisuoIg7nmHAMl-MA99bqrzc-xjxl0z049lf0mYiLfmpRxSg5DDm_zMR_vfWOIvNA12jcEwAj8cTcx624uw%3D%3D&rm=0&xkcb=SoCa6_M2e7X9lqyTz50KbzkdCdPP&ctk=1k3rfsgjtgmun800&jsa=5094&camk=C3EPSzFlQw9n9DfevbpuYw%3D%3D&vjs=3)\n\n[Easily apply\\\n\\\nOften replies in 1 day\\\n\\\n**OUTPATIENT FACILITY AMBULATORY/DAY SURGERY CODING SPECIALIST** \\\n\\\nProfessional Credit Service\\\n\\\nRemote in Remote\\\n\\\nPay information not provided\\\n\\\nFull-time\\\n\\\nPaid time off\\\n\\\nFlexible schedule](https://www.indeed.com/pagead/clk?mo=r&ad=-6NYlbfkN0B6iMedg-snijKiay6t1a1Bic2j1ilELWeWjRyDLi2AJgltk8V8vX1GOKATY-18ngskMWb8I_1rC0LxwT88ByiXF2rblRksa8ZPnkNKvIAyzRX8gk1WcP5ee4GX7ED3mh6HKVxuz3SD_7V5RJlkglarz0a8m0X8lPbTz-pKoGVv9AITXJNrvSJhA1AuGmPxE2GkNVbCTgR2toMDgJZh-fhrmsVnU6vjmzy7NPkdLIIBJT3JH2GGqmtwNqBp-m-GsGM4kN3cneiePbAXT7d785IcEeWC0fNSQ6BClIso4azgtJLPkHtG4MgK2QupfpwKqkegdncjZkmZzGnHna83Z3-QIxf8oA8sBmPqJJqeu9oOoWsYf3W176OLuQrLopVlR8bJbbHTbiG_9tYkurnx2bNK25XOTtgr_tfUWPDjall-m1t7O8jitsVpXU17sYOcQCMkUfSaOoaMBsYgsfvOA8hmh3QzAmUMPSjYKn_jF-ZLapozY7kXC9825qHLJpyvBhDI-yZfOmEqKt06MS1H2UqwsiO2b1VefrkkD_i4As0wuex7ZN0sKIYYQnuzoXnAMWdIPo_VWkeRlPM23ow-_rcRh9RGDR8AK68AYiLSsZsfCr4HibEM3mGeNWRCNl0bLI3CYNPndxV3GlVuM4ekyyueYXL_rGRxf3DNPkChsQdzwzhYC-rOCYRgJfrKRxTAFE4dnFP0B4XtDzptsCrX_JsMa__vl_5KIk9zFyXIUoCTJO0ephd5kBSFLbC0n7YBlQk5VvNPmg9OF9a7AzQJSbuSwhOKXwJafD8uCc6x3T-PfaOV-cA9kBkjGEtheQx_sNt4AydKCq1KCFKRSkRurbrxZ67GdF4W9K00w7mh3-61LA%3D%3D&rm=0&xkcb=SoCz6_M2e7X9lqyTz50IbzkdCdPP&ctk=1k3rfsgjtgmun800&jsa=5094&camk=C3EPSzFlQw8jVTnuS2_liw%3D%3D&vjs=3)\n\n[**Mandarin Interpreter** \\\n\\\nLanguageLine Solutions\\\n\\\nRemote in Remote\\\n\\\nPay information not provided\\\n\\\nFull-time\\\n\\\nPaid training\\\n\\\nAD&D insurance\\\n\\\nDisability insurance\\\n\\\nHealth insurance\\\n\\\nDental insurance\\\n\\\nEmployee assistance program\\\n\\\nVision insurance\\\n\\\nOpportunities for advancement\\\n\\\nLife insurance\\\n\\\nReferral program\\\n\\\nPaid sick time](https://www.indeed.com/pagead/clk?mo=r&ad=-6NYlbfkN0B3OVqTL-eYdLRkdBf4mcQ10T8hYHRIs6AwT4tcaGWTVFMuj7c6cBCZkde8AN4XS2p7B_Y9QaEulM_cAi8cHYpH0ufI-uh19bI9-IOSkc4UA7jAcDSuJ73cOsULkk28X0gi38grZgSW-uNw6nh9BUKEboyjMNxd-YbdiyzEEQzfHIp0azbOi7WXIJPvg4paNf7fiX3KLwRqJUuoXla2EYVMB0pkPBH7GRBHijokFwQ0Lu29H4AwIM5BX7niOxHDmeov4KYyB0ucLbVV5fDNSYYZJ4GItjn2oElG8NzVxoCmlB8nIbVHspwBh1rToUk3-1nJVL2DIHI5kRRq4ltHEH-vOC25bDlv679wMLQHy8zh6sJ6GoiRkm32A-aCWVHGFmXwA2QhKIKP-ZxaqaG01UTv2AGztglmbRPazx9Gveya7Zp-U2U_VqXFI0YSztrHGFcNAuVyT4F4DS5ofSw48s22caHtIj4Z3PiMiDOJgtiyheyXAecQ0TGhKHft1Vu_VoBW16Dv04CsAVqPc0AxKm9tF2RHl2iqLjshbA2___x7z97Llk80257W5k8zjSZGe8USRIzn9vkk2_3J7rPIqnyzN308YLGH2RxgLVb0rYmM1TfgWjdiS6v4KbbGiB4IQZryfk8--qfRy3blVvrgwdwrh95ozAmJK3wYHmlEWuyOfFGN7SEjnig310Y9pLZCeaqoBKYjyt_23JQjy5uDeegZzpKMkhHVjl6pZY0uzIExBgXbuBxE5a-r6eadD6qcLJrGhafzORaRnocgT0bmwLJ-oEKDfpuIpmA3-wFLuCES6w%3D%3D&rm=0&xkcb=SoD36_M2e7X9lVSTz50LbzkdCdPP&ctk=1k3rfsgjtgmun800&jsa=5094&camk=C3EPSzFlQw-BGeaOjyEwmw%3D%3D&vjs=3)\n\n[Easily apply\\\n\\\n**Epic Healthy Planet / Compass Rose Analyst** \\\n\\\nNyne Infotech\\\n\\\nRemote in Remote\\\n\\\nPay information not provided\\\n\\\nFull-time\\\n+ 1\\\n\\\nOn call\\\n\\\nHealth insurance\\\n\\\nPaid time off](https://www.indeed.com/pagead/clk?mo=r&ad=-6NYlbfkN0C2mYRdcTBgKpK2hlKv2JDP_RF6LaH-g-r8dqU0P6is4IxVklR6KH_EfYkSdIYFZJ3JScp7QD7JsFH8IyQlR1Tsa4U6HtSnd4fEINffZe0Md-0f0KtR1-pcozRnYOlyc0tI63kRTRvVaVCVNXcs8SjJvXRvG4_cT2cpX9RWmQ18GIhR11OTdcXMGnwwPSusWBDZ1VGQKoeRvOzIoFX_LvsLGE8lOB5HqYjCKMmqqFc-sM9GSps3Z4SJIpR6FVBQIdAJq7_KPq0TQQyTcMgSYN0t-4uk08BurvBcqFCKZuLTOhyYQAzBu6mtG8Rbfp8xvRJ_MLIm_oNKAcXqprxVt9J7rqBxPNvsNK3fTd2kI0vtepj3wjxOqmVH9yrz6seuB8i10nnH428_Kig2yXACY5oLuevuhd34afvsfe9CJGpOSpl1zALEGNzy2mZVVRs3uU8SE26MuQepBmD91keQD2_v2usSZRijChSdNxGHwZupgL-TRIBCvqMowyV7e6nsUCc6-MibbAfwd2HcJq9BeMaNuT4sL4nuTdJAu_Rhyg8LynGL7OCbksFo35iLVaS99JkIVgcoVxKPE9iRWonGRKDO7iDJPR6f3rckoZWK5V0ZQxd4AYRMD4uaL9BowxT9eV_Ui6S0DVWIzS77P-A5xrxwVEtBno2n51VNkLV69FrDDK5wx1X50crnM4QcDwUIZT0Fc6wQFnvtLxjNn1rIfN6dSARzFVNrShhhdNEI856vfPzp3lKcOUjDI7OhgNR5P8Gdzen2uZaph6ZzJH7s89FQOrIiqgxhv2jA5frUzTcUAgOYCD2bdEQy&rm=0&xkcb=SoBD6_M2e7X9lVSTz50KbzkdCdPP&ctk=1k3rfsgjtgmun800&jsa=5094&camk=C3EPSzFlQw8ctF4HBPCTww%3D%3D&vjs=3)\n\n[Easily apply\\\n\\\n**MuleSoft Developer** \\\n\\\nGridiron IT Solutions LLC\\\n\\\nRemote in Remote\\\n\\\n$50 - $65 an hour\\\n\\\nFull-time\\\n+ 1\\\n\\\nHealth savings account\\\n\\\nAD&D insurance\\\n\\\nDisability insurance\\\n\\\nHealth insurance\\\n\\\nDental insurance\\\n\\\n401(k)\\\n\\\nFlexible spending account\\\n\\\nVision insurance\\\n\\\n401(k) matching\\\n\\\nPet insurance](https://www.indeed.com/pagead/clk?mo=r&ad=-6NYlbfkN0CTHA6cd59lXtQJ-DuZtBHQsSjOn019HaVEc20FtZol16Ry6pW_HxgBH8El4_gqC7swqPk5PCEJV4Rj_ROoVDML1WScaoZC9Fqez1WN9rkT9dUD8WGYH7HaCkufxx4bl0zIsLWadu7RtxqwykR5zeTZOIXOx8JSJjs74C03uxrGFvAxlc9KYR1HKQu9vC33E6H_XRPQy6ulUq8mArOeT23rkKENYNNhgnAd1U6doa1cokZgpmJRnoEL99Zr9MsVnohEoiqoGPELj-WkAonXr4KY_4UdiGGLho87biWI1k2nvJVN43EADUufUrdq-t77IKBCJX8KetWaLuKFgVGtz0CEEZudmjXFaRNS716uUsoXeO7S6iBF2wukRqnfsLi4SoNCfqKHGWpgQ4gBSpBeKpXVdx-cbmAMsgDYVIjIOdZdKIO9cu-MLcMy7GawuY4UvozRo2wOkeXYtQ7sKFzzEY2UJXyk_fdZUu_7Rn1KhiKqtEXGUN3U3P8jNanoEc7xtmrwuTmO24BwCq8IIrCmOjsL2j02hpyk5sUX0S7at-cUnOajSDj9UArJK6Egx4sH0eVPgTD20dB7N-M2uzF1yLGU5-jvdGSFKHG6wmbSakWeOeWFdRCY3qymmqDLubhmXGC7tz6FOrNALlbmp3lwzKRtHkSvd1HFrhj-LNw-DFNn5ZaOtPJKNp51Mce-i_2A5ZZC4KaTVoCTJcAFiEGH75Qtwpe_eMTu_Sv1-RCOAGdkzEwL1a7HyyiYVrI6OZ6xgzGGFQRbtPDkNdkKLXYc03SuhDO9ae_PFWM%3D&rm=0&xkcb=SoBq6_M2e7X9lVSTz50IbzkdCdPP&ctk=1k3rfsgjtgmun800&jsa=5094&camk=4HOcmqOLYrBWePrUXQswag%3D%3D&vjs=3)\n\n[Easily apply\\\n\\\nNew\\\n\\\n**Sales Executive – ELV / IT Solutions | Lead Generation & Business Development** \\\n\\\nBusiness Automation and Security Systems LLC\\\n\\\nRemote in Remote\\\n\\\n$3,000 - $3,500 a month\\\n\\\nFull-time](https://www.indeed.com/pagead/clk?mo=r&ad=-6NYlbfkN0A8xQ_ES6w3qZrKGcWJecD7tWKFTq-3PWmpdOnkloMevfzDdFWdsW_Oti_jLobiwA6oJSFFEuA7PIybB69k1J1ggZH2xbxAxtZuykYhR69Z3qdDC_2rc5m7mDjSaB6xTSQ9AO-9tZY4nFQ_J4Nza55RZMhLiU32H9EpTBqX2MTkqF4iccev3yTQcwB34wEVDAKzhb8FG8fKJ2ylMg5gqzEU8xbs3FGTcN4t4x47XjTHOvc7IPcjyOQjhWq71JUwht-bzcaL0cmMORQOOJXznebcPY7fIw15E5BNPBjJ1V7MI4aGcD-_pfgNv8kyq-m7gBz-8dJ7ycZMx85B79TG0Cup7G4_sjPLdW2ZUsBgDjOR_0UC1cv7hE2sdgsQRAmBhHmIq70oSP36LqHFR2YeuCCZaIHlgq4xC-f82H7dFtivogrdUeHTZAFk9b1kRA2pBfCCRenIMz6z0D7P4Q69MjU8ulX6Z92-NuUxEHOi9KMsmYs2l-n1JOCKZ55Db1CY101W4_nI1F1QRJs0U02nP-DKiaY3p1thkhfQ-O7BmJ3KljyaFF-rlSCpnogghsg1jS0y5vf4H8IWrxtWoohJUCTLpD8tmvlIE8eRF1KSqymYaoGVrO4POql9P3B4K9po_Jq_EYDz03PmBKRCzaSUYjV34kntFZXWXcN3mlUg48jLkWZC4NYNj8IcPblJYaT6ba3eAPCgHRrcve52XJVpQ5SaOJcjSgKSoF88CrSyUUrnzD2Jl_JOu7kO-bhBKiWlOy5sRGEsVIZrSlRoQ7laC9zU3KGLTC6In5_6nEp8Db12epDk0DPwXSCmCvRGQphCsDk30GKvWKgfMQo_GoPTtcs4&rm=0&xkcb=SoDk6_M2e7X9lVSTz50PbzkdCdPP&ctk=1k3rfsgjtgmun800&jsa=5094&camk=C3EPSzFlQw9aeoJeVP6MbA%3D%3D&vjs=3)\n\n[Easily apply\\\n\\\nNew\\\n\\\n**Solutions Architect** \\\n\\\nFedScale, Inc\\\n\\\nRemote\\\n\\\n$150,000 - $170,000 a year\\\n\\\nFull-time\\\n\\\nHealth insurance\\\n\\\nDental insurance\\\n\\\n401(k)\\\n\\\nPaid time off\\\n\\\nVision insurance\\\n\\\n401(k) matching](https://www.indeed.com/pagead/clk?mo=r&ad=-6NYlbfkN0ASgB9qpr0XNRfajk3Qo2QxNxcw46oqTi1qeabATPHfKrg6W1f98-r34Ar4h-YAHz7xHfODLq5gv5DWFTbE8F4PA0IUq8nyt7MbpxDWymB4WADrBvm_vUDDhh0cusTBK20GPVRCIcy5CukP_afC7zRHrBsOAVX65QHw9DEPFvutnXemhe9k42qMApCYwjp3ARdg6Crfgyx8mv44HMY70Bb0sVxLShzeW9V4PFY9f4diRsLgH7CRg6ctwTqVRQvJ1mCZH_E5ympIHBdz2-eUmlFdKL3PDjXLIX1mCYVS0uMMi3YYHVOBiBxpXmfsS5qHUHoiYJ3s4zoW6V2UNjG77W0lqxcIEBP3yBfVyaEFRshJu8zSWn3Kr6Z3g66tzdQ5hD5Fd87tSN0WzD6I8UI4bOgki9kDmi6aXsnxLkT3Aa64BAXOgCsUldbdEZjCb5RC9D5L1wgI0gAwEcPDAfuD-6VQtnLpAmJNILDMPj2uaitro3z3UaY8WdQlO4rQUfp9IQlJdxM11Um7EI7I-pVSvC8lshexoMf7zkHkGAa7YN-OXF8tJpp5Wuoy_3ezVySgTuv-wtzlN8Ae_K88pnhgcis81wjQfpJWWl4FMKmdpnZnER74UDpXMYLjKgi_J9_VjU3yCl26ewcIVj4KvyFZMYpwoeu0P5yO24IUJY1iTiK94JVVCOOAUIWKuG3i23tP5z3E1wW5rA-COcNlxwPb_qSvTGVBMjoHg_2mQYFlvekXnDY5FpEodgDOsNWj1LiFPUGPmEec6atMEQBZlEpcU5EF&rm=0&xkcb=SoCy6_M2e7X9lVyTz50LbzkdCdPP&ctk=1k3rfsgjtgmun800&jsa=5094&camk=C3EPSzFlQw-WbcBAvBvwIw%3D%3D&vjs=3)\n\n[Easily apply\\\n\\\n**Senior Appian Developer** \\\n\\\nGridiron IT Solutions LLC\\\n\\\nRemote in Remote\\\n\\\n$145,000 - $160,000 a year\\\n\\\nFull-time\\\n+ 1\\\n\\\nHealth savings account\\\n\\\nAD&D insurance\\\n\\\nDisability insurance\\\n\\\nHealth insurance\\\n\\\nDental insurance\\\n\\\n401(k)\\\n\\\nFlexible spending account\\\n\\\nVision insurance\\\n\\\nPet insurance](https://www.indeed.com/pagead/clk?mo=r&ad=-6NYlbfkN0CTHA6cd59lXtQJ-DuZtBHQsSjOn019HaVEc20FtZol16Ry6pW_HxgBH8El4_gqC7s2D1mfIwf5FmLBDZpsTghqKhAaP4CVwWGV2kna68xmLIPh9vMAZetNBzTPhfqQwrKNo_MRvkjYMrXCJ3XJeUjFn1oXaIIGKMpjzE95ZFQbFCOyVxyTu5_CJhlNPh_z2OwPk9RtHkjmO2G_KdqTJ6SUjd-hJIMK5yIRwuPNHA0xSMx1WahjaoNmCYlMdM8fNaJg-bBxxP21I8oQsUIFqE_4F1N7lvbrR6pyVYCGFeJnHfFYm8JumOLDcVL_UM-YI4PcxGx3QfspM2qYkltfNFrH1J0XUOA4mR2eSJNcokfy80PbL58744NUXg-A4ZQ4iAFXiKlXJ_PXUfkwDQgGijFSVW_ttKwUAFkIKOQO9jNOyisyAtcLnkqCeJUOVYvafS6w-Eq739BVfswrwmCKZYFsB_3KjFJS_qj3sAVeXCVkFHU1k9qyPJizu-a3Xtp1P4Qg6JUXJG6h1BhjgH5gt535POrLgUybgH3IJuGuyCNdOAH9s6S_xoyJPf1LPojDRHnAV9NtGEawu_PdDnHHMV4o5-sYzFLtGM9LlPp5mjYq5YJft4hn4VPQwJdq0xG0aaa5uTQs1LqeHcHA5vWqc3fhYPsWUQa6JnlxwRiFwsvcva6K9d_VrPIte-gX4ByAoXgW8JsOMQmQyv6BBTRwmRMVvvjpKFAcJabysVWcrgNP30NQzywr9a-ZJ75no_lh_uxEb1bTz46keHZzlZvDNXfxtkFkSea5wB4%3D&rm=0&xkcb=SoAG6_M2e7X9lVyTz50KbzkdCdPP&ctk=1k3rfsgjtgmun800&jsa=5094&camk=4HOcmqOLYrBWePrUXQswag%3D%3D&vjs=3)\n\n[Easily apply\\\n\\\n**Senior Process Engineer** \\\n\\\nNovoloop\\\n\\\nRemote in Remote\\\n\\\n$150,000 a year\\\n\\\nFull-time\\\n\\\nHealth savings account\\\n\\\nHealth insurance\\\n\\\nDental insurance\\\n\\\n401(k)\\\n\\\nPaid time off\\\n\\\nParental leave\\\n\\\nEmployee assistance program\\\n\\\nVision insurance\\\n\\\n401(k) matching\\\n\\\nFlexible schedule\\\n\\\nLife insurance\\\n\\\nReferral program](https://www.indeed.com/pagead/clk?mo=r&ad=-6NYlbfkN0AcyQb8IAgkymndeB1Hrpr8diyVVgwIxMyUmEeTveE5uuE1JQFhPfjj4xouZ8tB7XbQcb7G2pe3Nmg2C0_YMXNdR8PyIhmXClhhawALAAUQX7x8FLhtwGyat5XShqwBNEUHfYpQcfztOsdSzNUd1z2IBBe75csZdeO-HH30q2i8eQQWv3akrJSoHE5UO_mhG6I5AuqaY9T2onSMKQKaz8objd_IZ8nw4k67csu6_35h7ZxtaGQuzhnPNlxyOYRHWat2EBDHxUw1_t1mnJ3ffK871I1usbfHc08HwErjmAOPfHHudODxVRfDYsIoEIYN5YlMrnN81YHjtMvz8Q6AJoHz4e14Z2IUWmrg6CETlfAsNNepW357ZUvosT5wvQ-aTVWI9ajhCdsZBvDjfXU_kzOqe8BBkHWp_3dIsg91tRG9lq0-ie0y0IYGMVb4WR0E3T9XgVEhoNztcCckkDeWWfx6i-0gYghjACoVy0ybSEEgg7NMpFaCZUG4RACUcsILmXNPvy1zBJnDKSJi0wPEEdxSU2s7FTmru0VzqTad54LddSkXHYXr47-H2ZdM1HpJxHrkWkpGKVK4XP_E-mkRvtkJL5OkT1BvQVOq7Tiv-soaW351PiOqC2BxkYJ2mxzVythSc0zPIYwAj50KdQeFyz7SCwqiCxJThK_fHYo0mt2_aAaeI_pTmOTkPNEpEB6gYrF3iNY-8xe3oAw5-a6aD6OiqUQ9wXs8yn2hJx4m4cko_N_YC_fStFzFTMAOgad5Ek4N9YG3_lWjRwIgmplhIyEHYXBPgrFH1Yk%3D&rm=0&xkcb=SoAv6_M2e7X9lVyTz50IbzkdCdPP&ctk=1k3rfsgjtgmun800&jsa=5094&camk=C3EPSzFlQw-s1z_KuPzfiA%3D%3D&vjs=3)\n\n### Career Guide articles\nReport job\n\n![ ](https://www.indeed.com/m/rpc/frontendlogging?logType=trackEvent&moduleName=event&application=indeedmobile&pageId=viewjob&data=%7B%22eventName%22%3A%22mobPageLoadInfo%22%2C%22type%22%3A%22mobPageLoadInfo%22%2C%22pageId%22%3A%22viewjob%22%2C%22mobvjtk%22%3A%221k3rfsgtsgmun800%22%2C%22pageName%22%3A%22vj%22%2C%22pixelRatio%22%3A1%2C%22scrWidth%22%3A1920%2C%22scrHeight%22%3A1080%2C%22scrOrientation%22%3A%22landscape%22%7D)\n\nreCAPTCHA\n\nreCAPTCHA",
-      "shelf": "career",
-      "queries": [
-        "forward deployed engineer AI hiring"
-      ],
-      "position": 2
-    },
-    {
-      "url": "https://www.linkedin.com/jobs/forward-deployed-engineer-jobs",
-      "title": "11,000+ Forward Deployed Engineer jobs in United States - LinkedIn",
-      "description": "11000+ Forward Deployed Engineer jobs in United States. 11,000+ Forward Deployed. Actively Hiring 1 week ago. AI San Francisco, CA. Actively Hiring 2 weeks ago",
-      "shelf": "career",
-      "queries": [
-        "forward deployed engineer AI hiring"
-      ],
-      "position": 3
-    },
-    {
-      "url": "https://jobs.ashbyhq.com/reflectionai/8b97b583-3cc6-4834-ae2c-d5aecf22ed7d",
-      "title": "Forward Deployed Engineer - AI Engineer @ Reflection - Jobs",
-      "description": "# Forward Deployed Engineer - AI Engineer\n## Employment Type\nFull time\n\n## **Role Overview**\nWe’re looking for a core member of Reflection’s Applied AI team to drive our Forward Deployed Engineering efforts with enterprise customers.",
-      "shelf": "career",
-      "queries": [
-        "forward deployed engineer AI hiring"
-      ],
-      "position": 4
-    },
-    {
-      "url": "https://www.iit.edu/blog/forward-deployed-engineer",
-      "title": "What Is a Forward Deployed Engineer? Inside Tech's Hottest New Job ...",
-      "description": "In late June 2026, Amazon Web Services announced a [$1 billion investment](https://www.aboutamazon.com/news/aws/aws-1-billion-forward-deployed-ai-engineers) to build a dedicated organization around a single job title. A job title: the **forward deployed engineer**, or FDE.\n\nOpenAI, Anthropic, Palantir, Ramp, Salesforce, and a growing list of AI companies are hiring for the role as fast as they can find qualified people.\n\n**In short:** A forward deployed engineer (FDE) is a software engineer who is embedded directly with a company's customers to design, build, and ship custom software—usually AI solutions—inside the customer's real-world systems while also feeding what they learn back into the core product.\n\n## Why is the forward deployed engineer suddenly tech's hottest job?\nAccording to an [analysis of 2026 tech hiring](https://thenewstack.io/tech-hiring-in-2026-the-rise-of-the-specialist/) in “The New Stack that drew on Dice and CompTIA reports, more than half of tech job postings in the United States now require AI or machine learning skills—up sharply from about 29 percent a year earlier—and 84 percent of organizations plan to increase their AI investment.\n\nIn other words, the market has decided that the specialist who can make AI actually work inside a real business is worth a premium.\n\n## How do you become a forward deployed engineer? (And how Illinois Tech prepares you.)\nIllinois Tech also has a long track record of producing people who shape this field: alumni have gone on to lead AI at the largest technology companies, including [Rohit Prasad](https://www.iit.edu/student-experience/student-and-alumni-stories/illinois-tech-amazon-alexa) (M.S. '99), a senior AI leader behind Amazon's Alexa.\n\n## Frequently Asked Questions (FAQs)\n#### What companies hire forward deployed engineers?\nToday, it's in demand at OpenAI, Anthropic, Ramp, Salesforce, industrial and healthcare AI startups, and—following a $1 billion investment announced in 2026—Amazon Web Services, among many others.",
-      "shelf": "career",
-      "queries": [
-        "forward deployed engineer AI hiring"
-      ],
-      "position": 5
-    },
-    {
-      "url": "https://arc.hyscaler.com/jobs/ai-solutions-engineer-i-tech-43",
-      "title": "AI Solutions Engineer I (Tech) | HyScaler",
-      "description": "# AI Solutions Engineer I (Tech)\n### What We’re Looking For\n#### Must Have\n- Experience with Generative AI APIs/ LLM integrations",
-      "shelf": "career",
-      "queries": [
-        "solutions engineer LLM integration role"
-      ],
-      "position": 1
-    },
-    {
-      "url": "https://www.indeed.com/q-llm-integration-engineer-jobs.html",
-      "title": "Llm integration engineer jobs - Indeed",
-      "description": "You will build secure, autonomous agents capable of reasoning, decision-making, API/tool invocation, and safe integration within complex enterprise environments ...",
-      "shelf": "career",
-      "queries": [
-        "solutions engineer LLM integration role"
-      ],
-      "position": 2
-    },
-    {
-      "url": "https://www.hireinsouth.com/post/what-does-an-ai-solutions-engineer-do",
-      "title": "What Does an AI Solutions Engineer Do? | South",
-      "description": "# embeds.beehiiv.com is blocked\n## What Is an AI Solutions Engineer?\nThey might determine whether a use case needs an LLM or [RAG system](https://www.hireinsouth.com/post/rag-agent), design an integration with existing software, build an AI proof of concept, evaluate model performance, or troubleshoot an implementation with the customer's engineering team.\n\n## What Does an AI Solutions Engineer Do?\nTheir responsibilities can stretch from the first technical discovery call to proof-of-concept development, integration, evaluation, and post-sale implementation.\n\n### Design AI Solutions\nThat might include an LLM, APIs, retrieval-augmented generation, embeddings, vector databases, business applications, authentication systems, or cloud infrastructure.\n\n## What Does an AI Solutions Engineer Do Day to Day?\n| Task | What It Looks Like |\n|-|-|\n| Integrations | Connecting the AI product with APIs, databases, cloud platforms, CRMs, and internal tools |\n\n## AI Solutions Engineer Tools and Technologies\n### LLMs and Model APIs\nDepending on the customer and product, they may integrate models from OpenAI, Anthropic, Google, or open-source ecosystems.",
-      "shelf": "career",
-      "queries": [
-        "solutions engineer LLM integration role"
-      ],
-      "position": 3
-    },
-    {
-      "url": "https://www.reddit.com/r/cscareerquestions/comments/1uxis90/new_job_as_a_lead_ai_solutions_engineer_im_not/",
-      "title": "New Job as a Lead AI Solutions Engineer - I'm not even ... - Reddit",
-      "description": "During my interviews I'm told they wanted to bring me in to lead efforts to enable AI in the organization and help design/implement high ...",
-      "shelf": "career",
-      "queries": [
-        "solutions engineer LLM integration role"
-      ],
-      "position": 4
-    },
-    {
-      "url": "https://migratemate.co/ai-solutions-engineer-jobs",
-      "title": "AI Solutions Engineer Jobs | Migrate Mate",
-      "description": "Sub-areas most commonly listed as fully remote include LLM integration, prompt engineering, and cloud-based AI consulting work,",
-      "shelf": "career",
-      "queries": [
-        "solutions engineer LLM integration role"
-      ],
-      "position": 5
-    },
-    {
-      "url": "https://www.futureproofing.dev/resources/ai-talent-gap/ai-engineer-demand-2026",
-      "title": "AI Engineer Demand 2026: 143% YoY, 3.2:1 Gap - FutureProofing",
-      "description": "# AI Engineer Demand in 2026\n## [The headline. 143% YoY and 3.2 to 1](https://www.futureproofing.dev/resources/ai-talent-gap/ai-engineer-demand-2026#the-headline-143-yoy-and-32-to-1)\n**AI engineer demand in 2026 outruns qualified supply by roughly 3.2 to 1, a figure staffing firm KORE1 publishes in its AI/ML Talent Map, with year-over-year posting growth near 143%.** That ratio, not the growth rate, is the number a VP of Engineering should plan around. Put plainly, demand for AI engineers has outrun qualified supply. Read AI engineer demand 2026 as a supply problem, because the constraint is not open roles.\n\nIndependent trackers confirm the direction and the scale:\n\n- **+70% YoY AI job postings in the US**, with about 1.3 million AI positions added globally, per [Index.dev's skill-gap analysis](https://www.index.dev/blog/skill-gap-statistics) citing LinkedIn and ManpowerGroup data.\n- **AI roles now represent 1.8% of all US job postings**, up from 0.7% in 2015, per [Exploding Topics' AI statistics roundup](https://explodingtopics.com/blog/ai-statistics).\n- **+213% AI Engineer interview activity** between September 2025 and June 2026 across 816,000+ tracked sessions, where [Final Round AI](https://www.finalroundai.com/blog/ai-engineer-job-market) states plainly that \"the bottleneck is qualified candidates, not open roles.\"\n- **AI and machine learning specialists rank among the fastest-growing roles through 2030**, per World Economic Forum Future of Jobs data summarized by Exploding Topics.\n\nThe practical read for a hiring plan is direct. The scarce side of a 3.2 to 1 market is the pre-vetted, ship-ready senior engineer. FutureProofing works that scarce side, accepting 12 of every 2,000 candidates contacted monthly. For the macro picture behind these numbers, see our [AI talent shortage statistics](https://www.futureproofing.dev/resources/ai-talent-gap/ai-talent-shortage-statistics).\n\n## [Which AI engineer roles are pulling the numbers](https://www.futureproofing.dev/resources/ai-talent-gap/ai-engineer-demand-2026#which-ai-engineer-roles-are-pulling-the-numbers)\n- **AI engineer (applied / product).** The fastest-scaling req and the core of the 143% curve. These are the builders shipping LLM features into production.\n- **MLOps / platform engineer.** The deployment and reliability layer. Scarce because it blends ML fluency with production infrastructure.\n- **Applied AI engineer.** RAG pipelines, evals, and agentic systems. The most 2026-specific of the roles.\n- **Prompt engineer.** Up ~135.8% YoY. Index.dev counts 2,585 prompt-engineering jobs globally with 2,274 posted in the prior 30 days, so nearly the entire pool is fresh and unfilled.\n\n## [Where the demand is by region](https://www.futureproofing.dev/resources/ai-talent-gap/ai-engineer-demand-2026#where-the-demand-is-by-region)\n**The US market carries roughly 49,200 open AI engineer positions and the highest pay band globally**, with Indeed data placing San Jose at $206,706, Boston at $189,318, and New York at $189,274, per [Coursera's salary analysis](https://www.coursera.org/articles/ai-engineer-salary). The US Bureau of Labor Statistics reports a national median of $145,080 for AI engineers and projects 26% role growth from 2023 to 2033, far above the 4% all-occupation average (BLS, via Coursera).\n\n## FAQ\n- How much has AI engineer demand grown year over year in 2026?\nAI engineer demand grew roughly 143% year over year in 2026. Staffing firm KORE1 puts the demand-to-supply gap at 3.2 open AI and ML positions per qualified candidate. Independent trackers show +70% US job postings and +213% AI engineer interview activity across 816,000+ sessions between September 2025 and June 2026. The bottleneck is qualified candidates, not open roles. FutureProofing.dev works that scarce side, accepting 12 of every 2,000 senior engineers contacted monthly.\n- Which AI engineer roles see the highest demand right now?\n\n✦ Related03RESOURCES\n\n✦ From the blogResearch\n\n- [Research\\\n**Why I'm Betting on LATAM AI Engineers — A Note from Jess Mah**](https://www.futureproofing.dev/blog/jess-mah-latam-ai-talent-thesis)\n- [Research\\\n**FutureProofing AI Talent Index — Q2 2026: US AI Engineer Rates by Stack and Seniority**](https://www.futureproofing.dev/blog/ai-talent-index-q2-2026)\n\n§ FIN . Ready to build? END",
-      "shelf": "career",
-      "queries": [
-        "AI engineer job market 2026"
-      ],
-      "position": 1
-    },
-    {
-      "url": "https://www.reddit.com/r/aiengineering/comments/1rf7myh/the_actual_state_of_ai_engineering_in_2026/",
-      "title": "The Actual State of AI Engineering In 2026 : r/aiengineering - Reddit",
-      "description": "There is no high or widespread AI Engineering demand. we can see upward of 300-500 resumes in a few days right now.",
-      "shelf": "career",
-      "queries": [
-        "AI engineer job market 2026"
-      ],
-      "position": 2
-    },
-    {
-      "url": "https://www.herohunt.ai/blog/fastest-growing-ai-roles-in-2026-data-and-rankings/",
-      "title": "Fastest Growing AI Roles in 2026: Data and Rankings - HeroHunt.ai",
-      "description": "# Fastest Growing AI Roles in 2026: Data and Rankings\nLinkedIn's 2026 Jobs on the Rise report ranked **AI Engineer as the number one fastest-growing job title in the United States**, with job postings rising **143% year-over-year** in 2025.\n\n## 1. The AI Role Landscape: How We Got Here\nThis pattern means that the highest-value AI professionals in 2026 are increasingly those who combine AI engineering skills with deep industry knowledge.\n\nThe World Economic Forum reports that AI has already created more than **1.3 million new jobs** globally, including roles like AI Engineers, Forward-Deployed Engineers, and Data Annotators that either did not exist or existed in negligible numbers before 2023.\n\nRunning alongside this job creation is a paradox that defines the 2026 market: simultaneous mass layoffs and mass hiring.\n\n## 7. The Talent Supply Crisis Behind the Numbers\nAccording to industry data, there are roughly **10 open AI senior roles for every qualified candidate**, compared to approximately 3-to-1 for traditional senior software engineering positions.\n\n## 8. How to Position Yourself (or Your Company) in This Market\nOf the two expert networks named in section 2, micro1 is a useful starting point for a career-changer, because it recruits specifically for the credential-priced expert tier rather than general labeling, across fields like engineering, finance, healthcare and medical, legal, economics, and linguistics, and it states that no programming background is required for most roles.",
-      "shelf": "career",
-      "queries": [
-        "AI engineer job market 2026"
-      ],
-      "position": 3
-    },
-    {
-      "url": "https://mage.umd.edu/news/story/the-engineering-ai-job-outlook-a-career-on-the-cutting-edge",
-      "title": "The Engineering AI Job Outlook: A Career on the Cutting Edge",
-      "description": "Between 2020 and 2025, more than 73,000 employers actively sought qualified candidates with AI expertise, averaging nearly 10,000 new hires per ...",
-      "shelf": "career",
-      "queries": [
-        "AI engineer job market 2026"
-      ],
-      "position": 4
-    },
-    {
-      "url": "https://blog.rezscore.com/the-2026-job-market-what-the-data-actually-shows/",
-      "title": "AI Engineer Job Market 2026: What the Data Shows | RezScore",
-      "description": "# AI Engineer Job Market 2026: What the Data Shows\n## The Skills That Actually Pay\n| Skill | Avg Salary | Job Count |\n|-|-|-|\n| Anthropic | $183,906 | 2,331 |\n| MLOps | $182,259 | 7,069 |\n| GPT | $179,161 | 3,264 |\n| OpenAI | $179,004 | 6,446 |\n| PyTorch | $169,338 | 14,712 |\n| LangChain | $167,636 | 6,298 |\n| Prompt Engineering | $164,840 | 7,359 |\n| Claude | $158,723 | 4,611 |\n| Machine Learning | $157,104 | 77,214 |\n| ChatGPT | $129,036 | 3,670 |\n\n## Enterprise Tech Still Wins\nHere’s something the tech media never talks about:\n\n| Technology | Job Postings |\n|-|-|\n| Oracle | 109,718 |\n| Workday | 100,213 |\n| SAP | 62,972 |\n| Salesforce | 61,982 |\n| React | 48,477 |\n\n## What Actually Died (And What Didn’t)\nRemember when everyone was talking about Web3, NFTs, and the metaverse?\n\n| Technology | Job Postings | Salary |\n|-|-|-|\n| NFT | 287 | $143,368 |\n| Metaverse | 254 | $152,752 |\n\n| Technology | Job Postings | Salary |\n|-|-|-|\n| DeFi | 4,789 | $100,985 |\n| Ethereum | 4,417 | $176,465 |\n| Stablecoin | 1,424 | $177,667 |\n| Smart Contract | 1,401 | $169,322 |\n| Crypto Trading | 1,269 | $187,087 |\n\n## The Degree Myth\n| Requirement | Job Postings | Avg Salary |\n|-|-|-|\n| “No degree required” | 464,890 | $101,638 |\n| “Computer science degree” | 96,375 | $148,840 |\n\n## The Remote Work Reality\n| Work Arrangement | Job Postings |\n|-|-|\n| On-site | 1,044,536 |\n| Work from home | 566,965 |\n| Hybrid | 272,529 |\n| Remote only | 15,755 |\n\n## What AI Actually Means for Jobs\n### The Top 1% Get Superpowers\n- 100x engineers become 1000x engineers\n- Solopreneurs outcompete laggard companies with entire teams\n- The gap between “good” and “exceptional” widens dramatically\n\n## The Real Action Items\nBased on actual data, here’s what matters:",
-      "shelf": "career",
-      "queries": [
-        "AI engineer job market 2026"
-      ],
-      "position": 5
+      "podcast": "Acquired",
+      "scraped_markdown": "chapters\n\nIntro\n\n00:00\n\n[Close](https://www.acquired.fm/episodes/disney-the-renaissance-and-the-empire#)\n\n![Disney: The Renaissance and the Empire PDF Cover](https://imagedelivery.net/4Iq_5OuN3Oq3QRRKSY6D4w/pdf-cover_disney-the-renaissance-and-the-empire/main)\n\nDisney: The Renaissance and the Empire\n\nA PDF companion to the episode, including: timelines, detailed explainers, and data visualizations.\n\n[receive the companion](https://www.acquired.fm/episodes/disney-the-renaissance-and-the-empire#)\n\n[View Companion](https://library.acquired.fm/episodes/disney-the-renaissance-and-the-empire.pdf)\n\nSomething didn't quite work out. Try again?\n\n[View Companion](https://library.acquired.fm/episodes/disney-the-renaissance-and-the-empire.pdf)\n\n[Home](https://www.acquired.fm/) [Episodes](https://www.acquired.fm/episodes) [Library](https://www.acquired.fm/library) [Artifacts](https://www.acquired.fm/artifacts) [About](https://www.acquired.fm/about) [Sponsor](https://acquired.fm/sponsor) [ACQ2 Show](https://www.acquired.fm/acq2)\n\nEmails from Ben & David\n\nOur key takeaways, research photos, hints at the next episode, and your vote on future topics.\n\n[join our list](https://www.acquired.fm/episodes/disney-the-renaissance-and-the-empire#)\n\nWelcome to the email list.\n\nCheck your inbox for a short note from Ben & David.\n\nSomething didn't quite work out. Try again?\n\nThis episode on Acquired\n\n[Spotify](https://open.spotify.com/episode/2oyFcfZHSVeiCliSNzvFWd) [Apple Podcasts](https://podcasts.apple.com/us/podcast/disney-the-renaissance-and-the-empire/id1050462261?i=1000781367915)\n\n[YouTube](https://www.youtube.com/watch?v=01QR2tmxSD4) [Overcast](https://overcast.fm/itunes1050462261/acquired) [Pocket Casts](https://pocketcasts.com/podcast/acquired/eed80bc0-599b-0133-cb25-0d11918ab357)\n\n![Home Depot Email Preview](https://imagedelivery.net/4Iq_5OuN3Oq3QRRKSY6D4w/artifacts/home-depot/first-stores/w=900)\n\nEMAIL PREVIEW — The first stores, opened in former locations of JCPenney's discount chain.\n\nThis episode on Acquired\n\n[Spotify](https://open.spotify.com/episode/2oyFcfZHSVeiCliSNzvFWd) [Apple Podcasts](https://podcasts.apple.com/us/podcast/disney-the-renaissance-and-the-empire/id1050462261?i=1000781367915)\n\n[YouTube](https://www.youtube.com/watch?v=01QR2tmxSD4) [Overcast](https://overcast.fm/itunes1050462261/acquired) [Pocket Casts](https://pocketcasts.com/podcast/acquired/eed80bc0-599b-0133-cb25-0d11918ab357)\n\n[copy svg](https://www.acquired.fm/episodes/disney-the-renaissance-and-the-empire#) [media kit](https://www.acquired.fm/media-kit)\n\n[Press](https://www.acquired.fm/press)\n\n[all episodes](https://www.acquired.fm/episodes)\n\n![Disney: The Renaissance and the Empire](https://imagedelivery.net/4Iq_5OuN3Oq3QRRKSY6D4w/episodes_og_disney-the-renaissance-and-the-empire/main)\n\n[Disney](https://www.acquired.fm/series/disney)\n\n[Media/Entertainment](https://www.acquired.fm/industry/media-entertainment)\n\nNo items found.\n\nDisney: The Renaissance and the Empire\n\n[Fall 2026](https://www.acquired.fm/season/fall-2026)\n\nEpisode\n\n1\n\n·\n\nAugust 10, 2026\n\n[PDF Companion](https://www.acquired.fm/episodes/disney-the-renaissance-and-the-empire#companion) [PDF Companion](https://library.acquired.fm/episodes/disney-the-renaissance-and-the-empire.pdf)\n\n[transcript](https://www.acquired.fm/episodes/disney-the-renaissance-and-the-empire#transcript)\n\n[Sources](https://www.acquired.fm/episodes/disney-the-renaissance-and-the-empire#sources)\n\nMany thanks to our season partners\n\n[Sierra](https://sierra.ai/acquired)\n\n[Sentry](https://sentry.io/?utm_source=podcast&utm_campaign=acquired&utm_id=acquired&utm_term=acquired&utm_content=acquired)\n\n[WorkOS](https://bit.ly/workos25)\n\n[Anthropic](https://bit.ly/acquiredclaude25)\n\n![Disney: The Renaissance and the Empire](https://imagedelivery.net/4Iq_5OuN3Oq3QRRKSY6D4w/episodes_video-covers_disney-the-renaissance-and-the-empire/feature)\n\n[Presented by](https://sierra.ai/acquired)\n\n[Presented by](https://sierra.ai/acquired)\n\n# What happens whe"
     }
   ],
-  "failures": [],
+  "failures": [
+    {
+      "section": "podcasts",
+      "query": "All In podcast latest episode",
+      "error": "no scrapable episode pages"
+    },
+    {
+      "section": "podcasts",
+      "query": "Invest Like the Best podcast latest episode",
+      "error": "no scrapable episode pages"
+    },
+    {
+      "section": "podcasts",
+      "query": "Hard Fork podcast latest episode",
+      "error": "no scrapable episode pages"
+    },
+    {
+      "section": "podcasts",
+      "query": "This Week in Startups latest episode",
+      "error": "no scrapable episode pages"
+    }
+  ],
   "stats": {
-    "queries_run": 15,
-    "queries_failed": 0,
-    "items": 65
+    "queries_run": 10,
+    "queries_failed": 4,
+    "items": 47
   }
 }

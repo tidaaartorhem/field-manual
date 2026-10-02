@@ -12,9 +12,9 @@ const path = require('path');
 const scriptsDir = __dirname;
 const webDir = path.resolve(scriptsDir, '..');
 
-const realData = path.resolve(webDir, '..', 'data', 'manual.json');
-const sampleData = path.resolve(webDir, 'src', 'sample-manual.json');
-const target = path.resolve(webDir, 'public', 'manual.json');
+const realData = path.resolve(webDir, '..', 'data', 'newsletter.json');
+const sampleData = path.resolve(webDir, 'src', 'sample-newsletter.json');
+const target = path.resolve(webDir, 'public', 'newsletter.json');
 
 const source = fs.existsSync(realData) ? realData : sampleData;
 if (!fs.existsSync(source)) {

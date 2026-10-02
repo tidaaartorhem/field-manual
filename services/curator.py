@@ -145,6 +145,12 @@ def extract_published(text, url=""):
     if m:
         mi = MONTHS.index(m.group(1).lower()) + 1
         return f"{m.group(3)}-{mi:02d}-{int(m.group(2)):02d}"
+    # Abbreviated "Oct 2, 2026" style (podcast listings)
+    abbrev = {mth[:3]: mth for mth in MONTHS}
+    m = re.search(r"(?i)\b(" + "|".join(abbrev) + r")\.?\s+(\d{1,2}),?\s+(20\d{2})\b", blob)
+    if m:
+        mi = MONTHS.index(abbrev[m.group(1).lower()]) + 1
+        return f"{m.group(3)}-{mi:02d}-{int(m.group(2)):02d}"
     return None
 
 

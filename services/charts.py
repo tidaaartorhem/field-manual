@@ -5,6 +5,12 @@ Every chart is computed from the curated items of the current edition —
 no invented figures. If a chart can't be honestly computed (e.g. no
 funding rounds found in the window), it is omitted entirely.
 
+Hard rules:
+- MIN_DATA_POINTS: a chart with fewer than 3 data points is never
+  emitted. A one-bar chart says nothing.
+- No filler charts: nothing here may chart the pipeline's own config
+  (e.g. "edition by section" curation targets) — signal only.
+
 Two outputs:
 1. ``data/charts.json`` — chart specs the React frontend renders as SVG.
 2. ``web/public/charts/<edition-id>/<chart-id>.png`` — matplotlib renders
@@ -18,6 +24,7 @@ Chart spec shape::
      "note": "how this was computed"}
 """
 import json
+import textwrap
 from pathlib import Path
 
 from .curator import extract_funding, source_name, source_tier
@@ -29,6 +36,9 @@ MUTED = "#6f675c"
 ACCENT = "#b0511f"
 ACCENT_SOFT = "#d99a6c"
 LINE = "#e9e2d6"
+
+# A chart with fewer points than this is decoration, not information.
+MIN_DATA_POINTS = 3
 
 MOMENTUM_KEYWORDS = [
     ("AI agents", ("agent", "agents", "agentic")),
@@ -61,7 +71,7 @@ def funding_chart(curated):
         f = extract_funding(item)
         if f and all(r["source_url"] != f["source_url"] for r in raises):
             raises.append(f)
-    if not raises:
+    if len(raises) < MIN_DATA_POINTS:
         return None
     raises.sort(key=lambda r: -r["amount_usd"])
     top = raises[:8]
@@ -94,7 +104,7 @@ def momentum_chart(curated):
                 n += 1
         if n >= 2:
             counts.append({"label": label, "value": n, "detail": f"{n} stories"})
-    if len(counts) < 2:
+    if len(counts) < MIN_DATA_POINTS:
         return None
     counts.sort(key=lambda c: -c["value"])
     return {
@@ -117,7 +127,7 @@ def source_mix_chart(curated):
         src = source_name(item.get("url", ""))
         counts[src] += 1
         tiers[src] = source_tier(item.get("url", ""))
-    if len(counts) < 2:
+    if len(counts) < MIN_DATA_POINTS:
         return None
     data = [{"label": s[:26], "value": n, "detail": f"tier {tiers[s]}",
              "tier": tiers[s]}
@@ -133,30 +143,10 @@ def source_mix_chart(curated):
     }
 
 
-def volume_chart(curated):
-    """Story volume per section."""
-    titles = {"signal": "The Signal", "tech": "The Wider Current",
-              "startups": "Startups", "podcasts": "Podcast Circuit"}
-    data = [{"label": titles.get(s, s), "value": len(items),
-             "detail": f"{len(items)} stories"}
-            for s, items in curated.items() if items]
-    if len(data) < 2:
-        return None
-    return {
-        "id": "volume",
-        "title": "The edition by section",
-        "subtitle": "Story count per section",
-        "kind": "bar",
-        "unit": "stories",
-        "data": data,
-        "note": "Curated items per section in this edition.",
-    }
-
-
 def build_charts(curated):
     """Compute all honest charts. Returns the list of chart specs."""
     charts = []
-    for fn in (funding_chart, momentum_chart, source_mix_chart, volume_chart):
+    for fn in (funding_chart, momentum_chart, source_mix_chart):
         spec = fn(curated)
         if spec:
             charts.append(spec)
@@ -165,8 +155,48 @@ def build_charts(curated):
 
 # ---------------------------------------------------------------- PNG export
 
+def _draw_header(fig, spec):
+    """Title + subtitle as separate figure-coordinate text artists.
+
+    The subtitle is positioned by *measuring* the rendered title: after an
+    initial draw, the subtitle is placed a fixed gap below the title's
+    bounding box, then the header's bottom edge is measured again. The
+    caller places the axes below that edge. The title can never render on
+    top of the subtitle, regardless of length (long titles wrap).
+    Returns (title_artist, subtitle_artist, header_bottom_fig_y).
+    """
+    title = "\n".join(textwrap.wrap(spec["title"], width=58))
+    subtitle = "\n".join(textwrap.wrap(spec["subtitle"], width=88))
+    t = fig.text(0.07, 0.96, title, fontsize=15, color=INK,
+                 fontfamily="serif", ha="left", va="top", linespacing=1.3)
+    # Temporary spot; repositioned after the title is measured.
+    s = fig.text(0.07, 0.5, subtitle, fontsize=10.5, color=MUTED,
+                 ha="left", va="top", linespacing=1.25)
+
+    fig.canvas.draw()
+    renderer = fig.canvas.get_renderer()
+    title_bb = t.get_window_extent(renderer=renderer)
+    fig_h_pt = fig.get_figheight() * 72
+    inv = fig.transFigure.inverted()
+    _, title_bottom = inv.transform((0, title_bb.y0))
+    gap = 12 / fig_h_pt
+    s.set_position((0.07, title_bottom - gap))
+
+    fig.canvas.draw()
+    renderer = fig.canvas.get_renderer()
+    sub_bb = s.get_window_extent(renderer=renderer)
+    _, sub_bottom = inv.transform((0, sub_bb.y0))
+    header_bottom = sub_bottom - 10 / fig_h_pt
+    return t, s, header_bottom
+
+
 def render_png(spec, path, width_in=7.2):
-    """Render one chart spec to PNG in the editorial palette."""
+    """Render one chart spec to PNG in the editorial palette.
+
+    The header (title/subtitle) is drawn first and measured; the axes are
+    placed below the measured header bottom. No tight_layout, no
+    transAxes guessing — the two text blocks can never overlap or clip.
+    """
     import matplotlib
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt
@@ -174,10 +204,19 @@ def render_png(spec, path, width_in=7.2):
     labels = [d["label"] for d in spec["data"]]
     values = [d["value"] for d in spec["data"]]
     n = len(labels)
-    height_in = max(2.2, 0.62 * n + 1.4)
+    hbar = spec["kind"] == "hbar"
 
-    fig, ax = plt.subplots(figsize=(width_in, height_in), dpi=160)
+    height_in = max(3.4, 0.72 * n + 2.0) if hbar else 4.2
+    fig = plt.figure(figsize=(width_in, height_in), dpi=160)
     fig.patch.set_facecolor(PAPER)
+
+    _, _, header_bottom = _draw_header(fig, spec)
+    axes_top = header_bottom - 0.03
+    if hbar:
+        # Left gutter sized for serif category labels.
+        ax = fig.add_axes([0.30, 0.05, 0.66, axes_top - 0.05])
+    else:
+        ax = fig.add_axes([0.08, 0.12, 0.88, axes_top - 0.12])
     ax.set_facecolor(PAPER)
 
     colors = []
@@ -186,37 +225,38 @@ def render_png(spec, path, width_in=7.2):
         colors.append(ACCENT if tier in (None, 1) else
                       ACCENT_SOFT if tier == 2 else "#c9bfae")
 
-    if spec["kind"] == "hbar":
+    if hbar:
         y = list(range(n))[::-1]
-        ax.barh(y, values, height=0.55, color=colors, edgecolor="none")
+        ax.barh(y, values, height=0.52, color=colors, edgecolor="none")
         ax.set_yticks(y)
-        ax.set_yticklabels(labels, fontsize=10, color=INK,
+        ax.set_yticklabels(labels, fontsize=11, color=INK,
                            fontfamily="serif")
+        # Headroom so value labels never run off the right edge.
+        ax.set_xlim(0, max(values) * 1.32)
         for yy, v, d in zip(y, values, spec["data"]):
             ax.text(v, yy, f"  {d.get('detail') or v}", va="center",
-                    fontsize=9, color=MUTED)
-        ax.set_ylim(-0.8, n - 0.2)
+                    fontsize=10, color=MUTED)
+        ax.set_ylim(-0.9, n - 0.1)
+        ax.set_xticks([])
+        ax.tick_params(left=False)
     else:
         x = list(range(n))
         bars = ax.bar(x, values, width=0.55, color=colors, edgecolor="none")
         ax.set_xticks(x)
-        ax.set_xticklabels(labels, fontsize=10, color=INK, fontfamily="serif",
-                           rotation=0, ha="center")
+        rot = 25 if n > 5 else 0
+        ax.set_xticklabels(labels, fontsize=11, color=INK, fontfamily="serif",
+                           rotation=rot, ha="right" if rot else "center")
+        ax.set_ylim(0, max(values) * 1.25)
         for b, v, d in zip(bars, values, spec["data"]):
             ax.text(b.get_x() + b.get_width() / 2, v,
                     f"{d.get('detail') or v}", ha="center", va="bottom",
-                    fontsize=9, color=MUTED)
+                    fontsize=10, color=MUTED)
+        ax.set_yticks([])
+        ax.tick_params(bottom=False)
 
-    ax.set_title(spec["title"], fontsize=14, color=INK, fontfamily="serif",
-                 loc="left", pad=6)
-    ax.text(0, 1.06, spec["subtitle"], transform=ax.transAxes, fontsize=9,
-            color=MUTED, va="bottom", ha="left")
     for spine in ax.spines.values():
         spine.set_visible(False)
-    ax.tick_params(left=False, bottom=False)
-    ax.set_xticks([]) if spec["kind"] == "hbar" else ax.set_yticks([])
     ax.grid(False)
-    fig.tight_layout(pad=1.2)
     path.parent.mkdir(parents=True, exist_ok=True)
     fig.savefig(path, facecolor=PAPER)
     plt.close(fig)

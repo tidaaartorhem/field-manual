@@ -22,7 +22,8 @@ Every edition covers exactly the last 48 hours. Nothing older.
 - `services/curator.py` — source reliability tiers (1: official/papers, 2: newsrooms, 3: blogs/wires) weight the relevance score; dedupe by normalized URL *and* title similarity; `filter_recent` prefers RSS pub dates; `extract_funding` pulls company + USD amount + round from raise announcements (both required — never invented).
 - `services/writer.py` — the model is a stylist, never a researcher: the pipeline supplies every fact deterministically; one constrained OpenAI call per item writes the briefing, one per section weaves the narrative, one writes the edition lede. Template fallback + circuit breaker when the API is unavailable.
 - `services/compiler.py` — assembles the edition: lede, sections with narratives and closing takes, Worth Your Time picks.
-- `services/charts.py` — honest aggregates only (startup funding, topic momentum, source mix, section volume). A chart that can't be computed from the gathered items is omitted, not faked. Specs go to `data/charts.json`; matplotlib renders email-ready PNGs into `web/public/charts/<edition>/`.
+- `services/charts.py` — honest aggregates only (startup funding, topic momentum, source mix). Hard rules: no chart with fewer than 3 data points, no filler. Specs go to `data/charts.json`; matplotlib renders email-ready PNGs into `web/public/charts/<edition>/`.
+- `services/chart_editor.py` — one constrained OpenAI call per edition: KEEP/REDESIGN/DROP per chart, insight-stating titles, right chart type. Never touches data; any failure keeps the computed charts.
 - `services/emailer.py` — renders `data/newsletter-email.html`: table-based, inline CSS, light theme, absolute URLs, hosted chart images. Footer: reply to unsubscribe (manual handling).
 - `services/subscribers.py` — fetches the Firestore `subscribers` collection for the scheduled send.
 - `VOICE.md` — the editorial voice, researched from Acquired and All In.

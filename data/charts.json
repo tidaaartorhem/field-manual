@@ -2,23 +2,8 @@
   "edition": "2026-10-02",
   "charts": [
     {
-      "id": "funding",
-      "title": "Startup money in the window",
-      "subtitle": "$5M raised across 1 round",
-      "kind": "hbar",
-      "unit": "$M",
-      "data": [
-        {
-          "label": "Peak XV",
-          "value": 5.0,
-          "detail": "$5M · Seed"
-        }
-      ],
-      "note": "Parsed from 1 raise announcements in this edition."
-    },
-    {
       "id": "momentum",
-      "title": "What's spiking",
+      "title": "AI agents dominate the conversation",
       "subtitle": "Topic mentions across every story in this edition",
       "kind": "hbar",
       "unit": "mentions",
@@ -63,7 +48,7 @@
     },
     {
       "id": "sources",
-      "title": "Where the signal came from",
+      "title": "Primary sources lead the news coverage",
       "subtitle": "7 outlets · tier 1 = primary sources",
       "kind": "hbar",
       "unit": "stories",
@@ -87,13 +72,7 @@
           "tier": 1
         },
         {
-          "label": "Youtube",
-          "value": 1,
-          "detail": "tier 3",
-          "tier": 3
-        },
-        {
-          "label": "Fundraiseinsider",
+          "label": "Libsyn",
           "value": 1,
           "detail": "tier 3",
           "tier": 3
@@ -105,43 +84,19 @@
           "tier": 1
         },
         {
-          "label": "Libsyn",
+          "label": "Fundraiseinsider",
+          "value": 1,
+          "detail": "tier 3",
+          "tier": 3
+        },
+        {
+          "label": "Youtube",
           "value": 1,
           "detail": "tier 3",
           "tier": 3
         }
       ],
       "note": "Tier 1: official announcements/papers. Tier 2: newsrooms. Tier 3: blogs/wires."
-    },
-    {
-      "id": "volume",
-      "title": "The edition by section",
-      "subtitle": "Story count per section",
-      "kind": "bar",
-      "unit": "stories",
-      "data": [
-        {
-          "label": "The Signal",
-          "value": 6,
-          "detail": "6 stories"
-        },
-        {
-          "label": "The Wider Current",
-          "value": 6,
-          "detail": "6 stories"
-        },
-        {
-          "label": "Startups",
-          "value": 6,
-          "detail": "6 stories"
-        },
-        {
-          "label": "Podcast Circuit",
-          "value": 2,
-          "detail": "2 stories"
-        }
-      ],
-      "note": "Curated items per section in this edition."
     }
   ]
 }

@@ -487,6 +487,10 @@ def _chart_items():
              "description": "BetaCo secures $120M seed.",
              "url": "https://techcrunch.com/2", "shelf": "startups",
              "queries": ["r"], "score": 0.8, "published": "2026-10-01"},
+            {"title": "GammaCo raises $30M Series A",
+             "description": "GammaCo raises $30M Series A for agents.",
+             "url": "https://techcrunch.com/3", "shelf": "startups",
+             "queries": ["r"], "score": 0.75, "published": "2026-10-02"},
         ],
         "podcasts": [],
     }
@@ -497,15 +501,49 @@ def test_charts_are_honest_aggregates():
     specs = charts.build_charts(_chart_items())
     by_id = {s["id"]: s for s in specs}
     funding = by_id["funding"]
-    assert funding["subtitle"] == "$170M raised across 2 rounds"
-    assert [d["label"] for d in funding["data"]] == ["BetaCo", "Acme"]
+    assert funding["subtitle"] == "$200M raised across 3 rounds"
+    assert [d["label"] for d in funding["data"]] == ["BetaCo", "Acme", "GammaCo"]
     assert funding["data"][0]["value"] == 120.0
-    volume = by_id["volume"]
-    assert {d["label"]: d["value"] for d in volume["data"]}["Startups"] == 2
     sources = by_id["sources"]
     assert sources["data"][0]["label"] == "TechCrunch"
     # every value traces to a real item
     assert all(d["value"] > 0 for s in specs for d in s["data"])
+
+
+def test_charts_min_data_points():
+    """Fewer than 3 data points -> no chart, never a one-bar decoration."""
+    from services import charts
+    two_raises = {"startups": [
+        {"title": "Acme raises $50M Series A", "description": "Acme raises $50M.",
+         "url": "https://techcrunch.com/1"},
+        {"title": "BetaCo secures $120M", "description": "BetaCo secures $120M.",
+         "url": "https://techcrunch.com/2"},
+    ], "tech": []}
+    assert charts.funding_chart(two_raises) is None
+
+    two_topics = {"signal": [
+        {"title": "Agent news", "description": "Agents everywhere.",
+         "url": "https://a.com/1"},
+        {"title": "More agents", "description": "LLM agents ship.",
+         "url": "https://a.com/2"},
+    ]}
+    assert charts.momentum_chart(two_topics) is None
+
+    two_sources = {"signal": [
+        {"title": "T1", "description": "x", "url": "https://openai.com/1"},
+        {"title": "T2", "description": "x", "url": "https://openai.com/2"},
+        {"title": "T3", "description": "x", "url": "https://anthropic.com/1"},
+    ]}
+    # only 2 distinct outlets -> dropped
+    assert charts.source_mix_chart(two_sources) is None
+
+
+def test_volume_chart_removed():
+    """The 'edition by section' filler chart is gone for good."""
+    from services import charts
+    assert not hasattr(charts, "volume_chart")
+    ids = [s["id"] for s in charts.build_charts(_chart_items())]
+    assert "volume" not in ids
 
 
 def test_charts_omit_when_no_data():
@@ -535,15 +573,15 @@ def test_email_html_is_email_safe():
         "stats": {"items": 1, "sections": 1, "sources": 1},
     }
     charts_specs = [{
-        "id": "volume", "title": "Volume", "subtitle": "Sub", "kind": "bar",
-        "unit": "stories", "data": [{"label": "A", "value": 2}],
+        "id": "momentum", "title": "Momentum", "subtitle": "Sub", "kind": "bar",
+        "unit": "mentions", "data": [{"label": "A", "value": 2}],
         "note": "Note.",
     }]
     out = emailer.render_email(letter, charts_specs, "2026-10-02")
     assert "<table" in out and 'style="' in out
     assert "flex" not in out and "grid-template" not in out
     assert "&lt;bait&gt;" in out and "&lt;one&gt;" in out  # escaped
-    assert "https://aadit-field-manual.web.app/charts/2026-10-02/volume.png" in out
+    assert "https://aadit-field-manual.web.app/charts/2026-10-02/momentum.png" in out
     assert "Reply to this email to unsubscribe" in out
     assert "<script" not in out
 
@@ -555,3 +593,39 @@ def test_subscribers_doc_mapping():
     sub = _doc_to_subscriber(doc)
     assert sub == {"name": "Ada", "email": "ADA@Example.COM"}
     assert _doc_to_subscriber({"fields": {}}) == {"name": "", "email": ""}
+
+
+# ---------------------------------------------------------------- PNG layout
+
+def test_render_header_no_overlap():
+    """Title and subtitle can never collide, however long the title."""
+    import matplotlib
+    matplotlib.use("Agg")
+    import matplotlib.pyplot as plt
+    from services import charts
+
+    fig = plt.figure(figsize=(7.2, 4.2), dpi=100)
+    spec = {
+        "title": ("Agents dominate the conversation this week and the "
+                  "momentum keeps building across every section"),
+        "subtitle": "Topic mentions across every story in this 48-hour edition",
+    }
+    t, s, header_bottom = charts._draw_header(fig, spec)
+    # Place the axes exactly the way render_png does.
+    axes_top = header_bottom - 0.03
+    ax = fig.add_axes([0.30, 0.05, 0.66, axes_top - 0.05])
+    fig.canvas.draw()
+    renderer = fig.canvas.get_renderer()
+    tb = t.get_window_extent(renderer=renderer)
+    sb = s.get_window_extent(renderer=renderer)
+    ab = ax.get_window_extent(renderer=renderer)
+    assert tb.y0 >= sb.y1, "title overlaps subtitle"
+    assert sb.y0 >= ab.y1, "subtitle overlaps the chart area"
+    plt.close(fig)
+
+
+def test_render_png_writes_file(tmp_path):
+    from services import charts
+    spec = _editor_specs()[0]
+    out = charts.render_png(spec, tmp_path / "momentum.png")
+    assert out.exists() and out.stat().st_size > 10_000

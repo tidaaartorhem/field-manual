@@ -77,7 +77,7 @@
   "edition": "2026-10-02",
   "charts": [
     {
-      "id": "funding",               // funding | momentum | sources | volume
+      "id": "funding",               // funding | momentum | sources
       "title": "Startup money in the window",
       "subtitle": "$170M raised across 2 rounds",
       "kind": "hbar",                // hbar | bar

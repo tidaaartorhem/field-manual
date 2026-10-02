@@ -17,20 +17,39 @@ TRACKING_PARAMS = {
     "wbraid", "gbraid", "gad_source", "aff_id", "affid", "partner",
 }
 
-# Press-release mills and aggregator farms: real but low-signal.
-PRESS_MILLS = {
-    "prweb.com", "prnewswire.com", "einpresswire.com", "globenewswire.com",
-    "businesswire.com", "24-7pressrelease.com", "newswire.com",
-    "openpr.com", "pressrelease.com", "issuewire.com", "accessnewswire.com",
+# Source tiers: reliability weighting for scoring and charts.
+# Tier 1 — primary sources: official announcements, papers, the shows themselves.
+# Tier 2 — reputable press: real newsrooms with editors.
+# Tier 3 — everything else: blogs, opinion, aggregators, wire mills.
+TIER_1_HOSTS = {
+    "arxiv.org", "openreview.net", "paperswithcode.com",
+    "anthropic.com", "openai.com", "googleblog.com", "deepmind.google",
+    "microsoft.com", "nvidia.com", "aws.amazon.com",
+    "huggingface.co", "github.blog", "langchain.com", "langchain.dev",
+    "crewai.com", "docs.anthropic.com", "ycombinator.com",
+    "allin.com", "acquired.fm", "investlikethebest.com", "nytimes.com",
+    "thisweekinstartups.com",
 }
+TIER_2_HOSTS = {
+    "techcrunch.com", "theverge.com", "arstechnica.com", "wired.com",
+    "theinformation.com", "bloomberg.com", "reuters.com", "nytimes.com",
+    "venturebeat.com", "news.ycombinator.com", "producthunt.com",
+    "wellfound.com", "saastr.com", "theguardian.com", "ft.com",
+    "wsj.com", "forbes.com", "fastcompany.com",
+}
+TIER_MULTIPLIER = {1: 1.15, 2: 1.0, 3: 0.8}
 
-# Social/aggregator hosts: often relevant but usually second-hand.
-SECOND_HAND = {
-    "reddit.com", "www.reddit.com", "twitter.com", "x.com", "facebook.com",
-    "linkedin.com", "www.linkedin.com", "medium.com", "substack.com",
-    "news.ycombinator.com", "youtube.com", "www.youtube.com",
-    "tiktok.com", "instagram.com",
-}
+
+def source_tier(url):
+    """Reliability tier (1/2/3) for a URL's host."""
+    host = urlparse(url or "").netloc.lower()
+    if host.startswith("www."):
+        host = host[4:]
+    if host in TIER_1_HOSTS:
+        return 1
+    if host in TIER_2_HOSTS:
+        return 2
+    return 3
 
 # Hosts whose content is typically primary and high-signal per section.
 PRIMARY_HOSTS = {
@@ -98,29 +117,65 @@ def normalize_url(url):
 
 
 def dedupe(items):
-    """Dedupe raw items by normalized URL.
+    """Dedupe raw items by normalized URL, then by title similarity.
 
-    Keeps the first occurrence's title/description/shelf; merges the
-    ``queries`` provenance lists across duplicates.
+    Pass 1: exact normalized-URL dedupe (merges ``queries`` provenance).
+    Pass 2: near-duplicate titles (SequenceMatcher ratio >= 0.88 on
+    normalized titles) are merged as the same story told by two outlets —
+    keeps the higher-scored item, merges provenance and descriptions.
     """
+    from difflib import SequenceMatcher
+
     seen = {}
     for item in items:
         key = normalize_url(item.get("url", ""))
         if not key:
             continue
         if key in seen:
-            existing = seen[key]
-            for q in item.get("queries", []):
-                if q not in existing["queries"]:
-                    existing["queries"].append(q)
-            if len(item.get("description", "")) > len(existing.get("description", "")):
-                existing["description"] = item["description"]
+            _merge_into(seen[key], item)
             continue
         merged = dict(item)
         merged["queries"] = list(item.get("queries", []))
         merged["_norm"] = key
         seen[key] = merged
-    return list(seen.values())
+
+    deduped = list(seen.values())
+    # Pass 2: title similarity.
+    kept = []
+    for item in deduped:
+        title = _title_key(item.get("title", ""))
+        dup_of = None
+        for other in kept:
+            if SequenceMatcher(None, title,
+                                _title_key(other.get("title", ""))).ratio() >= 0.88:
+                dup_of = other
+                break
+        if dup_of is not None:
+            _merge_into(dup_of, item)
+        else:
+            kept.append(item)
+    return kept
+
+
+def _title_key(title):
+    """Normalize a title for similarity comparison: lowercase, strip
+    punctuation, drop trailing source suffixes ("| TechCrunch")."""
+    t = (title or "").lower()
+    t = re.sub(r"\s*[|\-–—:]\s*[a-z0-9 .&']+$", "", t).strip()
+    t = re.sub(r"[^a-z0-9 ]", "", t)
+    return re.sub(r"\s+", " ", t).strip()
+
+
+def _merge_into(existing, item):
+    for q in item.get("queries", []):
+        if q not in existing["queries"]:
+            existing["queries"].append(q)
+    if len(item.get("description", "")) > len(existing.get("description", "")):
+        existing["description"] = item["description"]
+    # Prefer the item with a verified RSS pub date.
+    if item.get("from_rss") and item.get("published") and not existing.get("published"):
+        existing["published"] = item["published"]
+        existing["from_rss"] = True
 
 
 def extract_published(text, url=""):
@@ -228,7 +283,7 @@ def score_item(item, shelf):
     """Relevance score in [0, 1] for an item against a shelf profile.
 
     Keyword coverage + title hits + primary-source/recency boosts,
-    minus penalties for press-release mills and second-hand aggregators.
+    multiplied by the source reliability tier (1: 1.15x, 2: 1.0x, 3: 0.8x).
     """
     keywords = TOPIC_KEYWORDS[shelf]
     title = (item.get("title") or "").lower()
@@ -245,12 +300,9 @@ def score_item(item, shelf):
 
     if host in PRIMARY_HOSTS.get(shelf, set()):
         score += 0.12
-    if host in PRESS_MILLS:
-        score -= 0.25
-    if host in SECOND_HAND:
-        score -= 0.10
 
-    published = extract_published(f"{item.get('title')} {item.get('description')}", url)
+    published = item.get("published") or extract_published(
+        f"{item.get('title')} {item.get('description')}", url)
     if published:
         year = int(published[:4])
         if year >= 2026:
@@ -262,7 +314,55 @@ def score_item(item, shelf):
 
     if not item.get("title") or not item.get("description"):
         score -= 0.08  # thin metadata
+
+    # Reliability weighting: primary sources up, wire mills/blogs down.
+    score *= TIER_MULTIPLIER[source_tier(url)]
     return round(max(0.0, min(1.0, score)), 3)
+
+
+FUNDING_AMOUNT_RE = re.compile(
+    r"\$\s*([\d,]+(?:\.\d+)?)\s*(billion|million|[bm])\b", re.I)
+ROUND_RE = re.compile(
+    r"\b(pre-seed|preseed|seed|series [a-f]|bridge|growth)\b", re.I)
+COMPANY_RE = re.compile(
+    r"^(.{2,60}?)\s+(raises|raised|secures|secured|lands|landed|closes|closed|"
+    r"announces|announced|banks|nabs|scores)\b", re.I)
+
+
+def extract_funding(item):
+    """Best-effort funding-raise extraction from title + description.
+
+    Returns {"company", "amount_usd", "round", "source_url"} or None.
+    Only returns when BOTH a company and a dollar amount are found —
+    charts must never show invented figures.
+    """
+    text = f"{item.get('title', '')} {item.get('description', '')}"
+    m_amt = FUNDING_AMOUNT_RE.search(text)
+    if not m_amt:
+        return None
+    raw, unit = m_amt.group(1).replace(",", ""), m_amt.group(2).lower()
+    try:
+        value = float(raw)
+    except ValueError:
+        return None
+    mult = 1_000_000_000 if unit.startswith("b") else 1_000_000
+    amount = value * mult
+    if amount <= 0 or amount > 100_000_000_000:
+        return None  # sanity: no $0 or $1T "raises"
+    m_co = COMPANY_RE.search((item.get("title", "") or "").strip())
+    if not m_co:
+        return None
+    company = re.sub(r"\s+", " ", m_co.group(1)).strip(" ,.:;-'\"")
+    if len(company) < 2:
+        return None
+    m_round = ROUND_RE.search(text)
+    rnd = m_round.group(1).lower().replace("preseed", "pre-seed") if m_round else None
+    if rnd == "series a":
+        rnd = "Series A"
+    elif rnd:
+        rnd = rnd.title() if rnd != "pre-seed" else "Pre-seed"
+    return {"company": company, "amount_usd": amount, "round": rnd,
+            "source_url": item.get("url", "")}
 
 
 def curate(items, target_min=8, target_max=10):

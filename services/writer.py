@@ -57,8 +57,13 @@ def clean_text(desc):
 
 
 def gist(item, max_len=340):
-    """First ~2 sentences of the cleaned description, or an honest fallback."""
-    t = clean_text(item.get("description", ""))
+    """First ~2 sentences of the cleaned text, or an honest fallback.
+
+    Prefers ``full_text`` (scraped article body) when the item was
+    enriched — briefings are then written from the real article, not the
+    snippet.
+    """
+    t = clean_text(item.get("full_text") or item.get("description", ""))
     if not t:
         return ""
     parts = re.split(r"(?<=[.!?])\s+", t)

@@ -62,12 +62,16 @@ def cmd_build(args):
 
 
 def cmd_edition(args):
-    """One headless run: scan -> 48h filter -> curate -> write -> compile."""
+    """One headless run: scan -> 48h filter -> curate -> enrich -> write ->
+    compile -> charts -> email HTML."""
+    from services import charts as charts_mod, emailer
+
     hours = args.hours
-    print(f"[edition] scanning (last {hours}h window)...")
-    path = scanner.scan(limit_per_query=args.limit, verbose=not args.quiet)
+    print(f"[edition] scanning (RSS backbone + discovery, last {hours}h)...")
+    path = scanner.scan(limit_per_query=args.limit, hours=hours,
+                        verbose=not args.quiet)
     if path is None:
-        print("edition aborted: all Firecrawl queries failed", file=sys.stderr)
+        print("edition aborted: all sources failed", file=sys.stderr)
         return 2
     raw = json.loads(path.read_text(encoding="utf-8"))
     items = raw.get("items", [])
@@ -84,10 +88,26 @@ def cmd_edition(args):
     if total == 0:
         print("edition aborted: nothing survived curation", file=sys.stderr)
         return 2
+    # Full-text enrichment for the top items (briefings from real articles).
+    flat = [i for items in curated.values() for i in items]
+    scanner.enrich_items(flat, max_items=args.enrich_max,
+                         verbose=not args.quiet)
     letter = compiler.compile_edition(curated, window_hours=hours)
     json_path, md_path = compiler.write_edition(letter)
     for shelf, shelf_items in curated.items():
         print(f"[edition] {shelf:8s}: {len(shelf_items)} items")
+
+    # Charts: honest aggregates -> data/charts.json + PNGs for email.
+    edition_id = letter["edition"]
+    chart_specs = charts_mod.build_charts(curated)
+    charts_json, png_paths = charts_mod.write_charts(chart_specs, edition_id)
+    print(f"[edition] charts: {len(chart_specs)} computed -> {charts_json} "
+          f"+ {len(png_paths)} PNGs")
+
+    # Email-safe edition.
+    email_path = emailer.write_email(letter, chart_specs, edition_id)
+    print(f"[edition] email HTML -> {email_path}")
+
     from services.writer import briefing_source_stats
     src_stats = briefing_source_stats()
     print(f"[edition] briefings: {src_stats.get('openai', 0)} via OpenAI API, "
@@ -113,6 +133,8 @@ def build_parser():
                       help="minimum items kept per section (default: 3)")
     p_ed.add_argument("--max-per-section", type=int, default=6,
                       help="maximum items kept per section (default: 6)")
+    p_ed.add_argument("--enrich-max", type=int, default=14,
+                      help="top items to scrape for full text (default: 14)")
     p_ed.add_argument("--quiet", action="store_true",
                       help="only print summary lines")
     p_ed.set_defaults(func=cmd_edition)

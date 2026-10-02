@@ -1,61 +1,66 @@
 import {
-  emptyReflectionState,
+  DEBRIEF_QUESTIONS,
+  emptyState,
   STORAGE_KEY,
-  type JournalEntry,
-  type QaAnswer,
-  type ReflectionState,
-} from './reflection';
+  type Debrief,
+  type MarginaliaState,
+  type MarginNote,
+} from './marginalia';
 
-function isJournalEntry(v: unknown): v is JournalEntry {
+function isMarginNote(v: unknown): v is MarginNote {
   return (
     typeof v === 'object' &&
     v !== null &&
-    typeof (v as JournalEntry).ts === 'number' &&
-    typeof (v as JournalEntry).text === 'string'
+    typeof (v as MarginNote).id === 'string' &&
+    typeof (v as MarginNote).ts === 'number' &&
+    typeof (v as MarginNote).text === 'string'
   );
 }
 
-function isQaAnswer(v: unknown): v is QaAnswer {
-  return (
-    typeof v === 'object' &&
-    v !== null &&
-    typeof (v as QaAnswer).prompt === 'string' &&
-    typeof (v as QaAnswer).answer === 'string' &&
-    typeof (v as QaAnswer).score === 'number' &&
-    typeof (v as QaAnswer).ts === 'number'
-  );
+function isDebrief(v: unknown): v is Debrief {
+  if (typeof v !== 'object' || v === null) return false;
+  const d = v as Debrief;
+  if (typeof d.ts !== 'number' || typeof d.answers !== 'object' || d.answers === null)
+    return false;
+  return Object.values(d.answers).every((a) => typeof a === 'string');
 }
 
-/** Load persisted reflection state; falls back to empty on any failure. */
-export function loadReflectionState(): ReflectionState {
+/** Load persisted marginalia; falls back to empty on any failure. */
+export function loadMarginalia(): MarginaliaState {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
-    if (!raw) return emptyReflectionState();
-    const parsed = JSON.parse(raw) as Partial<ReflectionState>;
-    const journal: ReflectionState['journal'] = {};
-    if (parsed.journal && typeof parsed.journal === 'object') {
-      for (const [id, entries] of Object.entries(parsed.journal)) {
-        if (Array.isArray(entries) && entries.every(isJournalEntry)) journal[id] = entries;
+    if (!raw) return emptyState();
+    const parsed = JSON.parse(raw) as Partial<MarginaliaState>;
+    const notes: MarginaliaState['notes'] = {};
+    if (parsed.notes && typeof parsed.notes === 'object') {
+      for (const [edition, targets] of Object.entries(parsed.notes)) {
+        if (typeof targets !== 'object' || targets === null) continue;
+        const clean: Record<string, MarginNote[]> = {};
+        for (const [target, list] of Object.entries(targets)) {
+          if (Array.isArray(list) && list.every(isMarginNote)) clean[target] = list;
+        }
+        if (Object.keys(clean).length > 0) notes[edition] = clean;
       }
     }
-    const qa: ReflectionState['qa'] = {};
-    if (parsed.qa && typeof parsed.qa === 'object') {
-      for (const [id, answers] of Object.entries(parsed.qa)) {
-        if (Array.isArray(answers) && answers.every(isQaAnswer)) qa[id] = answers;
+    const debriefs: MarginaliaState['debriefs'] = {};
+    if (parsed.debriefs && typeof parsed.debriefs === 'object') {
+      for (const [edition, d] of Object.entries(parsed.debriefs)) {
+        if (isDebrief(d)) debriefs[edition] = d;
       }
     }
-    const days = Array.isArray(parsed.days) ? parsed.days.filter((d) => typeof d === 'string') : [];
-    return { journal, qa, days };
+    return { notes, debriefs };
   } catch {
-    return emptyReflectionState();
+    return emptyState();
   }
 }
 
-/** Persist reflection state. Never throws (quota or privacy modes). */
-export function saveReflectionState(state: ReflectionState): void {
+/** Persist marginalia. Never throws (quota or privacy modes). */
+export function saveMarginalia(state: MarginaliaState): void {
   try {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
   } catch {
     // Silently ignore: reflections live in memory for this session.
   }
 }
+
+export { DEBRIEF_QUESTIONS };

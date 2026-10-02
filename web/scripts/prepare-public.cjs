@@ -1,8 +1,8 @@
 /**
- * Build step: stage the edition data into web/public/manual.json.
+ * Build step: stage the edition data into web/public/newsletter.json.
  *
- * If ../data/manual.json exists (real pipeline output), it wins.
- * Otherwise the bundled sample edition (src/sample-manual.json) is staged
+ * If ../data/newsletter.json exists (real pipeline output), it wins.
+ * Otherwise the bundled sample edition (src/sample-newsletter.json) is staged
  * so the app always has something to read. The frontend ALSO ships the
  * sample as a bundled fallback, so this is belt and suspenders.
  */
@@ -24,4 +24,4 @@ if (!fs.existsSync(source)) {
 
 fs.mkdirSync(path.dirname(target), { recursive: true });
 fs.copyFileSync(source, target);
-console.log(`prepare-public: staged ${path.basename(source)} -> public/manual.json`);
+console.log(`prepare-public: staged ${path.basename(source)} -> public/newsletter.json`);

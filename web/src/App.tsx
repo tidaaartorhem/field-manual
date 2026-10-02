@@ -1,31 +1,31 @@
 import { useEffect, useState } from 'react';
-import { loadManual, type ManualData } from './lib/manual';
-import { sampleManual } from './sampleManual';
-import { Landing } from './components/Landing';
-import { Reader } from './components/Reader';
-import { Studio } from './components/Studio';
+import { loadNewsletter, type Newsletter } from './lib/newsletter';
+import { loadMarginalia, saveMarginalia } from './lib/storage';
+import { type MarginaliaState } from './lib/marginalia';
+import { sampleNewsletter } from './sampleNewsletter';
+import { Edition } from './components/Edition';
+import { Reflect } from './components/Reflect';
 import './styles.css';
 
-type Tab = 'landing' | 'manual' | 'studio';
+type Tab = 'edition' | 'reflect';
 
 const TABS: { id: Tab; label: string }[] = [
-  { id: 'landing', label: 'Cover' },
-  { id: 'manual', label: 'The Manual' },
-  { id: 'studio', label: 'Studio' },
+  { id: 'edition', label: 'The Edition' },
+  { id: 'reflect', label: 'Reflect' },
 ];
 
 export function App() {
-  const [tab, setTab] = useState<Tab>('landing');
-  const [manual, setManual] = useState<ManualData | null>(null);
+  const [tab, setTab] = useState<Tab>('edition');
+  const [newsletter, setNewsletter] = useState<Newsletter | null>(null);
   const [usingSample, setUsingSample] = useState(false);
-  const [readerShelf, setReaderShelf] = useState<string | null>(null);
-  const [studioItem, setStudioItem] = useState<string | null>(null);
+  const [marginalia, setMarginalia] = useState<MarginaliaState>(() => loadMarginalia());
+  const [annotateTarget, setAnnotateTarget] = useState<string | null>(null);
 
-  // The pipeline stages the edition at /manual.json during build.
+  // The pipeline stages the edition at /newsletter.json during build.
   // If it is missing or invalid, fall back to the bundled sample edition.
   useEffect(() => {
     let cancelled = false;
-    fetch('manual.json')
+    fetch('newsletter.json')
       .then((res) => {
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         return res.json() as Promise<unknown>;
@@ -33,15 +33,15 @@ export function App() {
       .then((data) => {
         if (cancelled) return;
         try {
-          setManual(loadManual(data));
+          setNewsletter(loadNewsletter(data));
         } catch {
-          setManual(sampleManual);
+          setNewsletter(sampleNewsletter);
           setUsingSample(true);
         }
       })
       .catch(() => {
         if (cancelled) return;
-        setManual(sampleManual);
+        setNewsletter(sampleNewsletter);
         setUsingSample(true);
       });
     return () => {
@@ -49,27 +49,23 @@ export function App() {
     };
   }, []);
 
-  const goToShelf = (shelfId: string) => {
-    setReaderShelf(shelfId);
-    setTab('manual');
-    window.scrollTo({ top: 0 });
-  };
+  useEffect(() => {
+    saveMarginalia(marginalia);
+  }, [marginalia]);
 
-  const reflectOn = (itemId: string) => {
-    setStudioItem(itemId);
-    setTab('studio');
+  const goAnnotate = (target: string) => {
+    setAnnotateTarget(target);
+    setTab('reflect');
     window.scrollTo({ top: 0 });
   };
 
   return (
-    <div>
+    <div className="page">
       <header className="masthead">
         <div className="container masthead-inner">
           <div className="brand">
-            <span className="brand-mark">
-              The Field <em>Manual</em>
-            </span>
-            <span className="brand-sub">Agentic AI · Curated Intelligence</span>
+            <span className="brand-mark">The Field Manual</span>
+            <span className="brand-sub">A 48-hour newsletter for people building with AI agents</span>
           </div>
           <nav className="nav" aria-label="Views">
             {TABS.map((t) => (
@@ -89,47 +85,39 @@ export function App() {
         </div>
       </header>
 
-      {usingSample && manual && (
-        <div
-          className="container"
-          style={{
-            marginTop: 18,
-            padding: '12px 20px',
-            border: '1px solid var(--accent-deep)',
-            background: 'var(--accent-wash)',
-            borderRadius: 2,
-            fontSize: '0.85rem',
-            color: 'var(--dim)',
-          }}
-        >
-          Reading the bundled sample edition — this week&apos;s filed data hasn&apos;t landed yet.
-          The shelves below are representative of what the pipeline files.
+      {usingSample && (
+        <div className="container">
+          <div className="sample-note">
+            Showing the sample edition — this week's filed data hasn't landed yet.
+          </div>
         </div>
       )}
 
       <main className="container">
-        {!manual ? (
-          <div className="loading-wrap">
-            <div className="loading">Compiling the dossier</div>
-          </div>
-        ) : tab === 'landing' ? (
-          <Landing manual={manual} onStart={() => goToShelf('start')} onBrowseShelf={goToShelf} />
-        ) : tab === 'manual' ? (
-          <Reader manual={manual} shelf={readerShelf} onReflect={reflectOn} />
+        {!newsletter ? (
+          <div className="loading">Filing the edition…</div>
+        ) : tab === 'edition' ? (
+          <Edition
+            newsletter={newsletter}
+            onAnnotate={goAnnotate}
+            notesFor={(target) =>
+              (marginalia.notes[newsletter.edition]?.[target] ?? []).length
+            }
+          />
         ) : (
-          <Studio manual={manual} focusItemId={studioItem} />
+          <Reflect
+            newsletter={newsletter}
+            state={marginalia}
+            onChange={setMarginalia}
+            initialTarget={annotateTarget}
+          />
         )}
       </main>
 
       <footer className="footer">
         <div className="container footer-inner">
-          <div className="colophon">
-            The Field Manual — filed from the frontier, read like intelligence. Small, opinionated,
-            and allergic to filler.
-          </div>
-          <div>
-            {manual ? `Edition ${manual.edition}` : ''} · Reflections stay in your browser
-          </div>
+          <div>The Field Manual — the last 48 hours, woven into one story.</div>
+          <div>{newsletter ? `Edition ${newsletter.edition}` : ''} · Notes stay in your browser</div>
         </div>
       </footer>
     </div>

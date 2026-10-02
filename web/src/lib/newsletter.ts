@@ -172,16 +172,6 @@ export function itemById(letter: Newsletter, id: string): NewsletterItem | undef
   return allItems(letter).find((item) => item.id === id);
 }
 
-/** Human label for a margin-note target: "section:signal" or an item id. */
-export function targetLabel(letter: Newsletter, targetId: string): string {
-  if (targetId.startsWith('section:')) {
-    const section = sectionById(letter, targetId.slice('section:'.length));
-    return section ? `§ ${section.title}` : targetId;
-  }
-  const item = itemById(letter, targetId);
-  return item ? item.title : targetId;
-}
-
 /** Pretty edition date, e.g. "October 2, 2026". */
 export function prettyEditionDate(edition: string): string {
   const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(edition);

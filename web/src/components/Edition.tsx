@@ -4,16 +4,10 @@ import {
   type Newsletter,
   type NewsletterItem,
 } from '../lib/newsletter';
+import type { ChartSpec } from '../lib/charts';
+import { ChartsStrip } from './Charts';
 
-function ItemCard({
-  item,
-  onAnnotate,
-  noteCount,
-}: {
-  item: NewsletterItem;
-  onAnnotate: (target: string) => void;
-  noteCount: number;
-}) {
+function ItemCard({ item }: { item: NewsletterItem }) {
   const [open, setOpen] = useState(false);
   const b = item.briefing;
   return (
@@ -44,9 +38,6 @@ function ItemCard({
         <button type="button" className="linklike" onClick={() => setOpen((v) => !v)}>
           {open ? 'Show less' : 'Read the briefing'}
         </button>
-        <button type="button" className="linklike" onClick={() => onAnnotate(item.id)}>
-          Annotate{noteCount > 0 ? ` (${noteCount})` : ''}
-        </button>
       </div>
     </article>
   );
@@ -54,12 +45,10 @@ function ItemCard({
 
 export function Edition({
   newsletter,
-  onAnnotate,
-  notesFor,
+  charts,
 }: {
   newsletter: Newsletter;
-  onAnnotate: (target: string) => void;
-  notesFor: (target: string) => number;
+  charts: ChartSpec[];
 }) {
   return (
     <div>
@@ -73,31 +62,16 @@ export function Edition({
         </div>
       </header>
 
+      <ChartsStrip charts={charts} />
+
       {newsletter.sections.map((section) => (
         <section key={section.id} className="section">
           <div className="section-kicker">{section.kicker}</div>
           <h2 className="section-title">{section.title}</h2>
-          <div className="section-annotate">
-            <button
-              type="button"
-              className="linklike"
-              onClick={() => onAnnotate(`section:${section.id}`)}
-            >
-              Annotate this section
-              {notesFor(`section:${section.id}`) > 0
-                ? ` (${notesFor(`section:${section.id}`)})`
-                : ''}
-            </button>
-          </div>
           <p className="section-narrative">{section.narrative}</p>
           <div className="items">
             {section.items.map((item) => (
-              <ItemCard
-                key={item.id}
-                item={item}
-                onAnnotate={onAnnotate}
-                noteCount={notesFor(item.id)}
-              />
+              <ItemCard key={item.id} item={item} />
             ))}
           </div>
           <blockquote className="closing-take">

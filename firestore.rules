@@ -1,0 +1,24 @@
+rules_version = '2';
+
+// The Field Manual — newsletter subscribers.
+// Public signup form writes here; reads/writes/updates/deletes are closed.
+// The scheduled email job reads the list server-side via the Firestore API.
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /subscribers/{docId} {
+      allow create: if request.resource.data.keys().hasOnly(
+                        ['name', 'email', 'createdAt', 'source'])
+        && request.resource.data.name is string
+        && request.resource.data.name.size() > 0
+        && request.resource.data.name.size() <= 80
+        && request.resource.data.email is string
+        && request.resource.data.email.size() <= 254
+        && request.resource.data.email.matches('^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$');
+      allow read, update, delete: if false;
+    }
+    // Default deny for everything else.
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

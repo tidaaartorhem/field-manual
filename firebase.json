@@ -1,1 +1,14 @@
-{"hosting":{"ignore":["firebase.json","**/.*","**/node_modules/**"],"public":"web/dist","site":"aadit-field-manual"}}
+{
+  "hosting": {
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "public": "web/dist",
+    "site": "aadit-field-manual"
+  },
+  "firestore": {
+    "rules": "firestore.rules"
+  }
+}

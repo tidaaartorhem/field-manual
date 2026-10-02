@@ -2,7 +2,6 @@ import { describe, expect, it } from 'vitest';
 import {
   loadNewsletter,
   prettyEditionDate,
-  targetLabel,
   validateNewsletter,
 } from './newsletter';
 
@@ -74,12 +73,5 @@ describe('helpers', () => {
   it('formats edition dates', () => {
     expect(prettyEditionDate('2026-10-02')).toBe('October 2, 2026');
     expect(prettyEditionDate('garbage')).toBe('garbage');
-  });
-
-  it('labels margin-note targets', () => {
-    const n = loadNewsletter(validNewsletter());
-    expect(targetLabel(n, 'section:signal')).toBe('§ The Signal');
-    expect(targetLabel(n, 'signal-001')).toBe('An agent launched');
-    expect(targetLabel(n, 'nope')).toBe('nope');
   });
 });

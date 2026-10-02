@@ -1,24 +1,23 @@
 #!/usr/bin/env python3
-"""Turn curated items into narrative briefings.
+"""Turn curated items into a story-like newsletter edition.
 
-Two paths, best-first:
+Voice rules live in ``VOICE.md``: Acquired's narrative machinery (the long
+arc, the mechanism breakdown, "why does this win") aimed at All In's news
+cycle (operator skepticism, "here's what nobody is saying").
 
-1. **OpenAI API (preferred).** When the ``custom.openai`` credential
-   resolves via the dynamic-credential surrogate helper (same pattern as
-   the Firecrawl skill: only ``hsurr:*`` surrogate values are ever sent,
-   and only to ``api.openai.com``), each item gets exactly one constrained
-   chat-completions call producing the briefing as JSON.
-2. **Template fallback.** When the credential is missing, rejected, or any
-   call fails, briefings are assembled from hand-written templates that
-   reference the item's REAL title, source, and description.
+Two LLM jobs, both constrained:
 
-The fallback is honest, not a placeholder: templates are deliberately
-numerous and varied, the specific template is chosen deterministically
-(hash of the item id + field) so output is stable across runs but doesn't
-read like one form letter, and nothing invents facts — when the source
-listing is thin, the copy says so instead of filling the gap.
+1. **Per-item briefings** — one API call per item producing lede /
+   what_happened / why_it_matters / steal_this + takeaways.
+2. **Section narratives** — one API call per section weaving that section's
+   items into a story-like narrative with a closing take.
+3. **Edition lede** — one API call for the opening paragraph.
 
-No key or surrogate value is ever hardcoded, logged, or persisted.
+Fallback policy: when the ``custom.openai`` credential is missing,
+rejected, or any call fails, hand-written templates take over. Templates
+reference only REAL titles, sources, and descriptions. The circuit breaker
+disables the API for the run after 3 consecutive failures. No key or
+surrogate value is ever hardcoded, logged, or persisted.
 """
 import hashlib
 import json
@@ -42,7 +41,7 @@ def clean_text(desc):
     t = desc or ""
     t = re.sub(r"!\[[^\]]*\]\([^)]*\)", "", t)          # images
     t = re.sub(r"\[([^\]]*)\]\([^)]*\)", r"\1", t)      # links -> text
-    t = re.sub(r"^#{1,6}\s*", "", t, flags=re.M)        # headings
+    t = re.sub(r"^#{1,6}\s*", "", t, flags=re.M)       # headings
     t = t.replace("|", " ").replace("*", "")
     lines = []
     for line in t.splitlines():
@@ -75,8 +74,8 @@ def topic_word(item, shelf):
     for kw in sorted(TOPIC_KEYWORDS[shelf], key=len, reverse=True):
         if kw in text and len(kw) > 3:
             return kw
-    return {"papers": "agents", "courses": "agentic AI",
-            "news": "agents", "career": "AI engineering"}[shelf]
+    return {"signal": "agents", "tech": "AI", "startups": "startups",
+            "podcasts": "the episode"}[shelf]
 
 
 def _slots(item, shelf):
@@ -93,126 +92,125 @@ def _slots(item, shelf):
 # ---------------------------------------------------------------- templates
 
 LEDES = {
-    "papers": [
+    "signal": [
         "'{title}' is making the rounds in the {topic} crowd — and for once the forwarding is justified.",
         "New on {source}: '{title}'. The headline undersells it.",
-        "'{title}' just landed on {source}, and it's the kind of paper that ends up cited in architecture docs rather than tweets.",
-        "If you read one paper from this shelf, make it '{title}'. Here's the case.",
+        "'{title}' just landed, and it's the kind of story that ends up in architecture docs rather than tweets.",
     ],
-    "courses": [
-        "'{title}' ({source}) is the structured version of what everyone is learning the hard way.",
-        "Another cert entered the chat: '{title}'. Most aren't worth your time. This one might be — here's the read.",
-        "If you're going to put '{topic}' on a resume, '{title}' from {source} is one of the few ways to do it with conviction.",
+    "tech": [
+        "'{title}' — {source} moved this week, and the ripples are worth tracking.",
+        "Filed under 'actually matters': '{title}' ({source}).",
     ],
-    "news": [
-        "'{title}' — {source} just moved, and the agent ecosystem felt it.",
-        "Filed under 'actually shipped': '{title}' ({source}).",
-        "{source} announced '{title}'. Press releases are cheap; this one has teeth. Here's why.",
+    "startups": [
+        "'{title}' — another data point in where startup energy is flowing.",
+        "{source} reports: '{title}'. Here's the read beneath the announcement.",
     ],
-    "career": [
-        "'{title}' — the market is speaking, and this listing is fluent.",
-        "Resume-adjacent intel: '{title}' ({source}). Read it as a signal, not just a job.",
-        "If you're watching the {topic} market, '{title}' is a data point worth pocketing.",
+    "podcasts": [
+        "On {source}: '{title}'. Worth an hour of your ears — here's why.",
+        "This week's listen: '{title}' ({source}). The conversation worth catching.",
     ],
 }
 
 WHAT_HAPPENED = {
-    "papers": [
-        "Here's the substance. {gist} The paper is '{title}', out via {source}.",
-        "'{title}' ({source}) goes after a question most teams only argue about over coffee: {gist}",
-        "The work behind '{title}': {gist} It's on {source} now, and the discussion section is doing the rounds for a reason.",
+    "signal": [
+        "Here's the substance. {gist} The story is '{title}', via {source}.",
+        "The short version: {gist} The longer version is '{title}' — {source}'s latest move in the {topic} land grab.",
     ],
-    "courses": [
-        "Here's the shape of it: {gist} '{title}' is aimed at people who want the credential to match the work they're already doing.",
-        "{gist} That's the syllabus for '{title}' — {source}'s bet that {topic} is a skill you can teach, not just talent you hire.",
-    ],
-    "news": [
+    "tech": [
         "{gist} That's the news: '{title}', straight from {source}.",
-        "The short version: {gist} The longer version: '{title}' is {source}'s latest move in the {topic} land grab.",
-        "'{title}' is live. {gist} {source} is clearly betting this becomes infrastructure, not a headline.",
+        "Here's what happened: {gist} '{title}' is {source}'s read on where things stand.",
     ],
-    "career": [
-        "The listing, in brief: {gist} Title on the tin: '{title}'.",
-        "{gist} That's '{title}' — another signal from the {source} side of the hiring market.",
+    "startups": [
+        "{gist} That's '{title}' — the startup world, in one headline.",
+        "The deal, in brief: {gist} '{title}' via {source}.",
+    ],
+    "podcasts": [
+        "{gist} That's the shape of '{title}' — this week's {source} conversation.",
+        "On the show: {gist} '{title}' ({source}) goes there.",
     ],
 }
 
 WHY_IT_MATTERS = {
-    "papers": [
-        "Agent evaluation is where confident demos go to die. Anything that moves this from vibes to measurement is infrastructure for everyone building on top.",
-        "The gap between 'our agent works' and 'our agent works in production' is the entire enterprise market. Work like this is the bridge — read it before it becomes a vendor slide.",
-        "This is the kind of result practitioners cite for a year while product teams quietly absorb it. If you build with {topic}, it will shape your roadmap whether you read it or not.",
-        "Benchmarks are the moat conversation nobody wants to have: teams with real evals ship, everyone else argues. This paper hands you the yardstick.",
+    "signal": [
+        "Enterprise AI doesn't run on research papers — it runs on announcements like this becoming boring infrastructure. The question isn't whether it's exciting; it's whether it gets deployed.",
+        "Every agent launch is a bet on where the abstraction layer settles. The winners here decide what 'building an agent' means for the next three years.",
+        "Watch what they shipped, not what they promised. Adoption numbers are the only press release that matters.",
     ],
-    "courses": [
-        "Credentials don't build agents, but they do unlock conversations. In a market where every posting asks for two years of experience with a two-year-old technology, a {source} credential is a credible shortcut.",
-        "The real value was never the certificate — it's the forced march through the fundamentals. Most agent failures are basics failures wearing a trench coat.",
-        "Hiring managers are drowning in 'AI enthusiast' resumes. Structured proof of engineering skill is how you stand out without shouting.",
+    "tech": [
+        "Tech narratives move in weeks now, not quarters. The winners aren't the ones with the best announcement — they're the ones whose thing becomes infrastructure while everyone else is still writing hot takes.",
+        "Follow the mechanism, not the headline. Whatever {source} is describing, ask who it displaces and who collects the rent.",
     ],
-    "news": [
-        "Enterprise AI adoption doesn't run on research papers — it runs on announcements like this becoming boring infrastructure. The question isn't whether it's exciting; it's whether it gets deployed.",
-        "Every framework launch is a bet on where the abstraction layer settles. The winners here decide what 'building an agent' means for the next three years.",
-        "Adoption numbers are the only press release that matters. If enterprises actually deploy this, the job market for people who can integrate it moves the same week.",
+    "startups": [
+        "Startup announcements are the most honest leading indicators in tech. Where the money and talent flow this week is where the market will be in eighteen months.",
+        "Every funding round is a bet on a thesis. Read the thesis, not the valuation — the valuation is marketing, the thesis is the product.",
     ],
-    "career": [
-        "Job posts are the most honest product roadmaps in tech. What companies hire for is what they actually believe — everything else is marketing.",
-        "The forward-deployed market is where AI meets revenue. Roles like this are the canary: when they multiply, the enterprise wave is real.",
-        "Read the requirements list as a curriculum. Every bullet is a skill the market will pay for — learn the top three and the interview takes care of itself.",
+    "podcasts": [
+        "The best operator thinking never makes it into blog posts — it leaks out in long conversations. This is where the unguarded takes live.",
+        "Podcasts are where narratives get stress-tested before they harden. Listen for what the guests argue about, not what they agree on.",
     ],
 }
 
 STEAL_THIS = {
-    "papers": [
-        "Steal the evaluation setup: run your own agent against this paper's benchmark before your next stakeholder review and see what breaks.",
-        "Steal the taxonomy and organize your team's eval suite around it. Conversations get sharper the moment everyone uses the same words.",
-        "Steal the failure modes: wherever the paper says agents break, those are your production test cases. Write them down before your users find them.",
-        "Steal the framing for your next design doc. 'Here's how the literature measures this' wins arguments faster than any opinion.",
+    "signal": [
+        "Steal the positioning: whatever just shipped, ask how your stack answers it. If you can't, that's your roadmap.",
+        "Try it this week. Fifteen minutes with the actual tool beats an hour of coverage.",
     ],
-    "courses": [
-        "Steal the curriculum outline as your personal learning checklist — do the projects even if you skip the certificate.",
-        "Steal one module and teach it to your team. Nothing cements agentic patterns like explaining them to a skeptic.",
-        "Steal the capstone idea: build it, ship it, link it. The project is the credential.",
+    "tech": [
+        "Steal the framing for your next design doc: 'here's how the industry is moving' wins arguments faster than any opinion.",
+        "Ask the displacement question: who loses if this wins? That's usually the more interesting trade.",
     ],
-    "news": [
-        "Steal the positioning: whatever {source} just shipped, ask how your team's stack answers it. If you can't, that's your roadmap.",
-        "Steal the launch checklist. Note what they announced, what they demoed, and what they left for 'later' — that's the honest roadmap.",
-        "Try it this week. Fifteen minutes with the actual tool beats an hour of launch coverage.",
+    "startups": [
+        "Steal the thesis, not the company. If the bet is right, there's room for a second player who executes better.",
+        "Note what they announced versus what they demoed. The gap is the honest roadmap.",
     ],
-    "career": [
-        "Steal the requirements list as your learning roadmap. If the posting asks for it twice, the market wants it.",
-        "Steal the language: mirror how these listings describe the work, and your resume starts sounding like an insider wrote it.",
-        "Apply the two-posting rule: when you see the same skill in two listings, it's a trend. Learn it before it's table stakes.",
+    "podcasts": [
+        "Steal one argument and pressure-test it against your own work this week.",
+        "Listen at 1.5x, but pause when they disagree with each other — that's the good stuff.",
     ],
 }
 
 TAKEAWAYS = {
-    "papers": [
-        "Evals are infrastructure, not overhead.",
-        "The benchmark is the product.",
-        "Multi-agent is a coordination problem, not a scaling problem.",
-        "RAG lives or dies on retrieval, not generation.",
-        "Memory is the next frontier for agents.",
-        "If you can't measure it, you can't ship it.",
-    ],
-    "courses": [
-        "The certificate is the receipt; the project is the purchase.",
-        "Fundamentals beat frameworks, every time.",
-        "Teach it to learn it.",
-        "Shipping one agent beats certifying ten.",
-    ],
-    "news": [
+    "signal": [
         "Shipped beats announced.",
         "The abstraction layer is still up for grabs.",
         "Adoption is the only metric that matters.",
-        "Watch what they demoed, not what they promised.",
+        "Watch the demo, not the press release.",
     ],
-    "career": [
-        "Job posts are product roadmaps.",
-        "FDE is where AI meets revenue.",
-        "Requirements lists are curricula.",
-        "Insider language beats keyword stuffing.",
+    "tech": [
+        "Infrastructure eats announcements.",
+        "Follow the mechanism, not the headline.",
+        "Narratives move in weeks now.",
+    ],
+    "startups": [
+        "Funding is a thesis, not a trophy.",
+        "Talent flow is the leading indicator.",
+        "Read the announcement; bet on the execution.",
+    ],
+    "podcasts": [
+        "Unguarded takes beat polished posts.",
+        "Arguments are more informative than agreements.",
+        "Operators leak the real story in long conversations.",
     ],
 }
+
+SECTION_NARRATIVE_TEMPLATES = [
+    ("This section is about {topic_word}. {item_beats} The thread connecting "
+     "them: everyone's placing bets on the same question, and the answers "
+     "are starting to diverge — which is exactly when it gets interesting.",
+     "The take: watch what ships, not what trends."),
+    ("A lot happened in {topic_word} this week. {item_beats} Read together, "
+     "they tell one story: the gap between announcement and deployment is "
+     "where all the real action is.",
+     "The take: the winners will be decided by who deploys, not who announces."),
+    ("{item_beats} That's {topic_word}, this week. The press releases say one "
+     "thing; the incentives say another — and the incentives are usually right.",
+     "The take: follow the incentives, not the headlines."),
+]
+
+LEDE_TEMPLATES = [
+    "Forty-eight hours in AI is a long time. This edition stitches the week into one story: {section_beats}",
+    "A lot can happen in two days. Here's the last 48 hours, woven into something you can actually think with: {section_beats}",
+]
 
 
 # ------------------------------------------------------- OpenAI path
@@ -224,22 +222,53 @@ _OPENAI_MODEL = "gpt-4o-mini"
 _DC_PATH = "/opt/hatch/skills/skill-creator/bin"
 
 _SYSTEM_PROMPT = (
-    'You are the briefing writer for "The Field Manual", a weekly intelligence '
-    "briefing for engineers building AI agents. Voice: sharp, opinionated, "
-    "narrative — the All In podcast meets Acquired. Direct sentences, zero "
-    "fluff. Never use hype words: revolutionary, game-changer, delve, "
-    "paradigm shift, supercharge, unlock the power.\n\n"
+    'You are the briefing writer for "The Field Manual", a 48-hour newsletter '
+    "for engineers building AI agents. Voice: Acquired's narrative machinery "
+    "(the long arc, the mechanism breakdown, receipts, 'why does this win') "
+    "aimed at All In's news cycle (operator skepticism, 'here's what nobody "
+    "is saying'). Direct sentences, zero fluff. Never use hype words: "
+    "revolutionary, game-changer, delve, paradigm shift, supercharge, unlock "
+    "the power.\n\n"
     "Given an item's title, source, and description, output ONLY a JSON object "
     "with exactly these keys:\n"
     '- "lede": 1-2 sentence hook\n'
     '- "what_happened": 2-4 sentences, narrative of the thing itself\n'
-    '- "why_it_matters": 2-3 sentences, opinionated take on its significance\n'
+    '- "why_it_matters": 2-3 sentences, opinionated take with the mechanism\n'
     '- "steal_this": one concrete idea worth stealing\n'
     '- "takeaways": array of 2-4 short punchy strings\n\n'
     "Rules: ground every claim strictly in the provided title/source/"
     "description. Do not invent facts, quotes, statistics, dates, or details "
     "not present. If the description is thin, say so plainly instead of "
     "filling gaps."
+)
+
+_SECTION_SYSTEM_PROMPT = (
+    'You are the section editor for "The Field Manual", a 48-hour newsletter. '
+    "Voice: Acquired meets All In — narrative arc, mechanism over "
+    "announcement, operator skepticism, 'here's what nobody is saying'. "
+    "Never use hype words: revolutionary, game-changer, delve, paradigm "
+    "shift, supercharge, unlock the power.\n\n"
+    "Given a section's items (title, source, one-line gist each), output ONLY "
+    "a JSON object with exactly these keys:\n"
+    '- "narrative": 4-7 sentences weaving the items into ONE story-like '
+    "narrative. Name the arc: where this started, the inflection this week, "
+    "what winning looks like from here. Include one skeptical beat — decode "
+    "incentives, don't repeat press releases.\n"
+    '- "closing_take": one sharp closing line, the thing you would say to a '
+    "smart friend who asked 'so what?'\n\n"
+    "Rules: every claim must trace to the provided items. Do not invent "
+    "facts, quotes, or details. If an item's gist is thin, don't lean on it."
+)
+
+_LEDE_SYSTEM_PROMPT = (
+    'You are the editor of "The Field Manual", a 48-hour newsletter for '
+    "engineers building AI agents. Voice: Acquired meets All In — story-like, "
+    "sharp, opinionated, zero fluff. Never use hype words: revolutionary, "
+    "game-changer, delve, paradigm shift, supercharge, unlock the power.\n\n"
+    "Given one-line summaries of each section, output ONLY a JSON object with "
+    'exactly one key: "lede" — 3-5 sentences opening the edition like a '
+    "story, telling the reader why these 48 hours mattered and what to read "
+    "first. No invented facts."
 )
 
 BRIEFING_KEYS = ("lede", "what_happened", "why_it_matters", "steal_this")
@@ -297,27 +326,11 @@ def briefing_source_stats():
     return stats
 
 
-def _valid_llm_briefing(obj):
-    """Validate the API-returned briefing shape; return (briefing, takeaways)."""
-    if not isinstance(obj, dict):
-        raise _LLMItemFailed("response JSON is not an object")
-    briefing = {}
-    for key in BRIEFING_KEYS:
-        val = obj.get(key)
-        if not isinstance(val, str) or not val.strip():
-            raise _LLMItemFailed(f"missing/empty briefing field: {key}")
-        low = val.lower()
-        for banned in BANNED:
-            if banned in low:
-                raise _LLMItemFailed(f"banned phrase in {key}")
-        briefing[key] = val.strip()
-    raw_takeaways = obj.get("takeaways")
-    if not isinstance(raw_takeaways, list) or not raw_takeaways:
-        raise _LLMItemFailed("missing/empty takeaways")
-    takeaways = [str(t).strip() for t in raw_takeaways if str(t).strip()][:4]
-    if len(takeaways) < 2:
-        raise _LLMItemFailed("fewer than 2 usable takeaways")
-    return briefing, takeaways
+def _check_banned(text, where):
+    low = text.lower()
+    for banned in BANNED:
+        if banned in low:
+            raise _LLMItemFailed(f"banned phrase in {where}")
 
 
 def _openai_chat(payload):
@@ -335,23 +348,15 @@ def _openai_chat(payload):
         raise _LLMItemFailed(f"API call failed: {type(exc).__name__}: {exc}") from exc
 
 
-def _llm_briefing(item, shelf):
-    """Exactly one constrained API call per item. Returns (briefing, takeaways)."""
-    slots = _slots(item, shelf)
-    desc = clean_text(item.get("description", ""))[:1200]
-    user_content = (
-        f"Shelf: {shelf}\n"
-        f"Title: {slots['title']}\n"
-        f"Source: {slots['source']}\n"
-        f"Description: {desc or '(no description provided)'}"
-    )
+def _chat_json(system_prompt, user_content, max_tokens):
+    """One constrained JSON chat call. Returns the parsed object."""
     payload = {
         "model": _OPENAI_MODEL,
-        "temperature": 0.3,
-        "max_tokens": 500,
+        "temperature": 0.4,
+        "max_tokens": max_tokens,
         "response_format": {"type": "json_object"},
         "messages": [
-            {"role": "system", "content": _SYSTEM_PROMPT},
+            {"role": "system", "content": system_prompt},
             {"role": "user", "content": user_content},
         ],
     }
@@ -361,10 +366,43 @@ def _llm_briefing(item, shelf):
     except (KeyError, IndexError, TypeError) as exc:
         raise _LLMItemFailed(f"unexpected API response shape: {exc}") from exc
     try:
-        obj = json.loads(content)
+        return json.loads(content)
     except json.JSONDecodeError as exc:
         raise _LLMItemFailed(f"response is not JSON: {exc}") from exc
-    return _valid_llm_briefing(obj)
+
+
+def _valid_llm_briefing(obj):
+    """Validate the API-returned briefing shape; return (briefing, takeaways)."""
+    if not isinstance(obj, dict):
+        raise _LLMItemFailed("response JSON is not an object")
+    briefing = {}
+    for key in BRIEFING_KEYS:
+        val = obj.get(key)
+        if not isinstance(val, str) or not val.strip():
+            raise _LLMItemFailed(f"missing/empty briefing field: {key}")
+        _check_banned(val, key)
+        briefing[key] = val.strip()
+    raw_takeaways = obj.get("takeaways")
+    if not isinstance(raw_takeaways, list) or not raw_takeaways:
+        raise _LLMItemFailed("missing/empty takeaways")
+    takeaways = [str(t).strip() for t in raw_takeaways if str(t).strip()][:4]
+    if len(takeaways) < 2:
+        raise _LLMItemFailed("fewer than 2 usable takeaways")
+    return briefing, takeaways
+
+
+def _llm_briefing(item, shelf):
+    """Exactly one constrained API call per item. Returns (briefing, takeaways)."""
+    slots = _slots(item, shelf)
+    desc = clean_text(item.get("description", ""))[:1200]
+    user_content = (
+        f"Section: {shelf}\n"
+        f"Title: {slots['title']}\n"
+        f"Source: {slots['source']}\n"
+        f"Description: {desc or '(no description provided)'}"
+    )
+    return _valid_llm_briefing(
+        _chat_json(_SYSTEM_PROMPT, user_content, max_tokens=500))
 
 
 def _probe_credential():
@@ -459,10 +497,14 @@ def write_briefing(item, shelf):
         "steal_this": _pick(f"{item_id}:steal", STEAL_THIS[shelf]).format(**slots),
     }
     for text in briefing.values():
-        low = text.lower()
-        for banned in BANNED:
-            assert banned not in low, f"banned phrase {banned!r} in briefing"
+        _check_banned_text(text)
     return briefing
+
+
+def _check_banned_text(text):
+    low = text.lower()
+    for banned in BANNED:
+        assert banned not in low, f"banned phrase {banned!r} in briefing"
 
 
 def make_takeaways(item, shelf):
@@ -479,3 +521,94 @@ def make_takeaways(item, shelf):
     n = 2 + (h % 3)  # 2..4
     start = (h >> 4) % len(pool)
     return [pool[(start + i) % len(pool)] for i in range(n)]
+
+
+def brief_item(item, shelf):
+    """Public entry: (briefing dict, takeaways list) for one item."""
+    briefing, takeaways, _ = _briefing_with_source(item, shelf)
+    return briefing, takeaways
+
+
+# ------------------------------------------------- section narratives
+
+def _template_section_narrative(section_id, section_title, items):
+    """Connective editorial copy when the API is unavailable."""
+    key = f"section:{section_id}"
+    beats = []
+    for it in items[:4]:
+        beats.append(f"'{it.get('title', 'Untitled')}' ({source_name(it.get('url', ''))})")
+    item_beats = "; ".join(beats) + "." if beats else "a quiet stretch."
+    topic = {"signal": "agentic AI", "tech": "the wider tech world",
+             "startups": "startup land",
+             "podcasts": "the podcast circuit"}.get(section_id, section_id)
+    narrative_t, take_t = _pick(key, SECTION_NARRATIVE_TEMPLATES)
+    return {
+        "narrative": narrative_t.format(topic_word=topic, item_beats=item_beats),
+        "closing_take": take_t,
+    }
+
+
+def write_section_narrative(section_id, section_title, items):
+    """Weave a section's items into one story-like narrative.
+
+    One constrained API call; template fallback on any failure.
+    Returns {'narrative': str, 'closing_take': str}.
+    """
+    st = _LLM_STATE
+    item_lines = []
+    for it in items:
+        g = gist(it) or "(details thin)"
+        item_lines.append(f"- {it.get('title', 'Untitled')} "
+                          f"[{source_name(it.get('url', ''))}]: {g[:220]}")
+    user_content = (f"Section: {section_title}\nItems:\n" + "\n".join(item_lines))
+
+    # The item-briefing pass runs first, so by now the probe has resolved:
+    # st["available"] is authoritative. Never probe on a synthetic item.
+    use_llm = st["mode"] in ("auto", "on") and st["available"]
+    if use_llm:
+        try:
+            obj = _chat_json(_SECTION_SYSTEM_PROMPT, user_content,
+                             max_tokens=600)
+            narrative = obj.get("narrative", "")
+            closing = obj.get("closing_take", "")
+            if (isinstance(narrative, str) and narrative.strip()
+                    and isinstance(closing, str) and closing.strip()):
+                _check_banned(narrative, "narrative")
+                _check_banned(closing, "closing_take")
+                return {"narrative": narrative.strip(),
+                        "closing_take": closing.strip()}
+            raise _LLMItemFailed("missing/empty narrative fields")
+        except (_LLMItemFailed, _LLMUnavailable) as exc:
+            print(f"[writer] section {section_id} narrative fell back "
+                  f"to template ({exc})", file=sys.stderr)
+    return _template_section_narrative(section_id, section_title, items)
+
+
+def _template_lede(section_titles):
+    beats = "; ".join(t for t in section_titles if t)
+    tmpl = _pick("lede", LEDE_TEMPLATES)
+    return tmpl.format(section_beats=beats + "." if beats else "the last two days, distilled.")
+
+
+def write_edition_lede(section_summaries):
+    """One constrained API call for the edition's opening paragraph.
+
+    ``section_summaries``: list of (section_title, closing_take).
+    Falls back to a template on any failure.
+    """
+    st = _LLM_STATE
+    lines = [f"- {title}: {take}" for title, take in section_summaries]
+    user_content = "Sections this edition:\n" + "\n".join(lines)
+    use_llm = st["mode"] in ("auto", "on") and st["available"]
+    if use_llm:
+        try:
+            obj = _chat_json(_LEDE_SYSTEM_PROMPT, user_content, max_tokens=300)
+            lede = obj.get("lede", "")
+            if isinstance(lede, str) and lede.strip():
+                _check_banned(lede, "lede")
+                return lede.strip()
+            raise _LLMItemFailed("missing/empty lede")
+        except (_LLMItemFailed, _LLMUnavailable) as exc:
+            print(f"[writer] edition lede fell back to template ({exc})",
+                  file=sys.stderr)
+    return _template_lede([t for t, _ in section_summaries])

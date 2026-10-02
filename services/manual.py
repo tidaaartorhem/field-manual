@@ -1,5 +1,15 @@
 #!/usr/bin/env python3
-"""CLI entry point: ``python -m services.manual scan`` or ``... build``.
+"""CLI entry point.
+
+Primary (headless, schedule-friendly)::
+
+    python -m services.manual edition --hours 48
+
+scans (time-bounded to the last ``--hours`` hours), filters, curates,
+writes, and compiles one newsletter edition into
+``data/newsletter.json`` + ``data/newsletter.md``.
+
+Legacy two-step commands (``scan`` / ``build``) remain for debugging.
 
 Run from the repo root (``~/workspace/github-repos/field-manual``).
 """
@@ -13,7 +23,7 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from services import scanner, compiler
-from services.curator import curate
+from services.curator import curate, filter_recent
 
 
 def cmd_scan(args):
@@ -51,26 +61,74 @@ def cmd_build(args):
     return 0
 
 
+def cmd_edition(args):
+    """One headless run: scan -> 48h filter -> curate -> write -> compile."""
+    hours = args.hours
+    print(f"[edition] scanning (last {hours}h window)...")
+    path = scanner.scan(limit_per_query=args.limit, verbose=not args.quiet)
+    if path is None:
+        print("edition aborted: all Firecrawl queries failed", file=sys.stderr)
+        return 2
+    raw = json.loads(path.read_text(encoding="utf-8"))
+    items = raw.get("items", [])
+    recent = filter_recent(items, hours=hours)
+    dropped = len(items) - len(recent)
+    print(f"[edition] {len(items)} scanned -> {len(recent)} inside {hours}h "
+          f"({dropped} too old)")
+    if not recent:
+        print("edition aborted: nothing inside the window", file=sys.stderr)
+        return 2
+    curated = curate(recent, target_min=args.min_per_section,
+                     target_max=args.max_per_section)
+    total = sum(len(v) for v in curated.values())
+    if total == 0:
+        print("edition aborted: nothing survived curation", file=sys.stderr)
+        return 2
+    letter = compiler.compile_edition(curated, window_hours=hours)
+    json_path, md_path = compiler.write_edition(letter)
+    for shelf, shelf_items in curated.items():
+        print(f"[edition] {shelf:8s}: {len(shelf_items)} items")
+    from services.writer import briefing_source_stats
+    src_stats = briefing_source_stats()
+    print(f"[edition] briefings: {src_stats.get('openai', 0)} via OpenAI API, "
+          f"{src_stats.get('template', 0)} via templates")
+    print(f"[edition] wrote {total} items -> {json_path} and {md_path}")
+    return 0
+
+
 def build_parser():
     parser = argparse.ArgumentParser(
         prog="services.manual",
-        description="field-manual pipeline: scan the web with Firecrawl, "
-                    "then curate, write, and compile an edition.",
+        description="field-manual pipeline: scan the web, curate, and "
+                    "compile a 48-hour newsletter edition.",
     )
     sub = parser.add_subparsers(dest="cmd", required=True)
 
-    p_scan = sub.add_parser("scan", help="run Firecrawl searches -> data/raw.json")
+    p_ed = sub.add_parser("edition", help="headless run: scan -> newsletter")
+    p_ed.add_argument("--hours", type=int, default=48,
+                      help="recency window in hours (default: 48)")
+    p_ed.add_argument("--limit", type=int, default=5,
+                      help="results per query (default: 5)")
+    p_ed.add_argument("--min-per-section", type=int, default=3,
+                      help="minimum items kept per section (default: 3)")
+    p_ed.add_argument("--max-per-section", type=int, default=6,
+                      help="maximum items kept per section (default: 6)")
+    p_ed.add_argument("--quiet", action="store_true",
+                      help="only print summary lines")
+    p_ed.set_defaults(func=cmd_edition)
+
+    p_scan = sub.add_parser("scan", help="run scans -> data/raw.json (debug)")
     p_scan.add_argument("--limit", type=int, default=5,
                         help="results per query (default: 5)")
     p_scan.add_argument("--quiet", action="store_true",
                         help="only print the summary line")
     p_scan.set_defaults(func=cmd_scan)
 
-    p_build = sub.add_parser("build", help="raw.json -> curate -> write -> compile")
-    p_build.add_argument("--min-per-shelf", type=int, default=8,
-                         help="minimum items kept per shelf (default: 8)")
-    p_build.add_argument("--max-per-shelf", type=int, default=10,
-                         help="maximum items kept per shelf (default: 10)")
+    p_build = sub.add_parser("build", help="raw.json -> newsletter (debug)")
+    p_build.add_argument("--min-per-shelf", type=int, default=3,
+                         help="minimum items kept per section (default: 3)")
+    p_build.add_argument("--max-per-shelf", type=int, default=6,
+                         help="maximum items kept per section (default: 6)")
     p_build.set_defaults(func=cmd_build)
     return parser
 

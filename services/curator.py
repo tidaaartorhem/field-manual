@@ -32,48 +32,41 @@ SECOND_HAND = {
     "tiktok.com", "instagram.com",
 }
 
-# Hosts whose content is typically primary and high-signal per shelf.
+# Hosts whose content is typically primary and high-signal per section.
 PRIMARY_HOSTS = {
-    "papers": {"arxiv.org", "openreview.net", "paperswithcode.com",
-               "proceedings.mlr.press", "aclanthology.org", "distill.pub"},
-    "courses": {"coursera.org", "deeplearning.ai", "udacity.com", "edx.org",
-                "fast.ai", "stanford.edu", "mit.edu", "huggingface.co",
-                "learn.deeplearning.ai", "maven.com", "udemy.com"},
-    "news": {"anthropic.com", "openai.com", "nvidia.com", "googleblog.com",
-             "microsoft.com", "aws.amazon.com", "techcrunch.com",
-             "theverge.com", "arstechnica.com", "venturebeat.com",
-             "langchain.com", "langchain.dev", "crewai.com",
-             "docs.anthropic.com", "github.blog"},
-    "career": {"linkedin.com", "www.linkedin.com", "indeed.com",
-               "greenhouse.io", "lever.co", "ashbyhq.com", "workday.com",
-               "wellfound.com", "ycombinator.com", "levels.fyi"},
+    "signal": {"anthropic.com", "openai.com", "nvidia.com", "googleblog.com",
+               "microsoft.com", "aws.amazon.com", "langchain.com",
+               "langchain.dev", "crewai.com", "docs.anthropic.com",
+               "huggingface.co", "github.blog"},
+    "tech": {"theverge.com", "arstechnica.com", "techcrunch.com",
+             "wired.com", "theinformation.com", "bloomberg.com",
+             "reuters.com", "nytimes.com"},
+    "startups": {"techcrunch.com", "ycombinator.com", "wellfound.com",
+                 "producthunt.com", "saastr.com"},
+    "podcasts": {"allin.com", "acquired.fm", "investlikethebest.com",
+                 "nytimes.com", "thisweekinstartups.com"},
 }
 
 TOPIC_KEYWORDS = {
-    "papers": {
+    "signal": {
         "agent", "agents", "agentic", "llm", "large language model",
-        "evaluation", "benchmark", "multi-agent", "rag",
-        "retrieval augmented", "retrieval-augmented", "tool use",
-        "tool-use", "planning", "reasoning", "memory", "orchestration",
-        "autonomous", "arxiv", "survey", "framework", "prompt",
+        "tool use", "tool-use", "planning", "reasoning", "memory",
+        "orchestration", "autonomous", "framework", "sdk", "api",
+        "copilot", "evaluation", "benchmark", "multi-agent", "rag",
     },
-    "courses": {
-        "course", "certification", "certified", "certificate", "bootcamp",
-        "curriculum", "learn", "training", "agentic", "agent", "llm",
-        "engineering", "academy", "nanodegree", "specialization",
-        "masterclass", "program",
+    "tech": {
+        "ai", "artificial intelligence", "model", "models", "chip",
+        "chips", "semiconductor", "datacenter", "cloud", "launch",
+        "release", "announcement", "breakthrough", "open source",
     },
-    "news": {
-        "launch", "launches", "announces", "announcement", "release",
-        "released", "agent", "agents", "agentic", "enterprise", "adoption",
-        "framework", "sdk", "api", "coding", "copilot", "startup",
-        "funding", "partnership", "ga ", "generally available",
+    "startups": {
+        "startup", "startups", "funding", "raised", "raise", "series",
+        "seed", "launch", "launches", "launched", "yc", "y combinator",
+        "pivot", "acquired", "acquisition", "valuation", "founder",
     },
-    "career": {
-        "forward deployed", "forward-deployed", "solutions engineer",
-        "solution engineer", "ai engineer", "llm", "hiring", "job",
-        "jobs", "career", "role", "salary", "interview", "resume",
-        "integration", "customer", "deployment", "deploy",
+    "podcasts": {
+        "episode", "podcast", "interview", "conversation", "all-in",
+        "acquired", "transcript", "show notes",
     },
 }
 
@@ -147,7 +140,54 @@ def extract_published(text, url=""):
     if m:
         mi = MONTHS.index(m.group(1).lower()) + 1
         return f"{m.group(2)}-{mi:02d}-01"
+    # "Oct 2, 2026" / "October 2, 2026" style (show notes, article bylines)
+    m = re.search(r"(?i)\b(" + "|".join(MONTHS) + r")\s+(\d{1,2}),?\s+(20\d{2})\b", blob)
+    if m:
+        mi = MONTHS.index(m.group(1).lower()) + 1
+        return f"{m.group(3)}-{mi:02d}-{int(m.group(2)):02d}"
     return None
+
+
+def item_date(item):
+    """Best-effort published date for an item, checking scraped markdown too."""
+    pub = (item.get("published") or "").strip()
+    if re.match(r"^20\d{2}-\d{2}-\d{2}$", pub):
+        return pub
+    return (extract_published(f"{item.get('title')} {item.get('description')}",
+                              item.get("url", ""))
+            or extract_published(item.get("scraped_markdown", ""), ""))
+
+
+def filter_recent(items, hours=48, now=None):
+    """Keep only items inside the last ``hours`` hours.
+
+    Items with a provably older published date are dropped. Items with no
+    detectable date are kept — they arrived through a time-bounded search
+    (tbs), so absence of a date is not evidence of staleness — but flagged
+    ``date_verified=False`` for honesty downstream.
+    """
+    from datetime import datetime, timedelta, timezone
+    now = now or datetime.now(timezone.utc)
+    cutoff = now - timedelta(hours=hours)
+    kept = []
+    for item in items:
+        item = dict(item)
+        pub = item_date(item)
+        item["published"] = pub
+        if pub:
+            try:
+                dt = datetime(int(pub[:4]), int(pub[5:7]), int(pub[8:10]),
+                              tzinfo=timezone.utc)
+            except ValueError:
+                dt = None
+            if dt is not None and dt < cutoff.replace(hour=0, minute=0,
+                                                      second=0, microsecond=0):
+                continue  # provably older than the window
+            item["date_verified"] = True
+        else:
+            item["date_verified"] = False
+        kept.append(item)
+    return kept
 
 
 def source_name(url):
@@ -225,7 +265,7 @@ def curate(items, target_min=8, target_max=10):
     Returns {shelf: [items...]} with ``score`` attached, shelves present in
     canonical order.
     """
-    order = ["papers", "courses", "news", "career"]
+    order = ["signal", "tech", "startups", "podcasts"]
     deduped = dedupe(items)
     by_shelf = {s: [] for s in order}
     for item in deduped:

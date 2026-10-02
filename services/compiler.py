@@ -1,48 +1,73 @@
 #!/usr/bin/env python3
-"""Assemble an edition: ids, start_here, TOC, taglines, stats.
+"""Assemble a newsletter edition: lede, section narratives, item briefings.
 
-Reads curated items, builds the exact ``data/manual.json`` shape from
-SCHEMA.md, validates it, and renders a readable ``data/manual.md``.
+Reads curated items, builds the ``data/newsletter.json`` shape (see
+SCHEMA.md), validates it, and renders a readable ``data/newsletter.md``.
+
+Edition shape::
+
+    {
+      "edition": "2026-10-02",
+      "window_hours": 48,
+      "generated_at": "...",
+      "lede": "...",
+      "sections": [
+        {"id": "signal", "title": "The Signal", "kicker": "...",
+         "narrative": "...", "closing_take": "...",
+         "items": [ {id, title, url, source, published, date_verified,
+                     score, briefing, takeaways, queries} ]},
+        ...
+      ],
+      "stats": {"items": n, "sections": m, "sources": k}
+    }
+
+Pipeline order inside ``compile_edition`` matters: item briefings run
+first (so the OpenAI probe happens on a real item), then section
+narratives, then the edition lede.
 """
 import json
 from datetime import datetime, timezone
 from pathlib import Path
 
-SHELF_ORDER = ["papers", "courses", "news", "career"]
+SECTION_ORDER = ["signal", "tech", "startups", "podcasts"]
 
-SHELF_META = {
-    "papers": {
-        "title": "Papers",
-        "tagline": "The research that decides what the rest of the industry argues about next year.",
+SECTION_META = {
+    "signal": {
+        "title": "The Signal",
+        "kicker": "Agentic AI, last 48 hours — what moved and why it matters.",
     },
-    "courses": {
-        "title": "Courses & Certifications",
-        "tagline": "Structured paths to put 'agentic AI' on your resume with conviction.",
+    "tech": {
+        "title": "The Wider Current",
+        "kicker": "The broader tech world, through an AI builder's lens.",
     },
-    "news": {
-        "title": "News",
-        "tagline": "Shipped, launched, and adopted — what the agent ecosystem actually did lately.",
+    "startups": {
+        "title": "Startups",
+        "kicker": "Launches, raises, pivots, and hot takes — where the energy went.",
     },
-    "career": {
-        "title": "Resume-adjacent",
-        "tagline": "The market for people who make AI work inside real companies, decoded from the listings.",
+    "podcasts": {
+        "title": "The Podcast Circuit",
+        "kicker": "What the operators said out loud this week.",
     },
 }
 
+WORTH_ID = "worth"
 
-def validate_manual(manual):
+
+def validate_newsletter(letter):
     """Raise ValueError if the edition doesn't match the SCHEMA.md shape."""
-    for key in ("edition", "generated_at", "shelves", "start_here", "stats"):
-        if key not in manual:
+    for key in ("edition", "window_hours", "generated_at", "lede",
+                "sections", "stats"):
+        if key not in letter:
             raise ValueError(f"missing top-level key: {key}")
-    if not isinstance(manual["shelves"], list) or not manual["shelves"]:
-        raise ValueError("shelves must be a non-empty list")
+    if not isinstance(letter["sections"], list) or not letter["sections"]:
+        raise ValueError("sections must be a non-empty list")
     seen_ids = set()
-    for shelf in manual["shelves"]:
-        for key in ("id", "title", "tagline", "items"):
-            if key not in shelf:
-                raise ValueError(f"shelf missing key: {key}")
-        for item in shelf["items"]:
+    for section in letter["sections"]:
+        for key in ("id", "title", "kicker", "narrative", "closing_take",
+                    "items"):
+            if key not in section:
+                raise ValueError(f"section missing key: {key}")
+        for item in section["items"]:
             for key in ("id", "title", "url", "source", "published", "shelf",
                         "score", "briefing", "takeaways", "queries"):
                 if key not in item:
@@ -59,112 +84,134 @@ def validate_manual(manual):
                     raise ValueError(f"briefing missing {key} on {item['id']}")
             if not isinstance(item["takeaways"], list) or not item["takeaways"]:
                 raise ValueError(f"takeaways empty on {item['id']}")
-            if not isinstance(item["queries"], list) or not item["queries"]:
-                raise ValueError(f"queries empty on {item['id']}")
-    for sid in manual["start_here"]:
-        if sid not in seen_ids:
-            raise ValueError(f"start_here references unknown id: {sid}")
-    stats = manual["stats"]
-    n = sum(len(s["items"]) for s in manual["shelves"])
-    if stats.get("items") != n or stats.get("shelves") != len(manual["shelves"]):
+    stats = letter["stats"]
+    n = sum(len(s["items"]) for s in letter["sections"])
+    if stats.get("items") != n or stats.get("sections") != len(letter["sections"]):
         raise ValueError("stats inconsistent with content")
 
 
-def compile_edition(curated, edition_date=None):
-    """Assemble + validate the edition dict. ``curated`` is {shelf: [items]}."""
+def _build_item(item, shelf, item_id, writer):
+    from .curator import source_name
+    url = item.get("url", "")
+    briefing, takeaways, _src = writer._briefing_with_source(
+        {**item, "id": item_id}, shelf)
+    return {
+        "id": item_id,
+        "title": (item.get("title") or "Untitled").strip(),
+        "url": url,
+        "source": source_name(url),
+        "published": item.get("published"),
+        "date_verified": bool(item.get("date_verified")),
+        "shelf": shelf,
+        "score": round(float(item.get("score", 0)), 2),
+        "briefing": briefing,
+        "takeaways": takeaways,
+        "queries": list(item.get("queries", [])),
+    }
+
+
+def compile_edition(curated, edition_date=None, window_hours=48):
+    """Assemble + validate the newsletter dict.
+
+    ``curated`` is {section_id: [items]}. Sections with no items are
+    skipped, except podcasts which renders an honest "quiet week" section.
+    """
     from . import writer
-    from .curator import source_name, extract_published
 
     writer.reset_run_state()
     edition_date = edition_date or datetime.now(timezone.utc).date().isoformat()
-    shelves = []
+    sections = []
     sources = set()
+    all_items = []
 
-    for shelf in SHELF_ORDER:
-        items = list(curated.get(shelf, []))
-        items.sort(key=lambda i: (-i.get("score", 0), i.get("title", "")))
+    for shelf in SECTION_ORDER:
+        items = sorted(curated.get(shelf, []),
+                       key=lambda i: (-i.get("score", 0), i.get("title", "")))
         out_items = []
         for idx, item in enumerate(items, 1):
             item_id = f"{shelf}-{idx:03d}"
-            url = item.get("url", "")
-            briefing, takeaways, _src = writer._briefing_with_source(
-                {**item, "id": item_id}, shelf)
-            out = {
-                "id": item_id,
-                "title": (item.get("title") or "Untitled").strip(),
-                "url": url,
-                "source": source_name(url),
-                "published": extract_published(
-                    f"{item.get('title','')} {item.get('description','')}", url),
-                "shelf": shelf,
-                "score": round(float(item.get("score", 0)), 2),
-                "briefing": briefing,
-                "takeaways": takeaways,
-                "queries": list(item.get("queries", [])),
-            }
+            out = _build_item(item, shelf, item_id, writer)
             sources.add(out["source"])
             out_items.append(out)
-        shelves.append({
+            all_items.append(out)
+        if not out_items and shelf != "podcasts":
+            continue
+        meta = SECTION_META[shelf]
+        if out_items:
+            narr = writer.write_section_narrative(shelf, meta["title"], out_items)
+        else:
+            narr = {
+                "narrative": ("Quiet on the podcast circuit this week — no new "
+                              "episodes from the tracked shows landed inside "
+                              "the 48-hour window. The back catalog is always "
+                              "there; this week's signal came from elsewhere."),
+                "closing_take": "No new episodes; the news carried this edition.",
+            }
+        sections.append({
             "id": shelf,
-            "title": SHELF_META[shelf]["title"],
-            "tagline": SHELF_META[shelf]["tagline"],
+            "title": meta["title"],
+            "kicker": meta["kicker"],
+            "narrative": narr["narrative"],
+            "closing_take": narr["closing_take"],
             "items": out_items,
         })
 
-    # start_here: top 2 papers + top news + top course, in shelf order.
-    by_shelf = {s["id"]: s["items"] for s in shelves}
-    start_here = []
-    for sid in by_shelf.get("papers", [])[:2]:
-        start_here.append(sid["id"])
-    for shelf in ("news", "courses"):
-        if by_shelf.get(shelf):
-            start_here.append(by_shelf[shelf][0]["id"])
+    # Worth Your Time: the 3 highest-scored items across the edition.
+    worth = sorted(all_items, key=lambda i: (-i["score"], i["title"]))[:3]
+    if worth:
+        sections.append({
+            "id": WORTH_ID,
+            "title": "Worth Your Time",
+            "kicker": "If you read three things, read these.",
+            "narrative": ("Three picks, no filler. These scored highest across "
+                          "every section — the densest signal in this edition."),
+            "closing_take": "Start here if you're short on time.",
+            "items": [
+                {**it, "id": f"worth-{n:03d}"}
+                for n, it in enumerate(worth, 1)
+            ],
+        })
 
-    manual = {
+    lede = writer.write_edition_lede(
+        [(s["title"], s["closing_take"]) for s in sections])
+
+    letter = {
         "edition": edition_date,
+        "window_hours": window_hours,
         "generated_at": datetime.now(timezone.utc).isoformat(),
-        "shelves": shelves,
-        "start_here": start_here,
+        "lede": lede,
+        "sections": sections,
         "stats": {
-            "items": sum(len(s["items"]) for s in shelves),
-            "shelves": len(shelves),
+            "items": sum(len(s["items"]) for s in sections),
+            "sections": len(sections),
             "sources": len(sources),
         },
     }
-    validate_manual(manual)
-    return manual
+    validate_newsletter(letter)
+    return letter
 
 
-def render_markdown(manual):
-    """Readable companion: TOC + per-item briefings."""
+def render_markdown(letter):
+    """Readable companion: lede + sections with narratives and briefings."""
     lines = [
-        f"# The Field Manual — Edition {manual['edition']}",
+        f"# The Field Manual — Edition {letter['edition']}",
         "",
-        "A weekly briefing for people building with AI agents: the papers, "
-        "courses, launches, and job-market signals that actually matter.",
+        f"*The last {letter['window_hours']} hours, woven into one story.*",
         "",
-        "## Start here",
+        letter["lede"],
         "",
     ]
-    lookup = {i["id"]: i for s in manual["shelves"] for i in s["items"]}
-    for sid in manual["start_here"]:
-        it = lookup[sid]
-        lines.append(f"- **[{it['title']}]({it['url']})** ({it['source']}) — {it['id']}")
-    lines += ["", "## Contents", ""]
-    for shelf in manual["shelves"]:
-        lines.append(f"- **{shelf['title']}** — {shelf['tagline']} ({len(shelf['items'])} items)")
-        for it in shelf["items"]:
-            lines.append(f"  - [{it['title']}]({it['url']})")
-    lines.append("")
-    for shelf in manual["shelves"]:
-        lines += [f"## {shelf['title']}", "", f"*{shelf['tagline']}*", ""]
-        for it in shelf["items"]:
+    for section in letter["sections"]:
+        lines += [f"## {section['title']}", "", f"*{section['kicker']}*", "",
+                  section["narrative"], "",
+                  f"**So what?** {section['closing_take']}", ""]
+        for it in section["items"]:
             b = it["briefing"]
             pub = f" · {it['published']}" if it.get("published") else ""
             lines += [
-                f"### {it['id']}: {it['title']}",
+                f"### {it['title']}",
                 "",
-                f"*{it['source']}{pub}* · score {it['score']} · [link]({it['url']})",
+                f"*{it['source']}{pub}* · [link]({it['url']})",
                 "",
                 f"**{b['lede']}**",
                 "",
@@ -179,19 +226,20 @@ def render_markdown(manual):
             ]
     lines += [
         "---",
-        f"*Stats: {manual['stats']['items']} items · "
-        f"{manual['stats']['sources']} sources · generated {manual['generated_at']}*",
+        f"*{letter['stats']['items']} items · "
+        f"{letter['stats']['sources']} sources · "
+        f"generated {letter['generated_at']}*",
         "",
     ]
     return "\n".join(lines)
 
 
-def write_edition(manual, out_dir=None):
+def write_edition(letter, out_dir=None):
     out_dir = Path(out_dir) if out_dir else Path(__file__).resolve().parent.parent / "data"
     out_dir.mkdir(parents=True, exist_ok=True)
-    json_path = out_dir / "manual.json"
-    md_path = out_dir / "manual.md"
-    json_path.write_text(json.dumps(manual, indent=2, ensure_ascii=False) + "\n",
+    json_path = out_dir / "newsletter.json"
+    md_path = out_dir / "newsletter.md"
+    json_path.write_text(json.dumps(letter, indent=2, ensure_ascii=False) + "\n",
                          encoding="utf-8")
-    md_path.write_text(render_markdown(manual), encoding="utf-8")
+    md_path.write_text(render_markdown(letter), encoding="utf-8")
     return json_path, md_path

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { addSubscriber } from '../lib/firebase';
+import { addSubscriber, setStoredEmail } from '../lib/firebase';
 import { normalizeSignup, validateSignup } from '../lib/validate';
 
 type Status = 'idle' | 'sending' | 'done' | 'error';
@@ -20,6 +20,7 @@ export function Signup({ edition }: { edition: string }) {
     try {
       const clean = normalizeSignup(name, email);
       await addSubscriber(clean.name, clean.email);
+      setStoredEmail(clean.email);
       setStatus('done');
     } catch (err) {
       setStatus('error');

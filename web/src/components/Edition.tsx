@@ -1,47 +1,7 @@
-import { useState } from 'react';
-import {
-  prettyEditionDate,
-  type Newsletter,
-  type NewsletterItem,
-} from '../lib/newsletter';
+import { prettyEditionDate, type Newsletter } from '../lib/newsletter';
+import { renderDigestMarkdown } from '../lib/markdown';
 import type { ChartSpec } from '../lib/charts';
 import { ChartsStrip } from './Charts';
-
-function ItemCard({ item }: { item: NewsletterItem }) {
-  const [open, setOpen] = useState(false);
-  const b = item.briefing;
-  return (
-    <article className="item">
-      <div className="item-head">
-        <a className="item-title" href={item.url} target="_blank" rel="noreferrer">
-          {item.title}
-        </a>
-        <div className="item-meta">
-          {item.source}
-          {item.published ? ` · ${item.published}` : ''}
-        </div>
-      </div>
-      <p className="item-lede">{b.lede}</p>
-      {open && (
-        <div className="item-body">
-          <p>{b.what_happened}</p>
-          <p>
-            <strong>Why it matters.</strong> {b.why_it_matters}
-          </p>
-          <p>
-            <strong>Steal this.</strong> {b.steal_this}
-          </p>
-          <p className="item-takeaways">{item.takeaways.join(' · ')}</p>
-        </div>
-      )}
-      <div className="item-actions">
-        <button type="button" className="linklike" onClick={() => setOpen((v) => !v)}>
-          {open ? 'Show less' : 'Read the briefing'}
-        </button>
-      </div>
-    </article>
-  );
-}
 
 export function Edition({
   newsletter,
@@ -55,30 +15,45 @@ export function Edition({
       <header className="edition-head">
         <div className="edition-kicker">The Field Manual · {prettyEditionDate(newsletter.edition)}</div>
         <h1 className="edition-title">The last {newsletter.window_hours} hours, in one story.</h1>
-        <p className="edition-lede">{newsletter.lede}</p>
         <div className="edition-stats">
-          {newsletter.stats.items} items · {newsletter.stats.sources} sources · filed{' '}
+          {newsletter.word_count} words · {newsletter.stats.items} stories ·{' '}
+          {newsletter.stats.sources} sources · filed{' '}
           {new Date(newsletter.generated_at).toLocaleString()}
         </div>
       </header>
 
+      <div
+        className="digest"
+        // Safe: renderDigestMarkdown escapes everything, then allows only
+        // **bold**, [text](http...), ## subheads, and paragraphs.
+        dangerouslySetInnerHTML={{ __html: renderDigestMarkdown(newsletter.digest) }}
+      />
+
       <ChartsStrip charts={charts} />
 
-      {newsletter.sections.map((section) => (
-        <section key={section.id} className="section">
-          <div className="section-kicker">{section.kicker}</div>
-          <h2 className="section-title">{section.title}</h2>
-          <p className="section-narrative">{section.narrative}</p>
-          <div className="items">
-            {section.items.map((item) => (
-              <ItemCard key={item.id} item={item} />
-            ))}
+      <section className="links-section">
+        <div className="section-kicker">All the links</div>
+        <h2 className="section-title">Go deeper</h2>
+        {newsletter.sections.map((section) => (
+          <div key={section.id} className="links-group">
+            <div className="links-group-title">{section.title}</div>
+            <ul className="links-list">
+              {section.items.map((item) => (
+                <li key={item.id}>
+                  <a href={item.url} target="_blank" rel="noreferrer">
+                    {item.title}
+                  </a>
+                  <span className="links-source">
+                    {' '}
+                    — {item.source}
+                    {item.published ? ` · ${item.published}` : ''}
+                  </span>
+                </li>
+              ))}
+            </ul>
           </div>
-          <blockquote className="closing-take">
-            <span className="closing-label">So what?</span> {section.closing_take}
-          </blockquote>
-        </section>
-      ))}
+        ))}
+      </section>
     </div>
   );
 }

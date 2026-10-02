@@ -23,3 +23,30 @@ export function validateSignup(name: string, email: string): SignupIssues {
 export function normalizeSignup(name: string, email: string): { name: string; email: string } {
   return { name: name.trim(), email: email.trim().toLowerCase() };
 }
+
+/* ---- personal source adder (mirrors the Firestore rules) ---- */
+
+const URL_RE = /^https?:\/\/\S+$/;
+
+export interface SourceIssues {
+  url?: string;
+  email?: string;
+}
+
+/** Returns field-level issues; empty object means valid. */
+export function validateSource(url: string, email: string): SourceIssues {
+  const issues: SourceIssues = {};
+  const u = url.trim();
+  if (!u) issues.url = 'Paste a link to add it.';
+  else if (u.length > 2000) issues.url = 'That URL is too long.';
+  else if (!URL_RE.test(u)) issues.url = 'That doesn\u2019t look like a valid http(s) URL.';
+  const e = email.trim().toLowerCase();
+  if (!e) issues.email = 'We need your email so the scrape is only used for you.';
+  else if (!EMAIL_RE.test(e)) issues.email = "That doesn't look like an email address.";
+  return issues;
+}
+
+/** Normalize before writing: trim + lowercase email. */
+export function normalizeSource(url: string, email: string): { url: string; email: string } {
+  return { url: url.trim(), email: email.trim().toLowerCase() };
+}

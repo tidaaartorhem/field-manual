@@ -4,6 +4,7 @@ import { loadCharts, type ChartSpec } from './lib/charts';
 import { sampleNewsletter } from './sampleNewsletter';
 import { Edition } from './components/Edition';
 import { Signup } from './components/Signup';
+import { SourceAdder } from './components/SourceAdder';
 import './styles.css';
 
 export function App() {
@@ -79,6 +80,7 @@ export function App() {
           <>
             <Edition newsletter={newsletter} charts={charts} />
             <Signup edition={newsletter.edition} />
+            <SourceAdder />
           </>
         )}
       </main>

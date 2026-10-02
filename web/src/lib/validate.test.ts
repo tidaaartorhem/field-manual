@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { normalizeSignup, validateSignup } from './validate';
+import { normalizeSignup, validateSignup, normalizeSource, validateSource } from './validate';
 
 describe('signup validation', () => {
   it('accepts a good name and email', () => {
@@ -30,5 +30,27 @@ describe('signup validation', () => {
       name: 'Aadit',
       email: 'aadit@example.com',
     });
+  });
+});
+
+describe('source adder validation', () => {
+  it('accepts a good url and email', () => {
+    expect(validateSource('https://example.com/paper', 'a@b.com')).toEqual({});
+    expect(normalizeSource('  https://example.com/x ', '  A@B.COM ')).toEqual({
+      url: 'https://example.com/x',
+      email: 'a@b.com',
+    });
+  });
+
+  it('rejects bad urls', () => {
+    for (const bad of ['', '   ', 'notaurl', 'ftp://example.com/x', 'http://']) {
+      expect(validateSource(bad, 'a@b.com').url, bad).toBeTruthy();
+    }
+  });
+
+  it('rejects bad emails', () => {
+    for (const bad of ['', 'nope', 'a@b']) {
+      expect(validateSource('https://example.com/x', bad).email, bad).toBeTruthy();
+    }
   });
 });

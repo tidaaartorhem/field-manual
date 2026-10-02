@@ -216,6 +216,10 @@ def write_user_emails(letter, charts, edition_id, out_dir=None):
     out_dir = Path(out_dir) if out_dir else (
         Path(__file__).resolve().parent.parent / "data" / "emails")
     out_dir.mkdir(parents=True, exist_ok=True)
+    if "digest" not in letter:
+        raise RuntimeError(
+            "newsletter.json is not a v4 digest edition (no 'digest' key) — "
+            "run 'services.manual edition' first")
     by_email = list_scraped_by_email()
     written = {}
     for sub in list_subscribers():

@@ -64,7 +64,7 @@ def cmd_build(args):
 def cmd_edition(args):
     """One headless run: scan -> 48h filter -> curate -> enrich -> write ->
     compile -> charts -> email HTML."""
-    from services import charts as charts_mod, emailer
+    from services import charts as charts_mod, chart_editor, emailer
 
     hours = args.hours
     print(f"[edition] scanning (RSS backbone + discovery, last {hours}h)...")
@@ -97,9 +97,10 @@ def cmd_edition(args):
     for shelf, shelf_items in curated.items():
         print(f"[edition] {shelf:8s}: {len(shelf_items)} items")
 
-    # Charts: honest aggregates -> data/charts.json + PNGs for email.
+    # Charts: honest aggregates -> editor pass -> data/charts.json + PNGs.
     edition_id = letter["edition"]
     chart_specs = charts_mod.build_charts(curated)
+    chart_specs = chart_editor.edit_charts(chart_specs)
     charts_json, png_paths = charts_mod.write_charts(chart_specs, edition_id)
     print(f"[edition] charts: {len(chart_specs)} computed -> {charts_json} "
           f"+ {len(png_paths)} PNGs")
@@ -113,6 +114,51 @@ def cmd_edition(args):
     print(f"[edition] briefings: {src_stats.get('openai', 0)} via OpenAI API, "
           f"{src_stats.get('template', 0)} via templates")
     print(f"[edition] wrote {total} items -> {json_path} and {md_path}")
+    return 0
+
+
+def cmd_charts(args):
+    """Rebuild charts for the published edition without rescanning.
+
+    Reconstructs the curated shelves by matching data/raw.json items
+    against the URLs in data/newsletter.json, then runs the charts step
+    (hard rules -> editor pass -> charts.json + PNGs). No Firecrawl calls.
+    """
+    from services import charts as charts_mod, chart_editor
+
+    letter_path = ROOT / "data" / "newsletter.json"
+    raw_path = ROOT / "data" / "raw.json"
+    if not letter_path.exists() or not raw_path.exists():
+        print("charts failed: need data/newsletter.json and data/raw.json",
+              file=sys.stderr)
+        return 2
+    letter = json.loads(letter_path.read_text(encoding="utf-8"))
+    raw_items = json.loads(raw_path.read_text(encoding="utf-8")).get("items", [])
+    urls = {it["url"] for s in letter.get("sections", [])
+            for it in s.get("items", [])}
+    curated, seen = {}, set()
+    for it in raw_items:
+        url = it.get("url")
+        if url in urls and url not in seen:
+            seen.add(url)
+            curated.setdefault(it.get("shelf", "signal"), []).append(it)
+    total = sum(len(v) for v in curated.values())
+    print(f"[charts] {total} edition items matched across "
+          f"{len(curated)} shelves")
+    specs = charts_mod.build_charts(curated)
+    print(f"[charts] {len(specs)} candidates after hard rules: "
+          f"{[s['id'] for s in specs]}")
+    if args.no_editor:
+        chart_editor.set_editor_mode("off")
+    specs = chart_editor.edit_charts(specs)
+    edition_id = letter["edition"]
+    charts_json, png_paths = charts_mod.write_charts(specs, edition_id)
+    print(f"[charts] wrote {len(specs)} charts -> {charts_json} "
+          f"+ {len(png_paths)} PNGs")
+    # Re-render the email HTML so it references the new chart set.
+    from services import emailer
+    email_path = emailer.write_email(letter, specs, edition_id)
+    print(f"[charts] email HTML -> {email_path}")
     return 0
 
 
@@ -152,6 +198,12 @@ def build_parser():
     p_build.add_argument("--max-per-shelf", type=int, default=6,
                          help="maximum items kept per section (default: 6)")
     p_build.set_defaults(func=cmd_build)
+
+    p_ch = sub.add_parser("charts",
+                          help="rebuild charts for the published edition (no rescan)")
+    p_ch.add_argument("--no-editor", action="store_true",
+                      help="skip the OpenAI editor pass (hard rules only)")
+    p_ch.set_defaults(func=cmd_charts)
     return parser
 
 

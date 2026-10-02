@@ -595,6 +595,101 @@ def test_subscribers_doc_mapping():
     assert _doc_to_subscriber({"fields": {}}) == {"name": "", "email": ""}
 
 
+# ---------------------------------------------------------------- chart editor
+
+def _editor_specs():
+    return [
+        {"id": "momentum", "title": "What's spiking",
+         "subtitle": "Topic mentions across every story in this edition",
+         "kind": "hbar", "unit": "mentions",
+         "data": [{"label": "AI agents", "value": 12, "detail": "12 stories"},
+                  {"label": "LLMs", "value": 6, "detail": "6 stories"},
+                  {"label": "Evals", "value": 6, "detail": "6 stories"}],
+         "note": "Keyword hits."},
+        {"id": "sources", "title": "Where the signal came from",
+         "subtitle": "7 outlets · tier 1 = primary sources",
+         "kind": "hbar", "unit": "stories",
+         "data": [{"label": "TechCrunch", "value": 5, "detail": "tier 2", "tier": 2},
+                  {"label": "arXiv", "value": 4, "detail": "tier 1", "tier": 1},
+                  {"label": "The Verge", "value": 3, "detail": "tier 2", "tier": 2}],
+         "note": "Tiered."},
+    ]
+
+
+def test_chart_editor_off_keeps_specs():
+    from services import chart_editor
+    chart_editor.set_editor_mode("off")
+    try:
+        specs = _editor_specs()
+        assert chart_editor.edit_charts(specs) == specs
+    finally:
+        chart_editor.set_editor_mode("auto")
+
+
+def test_chart_editor_fallback_on_error():
+    from services import chart_editor
+    specs = _editor_specs()
+
+    def boom(s):
+        raise RuntimeError("API down")
+
+    assert chart_editor.edit_charts(specs, _chat_fn=boom) == specs
+
+
+def test_chart_editor_rejects_unknown_ids():
+    from services import chart_editor
+
+    def bad(s):
+        return {"charts": [{"id": "nope", "decision": "KEEP",
+                            "title": "X", "subtitle": "Y", "kind": "hbar"}]}
+
+    specs = _editor_specs()
+    assert chart_editor.edit_charts(specs, _chat_fn=bad) == specs
+
+
+def test_chart_editor_applies_decisions():
+    from services import chart_editor
+
+    def fake(s):
+        return {"charts": [
+            {"id": "momentum", "decision": "REDESIGN",
+             "title": "Agents own the conversation this week",
+             "subtitle": "12 of 24 stories mention agentic AI",
+             "kind": "hbar"},
+            {"id": "sources", "decision": "DROP",
+             "title": "x", "subtitle": "y", "kind": "hbar"},
+        ]}
+
+    out = chart_editor.edit_charts(_editor_specs(), _chat_fn=fake)
+    assert [c["id"] for c in out] == ["momentum"]
+    assert out[0]["title"] == "Agents own the conversation this week"
+    assert out[0]["subtitle"] == "12 of 24 stories mention agentic AI"
+    # data is never touched by the editor
+    assert out[0]["data"] == _editor_specs()[0]["data"]
+
+
+def test_chart_editor_caps_at_four():
+    from services import chart_editor
+
+    def fake(s):
+        return {"charts": [
+            {"id": c["id"], "decision": "KEEP", "title": c["title"],
+             "subtitle": c["subtitle"], "kind": c["kind"]}
+            for c in s
+        ]}
+
+    specs = _editor_specs() + [
+        {"id": f"extra-{i}", "title": f"Extra {i}", "subtitle": "Sub",
+         "kind": "bar", "unit": "x",
+         "data": [{"label": "a", "value": 1}, {"label": "b", "value": 2},
+                  {"label": "c", "value": 3}],
+         "note": ""}
+        for i in range(4)
+    ]
+    out = chart_editor.edit_charts(specs, _chat_fn=fake)
+    assert len(out) == 4
+
+
 # ---------------------------------------------------------------- PNG layout
 
 def test_render_header_no_overlap():

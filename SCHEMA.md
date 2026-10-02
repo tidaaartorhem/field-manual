@@ -69,3 +69,40 @@
   }
 }
 ```
+
+## data/charts.json — schema (contract between `services/charts.py` and `web/`)
+
+```jsonc
+{
+  "edition": "2026-10-02",
+  "charts": [
+    {
+      "id": "funding",               // funding | momentum | sources | volume
+      "title": "Startup money in the window",
+      "subtitle": "$170M raised across 2 rounds",
+      "kind": "hbar",                // hbar | bar
+      "unit": "$M",                  // unit of `value`
+      "data": [
+        {"label": "Acme", "value": 50.0, "detail": "$50M · Series A", "tier": 2}
+      ],
+      "note": "how this was computed (honesty footnote)"
+    }
+  ]
+}
+```
+
+Rules: every `value` must trace to a gathered item (funding amounts come
+from `curator.extract_funding`, counts from item tallies). A chart that
+can't be honestly computed is omitted from the array — never zero-filled
+or invented. The frontend renders each spec as inline SVG; the pipeline
+also renders PNG twins into `web/public/charts/<edition>/<id>.png` for the
+email edition, referenced at
+`https://aadit-field-manual.web.app/charts/<edition>/<id>.png`.
+
+## data/newsletter-email.html
+
+Email-safe single file: table-based layout, inline CSS only, no webfonts,
+no flexbox/grid, no scripts, light theme, absolute URLs. Sections keep
+narratives + closing takes; items keep title/source/one-line lede. Footer
+carries the reply-to-unsubscribe line. Regenerated every edition by
+`services/emailer.py`.

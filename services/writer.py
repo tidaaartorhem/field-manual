@@ -617,3 +617,183 @@ def write_edition_lede(section_summaries):
             print(f"[writer] edition lede fell back to template ({exc})",
                   file=sys.stderr)
     return _template_lede([t for t, _ in section_summaries])
+
+
+# ------------------------------------------------- 500-700 word digest
+
+DIGEST_WORD_TARGET = (500, 700)
+
+_DIGEST_SYSTEM_PROMPT = (
+    'You are the editor of "The Field Manual", a 48-hour newsletter for '
+    "engineers building AI agents. Voice: Acquired meets All In — story-like, "
+    "sharp, opinionated, zero fluff. Never use hype words: revolutionary, "
+    "game-changer, delve, paradigm shift, supercharge, unlock the power.\n\n"
+    "Given this edition's items (title, source, gist, url each), write a "
+    "500-700 word digest as markdown:\n"
+    "- Open with 2-3 sentences on why these 48 hours mattered.\n"
+    "- Then short punchy takes under bold subheads (e.g. **Agents**, "
+    "**Startups**, **The wider current**). Weave items into a story; do not "
+    "just list them.\n"
+    "- Reference EVERY item at least once as an inline markdown link "
+    "[title](url) using the EXACT url provided for that item.\n"
+    "- Close with one sharp 'so what' line.\n"
+    "- Do NOT include a title or H1 heading — start directly with the "
+    "opening sentences; use **bold** subheads for sections.\n\n"
+    "Rules: use only the urls provided — never invent links, facts, quotes, "
+    "statistics, or details not present in the gists. If a gist is thin, "
+    "say so plainly instead of filling gaps.\n\n"
+    'Output ONLY a JSON object with exactly one key: "digest" (the markdown '
+    "string)."
+)
+
+_DIGEST_COMPRESS_PROMPT = (
+    "Compress the following newsletter digest to under 650 words. Keep every "
+    "markdown link EXACTLY as written ([title](url) pairs must be preserved "
+    "verbatim). Keep the voice and the closing line. Output ONLY a JSON "
+    'object with exactly one key: "digest".'
+)
+
+
+def _digest_user_content(items, notes=()):
+    lines = []
+    for it in items:
+        g = (it.get("gist") or "(details thin)").strip()[:300]
+        lines.append(
+            f"- {it.get('title', 'Untitled')} "
+            f"[{it.get('source', 'web')}]: {g}\n"
+            f"  url: {it.get('url', '')}")
+    content = "This edition's items:\n" + "\n".join(lines)
+    if notes:
+        content += "\n\nEditor notes:\n" + "\n".join(f"- {n}" for n in notes)
+    return content
+
+
+def _extract_md_links(md):
+    """All http(s) URLs referenced as markdown links."""
+    return re.findall(r"\[[^\]]+\]\((https?://[^)\s]+)\)", md)
+
+
+def _word_count(text):
+    return len(text.split())
+
+
+def _normalize_url(u):
+    return (u or "").strip().rstrip("/").lower()
+
+
+def _validate_digest(obj, urls, where="digest"):
+    """Validate the digest shape; reject invented links. Returns markdown."""
+    if not isinstance(obj, dict):
+        raise _LLMItemFailed(f"{where}: response JSON is not an object")
+    digest = obj.get("digest")
+    if not isinstance(digest, str) or not digest.strip():
+        raise _LLMItemFailed(f"{where}: missing/empty digest")
+    digest = digest.strip()
+    _check_banned(digest, where)
+    known = {_normalize_url(u) for u in urls}
+    for link in _extract_md_links(digest):
+        if _normalize_url(link) not in known:
+            raise _LLMItemFailed(
+                f"{where}: link to unknown URL (invented?): {link[:80]}")
+    return digest
+
+
+def _truncate_to_words(text, limit):
+    """Hard-truncate at a sentence boundary to <= limit words."""
+    parts = re.split(r"(?<=[.!?])\s+", text)
+    out, count = [], 0
+    for p in parts:
+        w = len(p.split())
+        if out and count + w > limit:
+            break
+        out.append(p)
+        count += w
+    return " ".join(out).strip()
+
+
+def _enforce_word_limit(digest, urls, chat):
+    """Guard the 500-700 word budget.
+
+    Over 700 words: one compression pass via the API (when available), then
+    a hard truncate at a sentence boundary, marked. Returns (digest, truncated).
+    """
+    if _word_count(digest) <= DIGEST_WORD_TARGET[1]:
+        return digest, False
+    if chat is not None:
+        try:
+            obj = chat(_DIGEST_COMPRESS_PROMPT, digest, 1600)
+            compressed = _validate_digest(obj, urls, where="digest-compress")
+            if _word_count(compressed) <= DIGEST_WORD_TARGET[1]:
+                return compressed, False
+            digest = compressed
+        except _LLMItemFailed as exc:
+            print(f"[writer] digest compression failed ({exc}); truncating.",
+                  file=sys.stderr)
+    truncated = _truncate_to_words(digest, DIGEST_WORD_TARGET[1])
+    marker = "\n\n*Trimmed to fit the 700-word digest.*"
+    # Reserve room for the marker so the final text still fits the budget.
+    room = DIGEST_WORD_TARGET[1] - len(marker.split()) - 1
+    truncated = _truncate_to_words(digest, room)
+    return truncated + marker, True
+
+
+def _template_digest(items):
+    """Honest fallback digest when the API is unavailable.
+
+    Linked titles grouped by shelf with one gist sentence each — no invented
+    takes, no hype.
+    """
+    by_shelf = {}
+    for it in items:
+        by_shelf.setdefault(it.get("shelf", "signal"), []).append(it)
+    shelf_heads = {"signal": "Agents", "tech": "The wider current",
+                   "startups": "Startups", "podcasts": "The podcast circuit"}
+    parts = ["The last 48 hours, distilled the old-fashioned way — "
+             "no model was available for this edition, so here are the "
+             "stories, straight."]
+    for shelf, shelf_items in by_shelf.items():
+        parts.append(f"\n**{shelf_heads.get(shelf, shelf)}**")
+        for it in shelf_items:
+            g = (it.get("gist") or "").strip()
+            first = re.split(r"(?<=[.!?])\s+", g)[0] if g else "Details thin."
+            parts.append(f"[{it.get('title', 'Untitled')}]({it.get('url', '')}) — {first}")
+    parts.append("\nSo what? Read the links; the stories are the digest this time.")
+    return "\n\n".join(parts)
+
+
+def write_digest(items, notes=(), _chat_fn=None):
+    """One constrained call -> a 500-700 word story digest with inline links.
+
+    ``items``: [{title, url, source, gist, shelf}]. ``notes``: extra editor
+    notes (e.g. quiet podcast circuit). Returns (markdown, word_count,
+    truncated). The digest API call doubles as the credential probe.
+    """
+    chat = _chat_fn or _chat_json
+    st = _LLM_STATE
+    urls = [it.get("url", "") for it in items if it.get("url", "")]
+    use_llm = st["mode"] in ("auto", "on")
+    digest = None
+    if use_llm and not st["probed"]:
+        # Light probe: resolve the credential only. The digest call itself
+        # is the real probe — no wasted call.
+        try:
+            _probe_credential()
+            st["probed"] = True
+            st["available"] = True
+        except _LLMUnavailable as exc:
+            st["probed"] = True
+            st["available"] = False
+            print(f"[writer] {exc}; template digest.", file=sys.stderr)
+    if use_llm and st["available"]:
+        try:
+            obj = chat(_DIGEST_SYSTEM_PROMPT,
+                       _digest_user_content(items, notes), 1600)
+            digest = _validate_digest(obj, urls)
+        except _LLMItemFailed as exc:
+            print(f"[writer] digest fell back to template ({exc})",
+                  file=sys.stderr)
+    if digest is None:
+        digest = _template_digest(items)
+    api_chat = chat if (use_llm and st["available"]) else None
+    digest, truncated = _enforce_word_limit(digest, urls, api_chat)
+    return digest, _word_count(digest), truncated

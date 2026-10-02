@@ -556,18 +556,15 @@ def test_email_html_is_email_safe():
     from services import emailer
     letter = {
         "edition": "2026-10-02", "window_hours": 48,
-        "lede": "Test lede with <bait> & quotes.",
+        "generated_at": "2026-10-02T00:00:00+00:00",
+        "digest": "Test digest with <bait> & quotes. Read [Item <one>](https://example.com/1).",
+        "word_count": 12, "digest_truncated": False,
         "sections": [{
             "id": "signal", "title": "The Signal", "kicker": "k",
-            "narrative": "A narrative.",
-            "closing_take": "Take.",
             "items": [{
                 "id": "signal-001", "title": "Item <one>",
                 "url": "https://example.com/1", "source": "Example",
-                "published": "2026-10-02", "shelf": "signal", "score": 0.9,
-                "briefing": {"lede": "Lede & co.", "what_happened": "Happened.",
-                             "why_it_matters": "Matters.", "steal_this": "Steal."},
-                "takeaways": ["t1"], "queries": ["q"],
+                "published": "2026-10-02",
             }],
         }],
         "stats": {"items": 1, "sections": 1, "sources": 1},
@@ -724,3 +721,197 @@ def test_render_png_writes_file(tmp_path):
     spec = _editor_specs()[0]
     out = charts.render_png(spec, tmp_path / "momentum.png")
     assert out.exists() and out.stat().st_size > 10_000
+
+
+# ------------------------------------------------- v4: digest + user sources
+
+def _digest_item(i=1, shelf="signal", desc=None):
+    return {
+        "url": f"https://example.com/story-{i}",
+        "title": f"Story {i}",
+        "description": desc or f"This is the gist of story {i}. It says things worth knowing.",
+        "shelf": shelf,
+        "score": 0.9,
+        "published": "2026-10-02",
+        "queries": [],
+    }
+
+
+def _canned_digest_chat(text):
+    def _chat(system, user, max_tokens):
+        return {"digest": text}
+    return _chat
+
+
+def test_digest_word_count_guard_truncates():
+    long_text = " ".join(f"Sentence {i} here." for i in range(300))  # 900 words
+    digest, truncated = writer._enforce_word_limit(long_text, [], None)
+    wc = len(digest.split())
+    assert wc <= 700
+    assert truncated is True
+    assert "Trimmed" in digest
+
+
+def test_digest_compression_pass_runs_once():
+    long_text = " ".join(f"Sentence {i} here." for i in range(267))  # ~800 words
+    short = " ".join(f"w{i}" for i in range(600))
+    calls = []
+
+    def _chat(system, user, max_tokens):
+        calls.append(system)
+        return {"digest": short}
+
+    digest, truncated = writer._enforce_word_limit(long_text, [], _chat)
+    assert len(digest.split()) == 600 and truncated is False and len(calls) == 1
+
+
+def test_digest_rejects_invented_links():
+    items = [_digest_item(1)]
+    bad = {"digest": "See [Evil](https://evil.example.com/x) for details."}
+    with pytest.raises(writer._LLMItemFailed):
+        writer._validate_digest(bad, [it["url"] for it in items])
+
+
+def test_digest_accepts_exact_links():
+    items = [_digest_item(1)]
+    good = {"digest": f"See [Story 1]({items[0]['url']}) for details."}
+    assert writer._validate_digest(good, [it["url"] for it in items]).startswith("See")
+
+
+def test_write_digest_template_fallback_within_budget():
+    items = [_digest_item(i) for i in range(1, 25)]
+    digest, wc, truncated = writer.write_digest([
+        {**it, "gist": writer.gist(it), "source": "Example"} for it in items])
+    assert wc <= 700
+    assert isinstance(digest, str) and len(digest) > 0
+
+
+def test_write_digest_api_path(monkeypatch):
+    writer._LLM_STATE.update({"mode": "on", "probed": True, "available": True})
+    items = [
+        {**_digest_item(1), "gist": "Gist one.", "source": "Example"},
+        {**_digest_item(2), "gist": "Gist two.", "source": "Example"},
+    ]
+    text = ("Intro sentence here. " +
+            f"Read [Story 1]({items[0]['url']}) and [Story 2]({items[1]['url']}). " * 20)
+    digest, wc, truncated = writer.write_digest(
+        items, _chat_fn=_canned_digest_chat(text))
+    assert wc <= 700 and truncated is False
+    assert items[0]["url"] in digest and items[1]["url"] in digest
+
+
+def test_compile_digest_edition_shape():
+    from services.compiler import compile_digest_edition, validate_digest_edition
+    curated = {
+        "signal": [_digest_item(1, "signal"), _digest_item(2, "signal")],
+        "tech": [_digest_item(3, "tech")],
+        "startups": [],
+        "podcasts": [],
+    }
+    letter = compile_digest_edition(curated, edition_date="2026-10-02")
+    validate_digest_edition(letter)  # raises on mismatch
+    assert letter["word_count"] <= 700
+    assert letter["stats"]["items"] == 3
+    assert {s["id"] for s in letter["sections"]} == {"signal", "tech"}
+    for s in letter["sections"]:
+        for it in s["items"]:
+            assert it["url"].startswith("http")
+            assert "briefing" not in it  # v4: no per-item briefings
+
+
+def test_validate_digest_edition_rejects_long():
+    from services.compiler import validate_digest_edition
+    digest = " ".join(f"word{i}" for i in range(701))
+    letter = {
+        "edition": "2026-10-02", "window_hours": 48,
+        "generated_at": "2026-10-02T00:00:00+00:00",
+        "digest": digest, "word_count": 701, "digest_truncated": False,
+        "sections": [{"id": "signal", "title": "The Signal", "kicker": "k",
+                      "items": [{"id": "signal-001", "title": "T",
+                                 "url": "https://example.com/x",
+                                 "source": "Example", "published": None}]}],
+        "stats": {"items": 1, "sections": 1, "sources": 1},
+    }
+    with pytest.raises(ValueError, match="700"):
+        validate_digest_edition(letter)
+
+
+def test_user_source_doc_parsing():
+    from services import user_sources as us
+    doc = {
+        "name": "projects/x/databases/(default)/documents/user_sources/abc",
+        "fields": {
+            "email": {"stringValue": "A@X.com"},
+            "url": {"stringValue": "https://example.com/p"},
+            "title": {"stringValue": "T"},
+            "summary": {"stringValue": "S"},
+            "bullets": {"arrayValue": {"values": [{"stringValue": "b1"}]}},
+            "status": {"stringValue": "scraped"},
+            "error": {"stringValue": ""},
+        },
+    }
+    src = us._doc_to_source(doc)
+    assert src["email"] == "a@x.com"
+    assert src["bullets"] == ["b1"]
+    assert src["status"] == "scraped"
+
+
+def test_slug_for_email():
+    from services import user_sources as us
+    assert us.slug_for_email("Ada@Example.com") == "ada-example-com"
+    assert us.slug_for_email("a+b@x.io") == "a-b-x-io"
+
+
+def _mini_letter():
+    return {
+        "edition": "2026-10-02", "window_hours": 48,
+        "generated_at": "2026-10-02T00:00:00+00:00",
+        "digest": "Short digest.", "word_count": 2, "digest_truncated": False,
+        "sections": [],
+        "stats": {"items": 0, "sections": 0, "sources": 0},
+    }
+
+
+def test_user_email_scoping(monkeypatch):
+    """User A's URL must never appear in user B's email (and vice versa)."""
+    from services import user_sources as us
+    from services import emailer
+
+    fake = [
+        {"name": "a1", "email": "a@x.com", "url": "https://a.example/1",
+         "title": "A story", "summary": "A summary.", "bullets": ["b1"],
+         "status": "scraped", "error": ""},
+        {"name": "b1", "email": "b@x.com", "url": "https://b.example/1",
+         "title": "B story", "summary": "B summary.", "bullets": [],
+         "status": "scraped", "error": ""},
+        {"name": "a2", "email": "a@x.com", "url": "https://a.example/2",
+         "title": "A two", "summary": "", "bullets": [],
+         "status": "pending", "error": ""},
+    ]
+    monkeypatch.setattr(us, "list_all_sources", lambda: fake)
+    grouped = us.list_scraped_by_email()
+    assert set(grouped) == {"a@x.com", "b@x.com"}
+    assert len(grouped["a@x.com"]) == 1  # pending doc excluded
+    letter = _mini_letter()
+    html_a = emailer.render_user_email(letter, [], "2026-10-02", "a@x.com",
+                                       grouped["a@x.com"])
+    html_b = emailer.render_user_email(letter, [], "2026-10-02", "b@x.com",
+                                       grouped["b@x.com"])
+    assert "https://a.example/1" in html_a
+    assert "A story" in html_a
+    assert "https://b.example/1" not in html_a
+    assert "https://b.example/1" in html_b
+    assert "https://a.example/1" not in html_b
+    # Global email carries neither user's sources.
+    html_g = emailer.render_email(letter, [], "2026-10-02")
+    assert "a.example" not in html_g and "b.example" not in html_g
+
+
+def test_md_to_email_html_escapes():
+    from services import emailer
+    out = emailer.md_to_email_html(
+        "<script>alert(1)</script>\n\n**Bold** and [x](https://example.com)")
+    assert "<script>" not in out
+    assert "&lt;script&gt;" in out
+    assert "<strong>Bold</strong>" in out
+    assert 'href="https://example.com"' in out

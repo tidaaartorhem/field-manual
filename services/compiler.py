@@ -26,6 +26,7 @@ first (so the OpenAI probe happens on a real item), then section
 narratives, then the edition lede.
 """
 import json
+import sys
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -242,4 +243,160 @@ def write_edition(letter, out_dir=None):
     json_path.write_text(json.dumps(letter, indent=2, ensure_ascii=False) + "\n",
                          encoding="utf-8")
     md_path.write_text(render_markdown(letter), encoding="utf-8")
+    return json_path, md_path
+
+
+# ------------------------------------------------- v4: 500-700 word digest edition
+
+def validate_digest_edition(letter):
+    """Raise ValueError if the v4 digest edition doesn't match its shape."""
+    for key in ("edition", "window_hours", "generated_at", "digest",
+                "word_count", "digest_truncated", "sections", "stats"):
+        if key not in letter:
+            raise ValueError(f"missing top-level key: {key}")
+    digest = letter["digest"]
+    if not isinstance(digest, str) or not digest.strip():
+        raise ValueError("digest must be a non-empty string")
+    wc = letter["word_count"]
+    if not isinstance(wc, int) or wc != len(digest.split()):
+        raise ValueError("word_count inconsistent with digest")
+    if wc > 700:
+        raise ValueError(f"digest exceeds 700 words: {wc}")
+    if not isinstance(letter["sections"], list) or not letter["sections"]:
+        raise ValueError("sections must be a non-empty list")
+    seen_ids = set()
+    for section in letter["sections"]:
+        for key in ("id", "title", "kicker", "items"):
+            if key not in section:
+                raise ValueError(f"section missing key: {key}")
+        for item in section["items"]:
+            for key in ("id", "title", "url", "source", "published"):
+                if key not in item:
+                    raise ValueError(f"item missing key: {key} ({item.get('id')})")
+            if item["id"] in seen_ids:
+                raise ValueError(f"duplicate item id: {item['id']}")
+            seen_ids.add(item["id"])
+            if not isinstance(item["url"], str) or not item["url"].startswith("http"):
+                raise ValueError(f"bad url on {item['id']}: {item['url']!r}")
+    stats = letter["stats"]
+    n = sum(len(s["items"]) for s in letter["sections"])
+    if stats.get("items") != n or stats.get("sections") != len(letter["sections"]):
+        raise ValueError("stats inconsistent with content")
+
+
+def compile_digest_edition(curated, edition_date=None, window_hours=48):
+    """Assemble the v4 edition: one 500-700 word digest + slim link shelves.
+
+    ``curated`` is {section_id: [items]}. No per-item briefings are generated
+    — the digest IS the newsletter. Returns the letter dict.
+    """
+    from . import writer
+    from .curator import source_name
+
+    writer.reset_run_state()
+    edition_date = edition_date or datetime.now(timezone.utc).date().isoformat()
+    sections = []
+    digest_items = []
+    sources = set()
+    notes = []
+
+    for shelf in SECTION_ORDER:
+        items = sorted(curated.get(shelf, []),
+                       key=lambda i: (-i.get("score", 0), i.get("title", "")))
+        if not items:
+            if shelf == "podcasts":
+                notes.append("The podcast circuit was quiet — no new episodes "
+                             "from the tracked shows landed in the window.")
+            continue
+        slim = []
+        for idx, item in enumerate(items, 1):
+            url = item.get("url", "")
+            src = source_name(url)
+            sources.add(src)
+            title = (item.get("title") or "Untitled").strip()
+            slim.append({
+                "id": f"{shelf}-{idx:03d}",
+                "title": title,
+                "url": url,
+                "source": src,
+                "published": item.get("published"),
+            })
+            digest_items.append({
+                "title": title,
+                "url": url,
+                "source": src,
+                "gist": writer.gist(item),
+                "shelf": shelf,
+            })
+        meta = SECTION_META[shelf]
+        sections.append({
+            "id": shelf,
+            "title": meta["title"],
+            "kicker": meta["kicker"],
+            "items": slim,
+        })
+
+    if not sections:
+        raise ValueError("compile_digest_edition: no sections survived")
+
+    digest_md, wc, truncated = writer.write_digest(digest_items, notes=notes)
+    print(f"[compiler] digest: {wc} words"
+          f"{' (truncated)' if truncated else ''}", file=sys.stderr)
+
+    letter = {
+        "edition": edition_date,
+        "window_hours": window_hours,
+        "generated_at": datetime.now(timezone.utc).isoformat(),
+        "digest": digest_md,
+        "word_count": wc,
+        "digest_truncated": truncated,
+        "sections": sections,
+        "stats": {
+            "items": sum(len(s["items"]) for s in sections),
+            "sections": len(sections),
+            "sources": len(sources),
+        },
+    }
+    validate_digest_edition(letter)
+    return letter
+
+
+def render_digest_markdown(letter):
+    """Readable companion: the digest plus the full link list."""
+    lines = [
+        f"# The Field Manual — Edition {letter['edition']}",
+        "",
+        f"*The last {letter['window_hours']} hours in {letter['word_count']} words.*",
+        "",
+        letter["digest"],
+        "",
+        "---",
+        "",
+        "## All the links",
+        "",
+    ]
+    for section in letter["sections"]:
+        lines += [f"### {section['title']}", ""]
+        for it in section["items"]:
+            pub = f" · {it['published']}" if it.get("published") else ""
+            lines += [f"- [{it['title']}]({it['url']}) — *{it['source']}{pub}*"]
+        lines += [""]
+    lines += [
+        "---",
+        f"*{letter['stats']['items']} items · "
+        f"{letter['stats']['sources']} sources · "
+        f"generated {letter['generated_at']}*",
+        "",
+    ]
+    return "\n".join(lines)
+
+
+def write_digest_edition(letter, out_dir=None):
+    out_dir = Path(out_dir) if out_dir else Path(__file__).resolve().parent.parent / "data"
+    out_dir.mkdir(parents=True, exist_ok=True)
+    json_path = out_dir / "newsletter.json"
+    md_path = out_dir / "newsletter.md"
+    json_path.write_text(json.dumps(letter, indent=2, ensure_ascii=False) + "\n",
+                         encoding="utf-8")
+    md_path.write_text(render_digest_markdown(letter), encoding="utf-8")
     return json_path, md_path

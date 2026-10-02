@@ -62,9 +62,9 @@ def cmd_build(args):
 
 
 def cmd_edition(args):
-    """One headless run: scan -> 48h filter -> curate -> enrich -> write ->
-    compile -> charts -> email HTML."""
-    from services import charts as charts_mod, chart_editor, emailer
+    """One headless run: scan -> 48h filter -> curate -> enrich -> digest ->
+    charts -> email HTML (global + per-user)."""
+    from services import charts as charts_mod, chart_editor, emailer, user_sources
 
     hours = args.hours
     print(f"[edition] scanning (RSS backbone + discovery, last {hours}h)...")
@@ -88,12 +88,13 @@ def cmd_edition(args):
     if total == 0:
         print("edition aborted: nothing survived curation", file=sys.stderr)
         return 2
-    # Full-text enrichment for the top items (briefings from real articles).
+    # Full-text enrichment for the top items (richer gists for the digest).
     flat = [i for items in curated.values() for i in items]
     scanner.enrich_items(flat, max_items=args.enrich_max,
                          verbose=not args.quiet)
-    letter = compiler.compile_edition(curated, window_hours=hours)
-    json_path, md_path = compiler.write_edition(letter)
+    # v4: the digest IS the newsletter — one 500-700 word story + link shelves.
+    letter = compiler.compile_digest_edition(curated, window_hours=hours)
+    json_path, md_path = compiler.write_digest_edition(letter)
     for shelf, shelf_items in curated.items():
         print(f"[edition] {shelf:8s}: {len(shelf_items)} items")
 
@@ -105,15 +106,21 @@ def cmd_edition(args):
     print(f"[edition] charts: {len(chart_specs)} computed -> {charts_json} "
           f"+ {len(png_paths)} PNGs")
 
-    # Email-safe edition.
+    # Email-safe editions: one global + one per subscriber (their sources only).
     email_path = emailer.write_email(letter, chart_specs, edition_id)
     print(f"[edition] email HTML -> {email_path}")
+    try:
+        user_written = user_sources.write_user_emails(
+            letter, chart_specs, edition_id)
+        print(f"[edition] personalized emails: {len(user_written)} "
+              f"-> data/emails/")
+        for email, upath in sorted(user_written.items()):
+            print(f"  {email}\t{upath}")
+    except RuntimeError as exc:
+        print(f"[edition] user emails skipped: {exc}", file=sys.stderr)
 
-    from services.writer import briefing_source_stats
-    src_stats = briefing_source_stats()
-    print(f"[edition] briefings: {src_stats.get('openai', 0)} via OpenAI API, "
-          f"{src_stats.get('template', 0)} via templates")
-    print(f"[edition] wrote {total} items -> {json_path} and {md_path}")
+    print(f"[edition] wrote {total} items, {letter['word_count']}-word digest "
+          f"-> {json_path} and {md_path}")
     return 0
 
 

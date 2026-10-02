@@ -71,10 +71,11 @@ def funding_chart(curated):
         "value": round(r["amount_usd"] / 1e6, 1),
         "detail": f"${r['amount_usd']/1e6:.0f}M" + (f" · {r['round']}" if r["round"] else ""),
     } for r in top]
+    noun = "round" if len(raises) == 1 else "rounds"
     return {
         "id": "funding",
         "title": "Startup money in the window",
-        "subtitle": f"${total/1e6:,.0f}M raised across {len(raises)} rounds",
+        "subtitle": f"${total/1e6:,.0f}M raised across {len(raises)} {noun}",
         "kind": "hbar",
         "unit": "$M",
         "data": data,

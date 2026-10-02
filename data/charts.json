@@ -3,7 +3,7 @@
   "charts": [
     {
       "id": "momentum",
-      "title": "AI agents dominate the conversation",
+      "title": "What's spiking",
       "subtitle": "Topic mentions across every story in this edition",
       "kind": "hbar",
       "unit": "mentions",
@@ -48,7 +48,7 @@
     },
     {
       "id": "sources",
-      "title": "Primary sources lead the news coverage",
+      "title": "Where the signal came from",
       "subtitle": "7 outlets · tier 1 = primary sources",
       "kind": "hbar",
       "unit": "stories",
@@ -66,7 +66,7 @@
           "tier": 1
         },
         {
-          "label": "Ycombinator",
+          "label": "Y Combinator",
           "value": 3,
           "detail": "tier 1",
           "tier": 1
@@ -78,19 +78,19 @@
           "tier": 3
         },
         {
-          "label": "Nytimes",
+          "label": "New York Times",
           "value": 1,
           "detail": "tier 1",
           "tier": 1
         },
         {
-          "label": "Fundraiseinsider",
+          "label": "Fundraise Insider",
           "value": 1,
           "detail": "tier 3",
           "tier": 3
         },
         {
-          "label": "Youtube",
+          "label": "YouTube",
           "value": 1,
           "detail": "tier 3",
           "tier": 3

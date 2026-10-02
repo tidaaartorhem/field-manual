@@ -270,7 +270,11 @@ def source_name(url):
         "greenhouse.io": "Greenhouse", "lever.co": "Lever", "ashbyhq.com": "Ashby",
         "wellfound.com": "Wellfound", "reddit.com": "Reddit",
         "news.ycombinator.com": "Hacker News", "medium.com": "Medium",
-        "substack.com": "Substack",
+        "substack.com": "Substack", "ycombinator.com": "Y Combinator",
+        "nytimes.com": "New York Times", "youtube.com": "YouTube",
+        "youtu.be": "YouTube", "fundraiseinsider.com": "Fundraise Insider",
+        "libsyn.com": "Libsyn", "allin.com": "All In",
+        "investlikethebest.com": "Invest Like the Best",
     }
     if host in pretty:
         return pretty[host]

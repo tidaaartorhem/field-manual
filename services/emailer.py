@@ -210,6 +210,10 @@ def _pretty_date(edition):
 def write_email(letter, charts, edition_id, out_dir=None):
     out_dir = Path(out_dir) if out_dir else Path(__file__).resolve().parent.parent / "data"
     out_dir.mkdir(parents=True, exist_ok=True)
+    if "digest" not in letter:
+        raise RuntimeError(
+            "newsletter.json is not a v4 digest edition (no 'digest' key) — "
+            "run 'services.manual edition' first")
     path = out_dir / "newsletter-email.html"
     path.write_text(render_email(letter, charts, edition_id), encoding="utf-8")
     return path

@@ -18,8 +18,29 @@ from pathlib import Path
 PROJECT = "portfolio-3da31"
 COLLECTION = "subscribers"
 
-FIREBASE_CLIENT_ID = "32555940559.apps.googleusercontent.com"
-FIREBASE_CLIENT_SECRET = "ZmBozySss5kCrKC9tr1iR0FViQ"
+import json
+import os
+import sys
+import time
+import urllib.parse
+import urllib.request
+from pathlib import Path
+
+PROJECT = "portfolio-3da31"
+COLLECTION = "subscribers"
+
+# OAuth client the firebase CLI itself uses to mint/refresh its stored tokens
+# (lib/api.js: FIREBASE_CLIENT_ID / FIREBASE_CLIENT_SECRET, env-overridable).
+# These MUST match the CLI that wrote ~/.config/configstore/firebase-tools.json;
+# the old values here caused `invalid_client` on token refresh (2026-10-06).
+FIREBASE_CLIENT_ID = os.environ.get(
+    "FIREBASE_CLIENT_ID",
+    "563584335869-fgrhgmd47bqnekij5i8b5pr03ho849e6.apps.googleusercontent.com",
+)
+FIREBASE_CLIENT_SECRET = os.environ.get(
+    "FIREBASE_CLIENT_SECRET",
+    "j9iVZfS8kkCEFUPaAeJV0sAi",
+)
 CONFIGSTORE = Path.home() / ".config" / "configstore" / "firebase-tools.json"
 
 

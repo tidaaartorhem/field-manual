@@ -915,3 +915,371 @@ def test_md_to_email_html_escapes():
     assert "&lt;script&gt;" in out
     assert "<strong>Bold</strong>" in out
     assert 'href="https://example.com"' in out
+
+
+# ---------------------------------------------------------------- 2026-11-17:
+# template-fallback chrome stripping + Firecrawl 429 retry/backoff.
+# The Nov 17 edition shipped gists that were pure site chrome
+# ("Skip to content Image Credits: ... Share on FacebookShare on X ...")
+# because gist() took the first sentences of raw scrape markdown.
+
+_TC_SCRAPE = """[Skip to content](https://techcrunch.com/2026/11/16/x/#wp--skip-link--target)
+
+![The US Department of Commerce building](https://techcrunch.com/wp-content/uploads/2026/11/us-commerce.jpg?w=564)**Image Credits:** [US Commerce Department (opens in a new window)](https://commons.wikimedia.org/wiki/File:Us_dept_of_commerce_building.jpg) / [Wikimedia Commons (opens in a new window)](http://commons.wikimedia.org/wiki/Main_Page)
+
+[Government & Policy](https://techcrunch.com/category/government-policy/)
+
+[Share on Facebook](https://www.facebook.com/sharer.php?u=x)[Share on X](https://twitter.com/intent/tweet?url=x)[Share on LinkedIn](https://www.linkedin.com/shareArticle?url=x)[Share on Reddit](https://www.reddit.com/submit?url=x)[Share over Email](mailto:?subject=x)[Copy Share Link](https://techcrunch.com/2026/11/16/x/)
+
+# US tightens AI chip export controls to deter Chinese companies from accessing compute remotely
+
+[Ram Iyer](https://techcrunch.com/author/ram-iyer/)
+
+7:02 AM PST · November 16, 2026
+
+[Share on Facebook](https://www.facebook.com/sharer.php?u=x)[Share on X](https://twitter.com/intent/tweet?url=x)
+
+The Trump administration on Monday is preparing to roll out new export controls on AI chips. The rules target remote access to compute located in other countries.
+"""
+
+_ARXIV_SCRAPE = """[Skip to main content](https://arxiv.org/abs/2511.12345#content)
+
+Search arXiv
+
+Press Enter to search · [Advanced search](https://arxiv.org/search/advanced)
+
+# Mathematics > Dynamical Systems
+
+**arXiv:2511.12345** (math)
+
+\\[Submitted on 15 Nov 2025\\]
+
+# Title:Finiteness of measures of maximal entropy for smooth saddle surface endomorphisms
+
+Authors: [Matéo Ghezal](https://arxiv.org/search/math?searchtype=author&query=Ghezal,+M)
+
+View a PDF of the paper titled Finiteness of measures of maximal entropy for smooth saddle surface endomorphisms, by Mat\\'eo Ghezal
+
+[View PDF](https://arxiv.org/pdf/2511.12345) [HTML (experimental)](https://arxiv.org/html/2511.12345v1)
+
+> Abstract:We show that C∞ local diffeomorphisms of closed surfaces admit a finite number of ergodic measures of maximal entropy. To do this, we construct families of rectangles with a nice geometry.
+
+|     |     |
+| --- | --- |
+| Comments: | 94 pages,10 figures |
+| Subjects: | Dynamical Systems (math.DS) |
+| Cite as: | [arXiv:2511.12345](https://arxiv.org/abs/2511.12345) \\[math.DS\\] |
+"""
+
+CHROME_STRINGS = ("Skip to content", "Skip to Main Content", "Image Credits:",
+                  "Share on Facebook", "Share on X", "Share on LinkedIn",
+                  "Share on Reddit", "Share over Email", "Copy Share Link",
+                  "(opens in a new window)", "Search arXiv",
+                  "Press Enter to search", "View PDF", "Cite as:",
+                  "Submitted on", "Authors:", "Subjects:", "Comments:",
+                  "נפתח בכרטיסייה חדשה")
+
+
+def _assert_no_chrome(text):
+    for s in CHROME_STRINGS:
+        assert s not in text, f"chrome leaked: {s!r} in {text[:200]!r}"
+
+
+def test_clean_text_strips_techcrunch_chrome():
+    out = writer.clean_text(_TC_SCRAPE)
+    _assert_no_chrome(out)
+    assert "The Trump administration on Monday" in out
+
+
+def test_clean_text_strips_arxiv_chrome():
+    out = writer.clean_text(_ARXIV_SCRAPE)
+    _assert_no_chrome(out)
+    assert "We show that C∞ local diffeomorphisms" in out
+
+
+def test_gist_techcrunch_starts_at_body():
+    item = _item(title="US tightens AI chip export controls to deter "
+                       "Chinese companies from accessing compute remotely",
+                 desc="Under the interim rule, firms need licenses.")
+    item["full_text"] = _TC_SCRAPE
+    g = writer.gist(item)
+    _assert_no_chrome(g)
+    assert g.startswith("The Trump administration on Monday")
+    assert "Ram Iyer" not in g
+
+
+def test_gist_arxiv_returns_abstract():
+    item = _item(url="https://arxiv.org/abs/2511.12345",
+                 title="[2511.12345] Finiteness of measures of maximal "
+                       "entropy for smooth saddle surface endomorphisms",
+                 desc="arXiv abstract.")
+    item["full_text"] = _ARXIV_SCRAPE
+    g = writer.gist(item)
+    _assert_no_chrome(g)
+    assert g.startswith("We show that C∞ local diffeomorphisms")
+
+
+def test_gist_falls_back_to_description_without_full_text():
+    item = _item(desc="A startup launched an AI agent product for "
+                      "enterprise workflows. It plugs into existing tools.")
+    g = writer.gist(item)
+    assert g.startswith("A startup launched an AI agent product")
+
+
+def test_run_search_retries_on_429_then_succeeds(monkeypatch):
+    from services import scanner
+    monkeypatch.setattr("time.sleep", lambda s: None)
+    calls = {"n": 0}
+
+    def flaky(method, path, payload):
+        calls["n"] += 1
+        if calls["n"] < 3:
+            raise SystemExit("Firecrawl HTTP 429: rate limit exceeded")
+        return {"success": True,
+                "data": {"web": [{"url": "https://example.com/a",
+                                  "title": "A", "description": "d"}]}}
+
+    monkeypatch.setattr(scanner, "_search_api", lambda: flaky)
+    res = scanner.run_search("AI startup funding round announced")
+    assert res["ok"] and len(res["results"]) == 1
+    assert calls["n"] == 3
+
+
+def test_run_search_gives_up_after_three_429s(monkeypatch):
+    from services import scanner
+    monkeypatch.setattr("time.sleep", lambda s: None)
+    calls = {"n": 0}
+
+    def always_429(method, path, payload):
+        calls["n"] += 1
+        raise SystemExit("Firecrawl HTTP 429: rate limit exceeded")
+
+    monkeypatch.setattr(scanner, "_search_api", lambda: always_429)
+    res = scanner.run_search("AI startup funding round announced")
+    assert not res["ok"] and "429" in res["error"]
+    assert calls["n"] == 3
+
+
+def test_run_search_no_retry_on_auth_error(monkeypatch):
+    from services import scanner
+    monkeypatch.setattr("time.sleep", lambda s: None)
+    calls = {"n": 0}
+
+    def bad_key(method, path, payload):
+        calls["n"] += 1
+        raise SystemExit("Firecrawl HTTP 401: unauthorized")
+
+    monkeypatch.setattr(scanner, "_search_api", lambda: bad_key)
+    res = scanner.run_search("AI startup funding round announced")
+    assert not res["ok"]
+    assert calls["n"] == 1  # non-retryable: fail fast
+
+
+def test_run_scrape_retries_on_429(monkeypatch):
+    from services import scanner
+    monkeypatch.setattr("time.sleep", lambda s: None)
+    calls = {"n": 0}
+
+    class Proc:
+        def __init__(self, rc, out, err=""):
+            self.returncode = rc
+            self.stdout = out
+            self.stderr = err
+
+    def flaky_run(*args, **kwargs):
+        calls["n"] += 1
+        if calls["n"] < 3:
+            return Proc(1, "", "Firecrawl HTTP 429: rate limit exceeded")
+        return Proc(0, json.dumps({"success": True,
+                                   "data": {"markdown": "# Hi\n\nBody text.",
+                                            "metadata": {"title": "Hi"}}}))
+
+    monkeypatch.setattr(scanner.subprocess, "run", flaky_run)
+    res = scanner.run_scrape("https://example.com/a")
+    assert res["ok"] and "Body text." in res["markdown"]
+    assert calls["n"] == 3
+
+
+def test_discovery_skips_listing_urls(monkeypatch):
+    from services import scanner
+    results = [
+        {"url": "https://www.ycombinator.com/companies/industry/generative-ai/san-francisco-bay-area/hiring",
+         "title": "Generative AI Startups funded by Y Combinator (YC) in the ...",
+         "description": "Browse 42 of the top Generative AI startups."},
+        {"url": "https://www.ycombinator.com/jobs/role/ai-ml",
+         "title": "Software Engineer jobs at Y Combinator startups",
+         "description": "Many YC startups are hiring."},
+        {"url": "https://example.com/startup-raises-seed",
+         "title": "Startup raises $5M seed", "description": "A real story."},
+    ]
+    monkeypatch.setattr(scanner, "run_search",
+                        lambda *a, **k: {"ok": True, "results": results})
+    items, failures = scanner.scan_startup_discovery(limit_per_query=5,
+                                                     verbose=False)
+    # Same stubbed results come back for each of the 3 queries; the point is
+    # no listing URL survives and the story URL does.
+    assert {i["url"] for i in items} == {"https://example.com/startup-raises-seed"}
+    assert failures == []
+    assert scanner.is_listing_url(
+        "https://www.ycombinator.com/companies/industry/generative-ai/x")
+    assert scanner.is_listing_url("https://www.ycombinator.com/companies/")
+    # A single company page is a story candidate, not a directory.
+    assert not scanner.is_listing_url("https://www.ycombinator.com/companies/axiomat")
+
+
+def test_firestore_retries_on_disconnect(monkeypatch):
+    import http.client
+    import io
+    from services import user_sources as us
+    monkeypatch.setattr("time.sleep", lambda s: None)
+    monkeypatch.setattr(us, "access_token", lambda: "token")
+    calls = {"n": 0}
+
+    def flaky_urlopen(req, timeout=None):
+        calls["n"] += 1
+        if calls["n"] == 1:
+            raise http.client.RemoteDisconnected(
+                "Remote end closed connection without response")
+        return io.StringIO(json.dumps({"documents": []}))
+
+    monkeypatch.setattr(us.urllib.request, "urlopen", flaky_urlopen)
+    assert us.list_all_sources() == []
+    assert calls["n"] == 2
+
+
+_YNET_SCRAPE = """[Skip to content](https://www.ynetnews.com/business/article/x)
+
+Updates Red Mail 18° Tel Aviv-Jaffa Search
+
+Main Israel News Mideast & World News Tech & Digital
+
+# Israeli AI cyber startup Corma hits $1 billion valuation after $125 million funding round
+
+## $125 million funding round
+
+Just three months after announcing a $60 million seed round, the Tel Aviv- and San Francisco-based company secures NEA-led funding as major enterprises turn to its autonomous AI systems to combat increasingly sophisticated cyber threats.
+
+ynet Global\\ Yesterday \\ 13:05 Add a comment Print Find an error? Report us Related Topics Cybersecurity AI Startups
+"""
+
+_WSJ_SCRAPE = """[Skip to Main Content](https://www.wsj.com/pro/cybersecurity/x)
+
+# Cyber Startup Corma Raises $125 Million for Defensive AI Agents
+
+Agents
+
+The year-old startup’s agents are custom-trained for defensive cybersecurity
+
+By
+
+[Angus Loten](https://www.wsj.com/news/author/angus-loten)
+
+WSJ Pro
+
+Nov. 16, 2026 7:00 am ET
+
+Listen
+
+(2 min)
+
+![Alon Pluda, Corma’s chief executive, in center, with members of the startup’s founding team.](https://images.wsj.net/x.jpg)
+
+Cybersecurity startup Corma raised $125 million to build automated agents that run on cyber-trained artificial-intelligence models.
+"""
+
+_CALCALIST_SCRAPE = """[![CTech logo](https://www.calcalistech.com/x.png)](https://www.calcalistech.com/)
+
+- [24/7](https://www.calcalistech.com/ctechnews/category/5215)
+- [Buzz](https://www.calcalistech.com/ctechnews/category/5216)
+- [Startups](https://www.calcalistech.com/ctechnews/category/5214)
+- [VC](https://www.calcalistech.com/ctechnews/category/5596)
+
+# Cyber startup Corma goes from stealth to unicorn in just three months with $125 million Series A
+
+## Founded in 2025, the Israeli startup has raised $185 million in total funding, including a $60 million Seed round announced in August.
+
+NEA led the latest financing, which values the company at $1 billion.
+"""
+
+
+def test_clean_text_drops_leading_nav_list():
+    out = writer.clean_text(_CALCALIST_SCRAPE)
+    for nav in ("24/7", "Buzz", "Startups", "VC"):
+        assert nav not in out.split("Cyber startup Corma")[0]
+    assert "NEA led the latest financing" in out
+
+
+def test_gist_ynet_strips_footer_furniture():
+    item = _item(url="https://www.ynetnews.com/business/article/x",
+                 title="Israeli AI cyber startup Corma hits $1 billion "
+                       "valuation after ...",
+                 desc="Ynet summary.")
+    item["full_text"] = _YNET_SCRAPE
+    g = writer.gist(item)
+    for s in ("Add a comment", "Find an error?", "Related Topics",
+              "Main Israel News", "Updates Red Mail"):
+        assert s not in g, s
+    assert g.startswith("$125 million funding round")
+
+
+def test_gist_wsj_strips_kicker_byline_and_listen():
+    item = _item(url="https://www.wsj.com/pro/cybersecurity/x",
+                 title="Cyber Startup Corma Raises $125 Million for "
+                       "Defensive AI ...",
+                 desc="WSJ summary.")
+    item["full_text"] = _WSJ_SCRAPE
+    g = writer.gist(item)
+    for s in ("Agents The year", "By Angus Loten", "7:00 am ET",
+              "Listen (2 min)", "Skip to Main Content"):
+        assert s not in g, s
+    assert g.startswith("The year-old startup’s agents are custom-trained")
+
+
+def test_gist_keeps_lead_starting_with_the():
+    # The kicker-strip rule must never eat a real lead starting "The …".
+    item = _item(title="US tightens AI chip export controls",
+                 desc="Under the interim rule, firms need licenses.")
+    item["full_text"] = _TC_SCRAPE
+    g = writer.gist(item)
+    assert g.startswith("The Trump administration on Monday")
+
+
+def test_gist_truncated_title_drops_whole_headline():
+    # The Calcalist item title ends "..." (feed-truncated); the gist must
+    # start at the dek, not at the headline's leftover tail
+    # ("months with $125 million Series A …").
+    item = _item(url="https://www.calcalistech.com/ctechnews/article/x",
+                 title="Cyber startup Corma goes from stealth to unicorn "
+                       "in just three ...",
+                 desc="Calcalist summary.")
+    item["full_text"] = _CALCALIST_SCRAPE
+    g = writer.gist(item)
+    assert g.startswith("Founded in 2025, the Israeli startup has raised")
+    assert "months with $125 million Series A" not in g
+    for nav in ("24/7", "Buzz", "Startups", "VC"):
+        assert nav not in g, nav
+
+
+_NAV_ONLY_SCRAPE = """[![CTech logo](https://www.calcalistech.com/x.png)](https://www.calcalistech.com/)
+
+- [24/7](https://www.calcalistech.com/ctechnews/category/5215)
+- [Buzz](https://www.calcalistech.com/ctechnews/category/5216)
+- [Startups](https://www.calcalistech.com/ctechnews/category/5214)
+
+- [HR](https://www.calcalistech.com/x) - [The Next Leap](https://www.calcalistech.com/x) - [Projects](https://www.calcalistech.com/x) - Corporate About Newsletter Contact us Facebook Twitter ACCESSIBILITY
+"""
+
+
+def test_gist_falls_back_to_description_when_scrape_has_no_headline():
+    # Degraded scrape (page shell / nav only): the snippet wins over nav.
+    item = _item(url="https://www.calcalistech.com/ctechnews/article/x",
+                 title="Cyber startup Corma goes from stealth to unicorn "
+                       "in just three ...",
+                 desc="# Cyber startup Corma goes from stealth to unicorn in just "
+                      "three months with $125 million Series A\n## Founded in 2025, "
+                      "the Israeli startup has raised $185 million in total funding.")
+    item["full_text"] = _NAV_ONLY_SCRAPE
+    g = writer.gist(item)
+    assert g.startswith("Cyber startup Corma goes from stealth to unicorn")
+    for nav in ("24/7", "Buzz", "The Next Leap", "ACCESSIBILITY"):
+        assert nav not in g, nav

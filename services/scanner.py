@@ -39,6 +39,28 @@ DISCOVERY_QUERIES = [
     "YC startup launches AI product",
 ]
 
+# Directory/index pages are not stories: the Nov 17 edition's two weakest
+# gists were YC's companies directory and jobs board ("Browse 42 of the
+# top Generative AI startups..."). Discovery queries target launches and
+# funding, so skip listing pages at ingest (see is_listing_url).
+
+
+def is_listing_url(url):
+    """True for directory/index pages, which are not stories.
+
+    YC's companies directory has 2+ path segments
+    (``/companies/industry/<industry>/<location>/hiring``); a single
+    segment (``/companies/axiomat``) is one company's page and stays.
+    """
+    u = url or ""
+    if u.startswith("https://www.ycombinator.com/jobs/"):
+        return True
+    m = re.match(r"https://www\.ycombinator\.com/companies/?(.*)$", u)
+    if m:
+        rest = m.group(1).strip("/")
+        return rest == "" or "/" in rest
+    return False
+
 
 def _search_api():
     sys.path.insert(0, str(SEARCH_CLI.parent))
@@ -46,43 +68,84 @@ def _search_api():
     return request
 
 
+# Firecrawl rate-limits (HTTP 429) hit hardest during the morning edition
+# run, when discovery + enrichment fire back-to-back. Retry those (and
+# transient 5xx / timeouts) with bounded exponential backoff instead of
+# dropping the query: 3 attempts max, ~6s of added delay per call.
+MAX_ATTEMPTS = 3
+RETRY_BACKOFF_S = (2, 4)
+_RETRYABLE = ("429", "502", "503", "504", "Timeout", "timed out",
+              "Connection reset", "Temporary failure")
+
+
+def _is_retryable(error_text):
+    return any(code in (error_text or "") for code in _RETRYABLE)
+
+
+def _retryable_call(fn, what):
+    """Call ``fn`` up to MAX_ATTEMPTS times on retryable failures.
+
+    ``fn`` returns a scanner-style result dict ({'ok': bool, 'error': str})
+    or raises; the last failure is returned as {'ok': False, 'error': ...}.
+    Non-retryable failures return immediately.
+    """
+    last_error = "unknown error"
+    for attempt in range(1, MAX_ATTEMPTS + 1):
+        try:
+            result = fn()
+        except SystemExit as exc:
+            result = {"ok": False, "error": str(exc)[:300]}
+        except Exception as exc:  # network / authd failure
+            result = {"ok": False, "error": f"{type(exc).__name__}: {exc}"[:300]}
+        if result.get("ok"):
+            return result
+        last_error = result.get("error", "")
+        if not _is_retryable(last_error):
+            return result
+        if attempt < MAX_ATTEMPTS:
+            time.sleep(RETRY_BACKOFF_S[attempt - 1])
+    return {"ok": False, "error": last_error}
+
+
 def run_search(query, limit=5, tbs=TBS_48H):
     """Firecrawl search with a time bound. Returns {'ok': bool, ...}."""
-    try:
+    def _once():
         payload = {"query": query, "limit": limit}
         if tbs:
             payload["tbs"] = tbs
         result = _search_api()("POST", "/search", payload)
-    except SystemExit as exc:
-        return {"ok": False, "error": str(exc)[:300]}
-    except Exception as exc:  # network / authd failure
-        return {"ok": False, "error": f"{type(exc).__name__}: {exc}"[:300]}
-    if not result.get("success"):
-        return {"ok": False, "error": str(result.get("error") or "success:false")[:300]}
-    results = result.get("data", {}).get("web", []) or []
-    return {"ok": True, "results": results}
+        if not result.get("success"):
+            return {"ok": False,
+                    "error": str(result.get("error") or "success:false")[:300]}
+        results = result.get("data", {}).get("web", []) or []
+        return {"ok": True, "results": results}
+    return _retryable_call(_once, f"search {query!r}")
 
 
 def run_scrape(url, timeout=120):
     """Scrape one URL to markdown via the Firecrawl scrape CLI."""
-    try:
-        proc = subprocess.run(
-            [sys.executable, str(SCRAPE_CLI), url, "markdown"],
-            capture_output=True, text=True, timeout=timeout,
-        )
-    except (subprocess.TimeoutExpired, OSError) as exc:
-        return {"ok": False, "error": str(exc)[:200]}
-    if proc.returncode != 0:
-        return {"ok": False, "error": (proc.stderr.strip() or f"exit {proc.returncode}")[:200]}
-    try:
-        payload = json.loads(proc.stdout)
-    except json.JSONDecodeError as exc:
-        return {"ok": False, "error": f"bad JSON: {exc}"}
-    if not payload.get("success"):
-        return {"ok": False, "error": str(payload.get("error") or "success:false")[:200]}
-    md = (payload.get("data") or {}).get("markdown") or ""
-    title = (payload.get("data") or {}).get("metadata", {}).get("title") or ""
-    return {"ok": True, "markdown": md, "page_title": title}
+    def _once():
+        try:
+            proc = subprocess.run(
+                [sys.executable, str(SCRAPE_CLI), url, "markdown"],
+                capture_output=True, text=True, timeout=timeout,
+            )
+        except (subprocess.TimeoutExpired, OSError) as exc:
+            return {"ok": False, "error": str(exc)[:200]}
+        if proc.returncode != 0:
+            return {"ok": False,
+                    "error": (proc.stderr.strip() or f"exit {proc.returncode}")[:200]}
+        try:
+            payload = json.loads(proc.stdout)
+        except json.JSONDecodeError as exc:
+            return {"ok": False, "error": f"bad JSON: {exc}"}
+        if not payload.get("success"):
+            return {"ok": False,
+                    "error": str(payload.get("error") or "success:false")[:200]}
+        md = (payload.get("data") or {}).get("markdown") or ""
+        title = (payload.get("data") or {}).get("metadata", {}).get("title") or ""
+        return {"ok": True, "markdown": md, "page_title": title}
+    return _retryable_call(_once, f"scrape {url}")
 
 
 
@@ -111,6 +174,8 @@ def scan_startup_discovery(limit_per_query=5, verbose=True):
             url = (r.get("url") or "").strip()
             if not url or not url.startswith("http"):
                 continue
+            if is_listing_url(url):
+                continue  # directory page, not a story
             items.append({
                 "url": url,
                 "title": (r.get("title") or "").strip(),

@@ -116,7 +116,9 @@ def cmd_edition(args):
               f"-> data/emails/")
         for email, upath in sorted(user_written.items()):
             print(f"  {email}\t{upath}")
-    except RuntimeError as exc:
+    except Exception as exc:
+        # Per-user emails are best-effort (0 subscribers today): a Firestore
+        # blip here must not fail an edition that is already written.
         print(f"[edition] user emails skipped: {exc}", file=sys.stderr)
 
     print(f"[edition] wrote {total} items, {letter['word_count']}-word digest "

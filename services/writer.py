@@ -36,23 +36,152 @@ def _pick(key, pool):
     return pool[h % len(pool)]
 
 
+# Site chrome that Firecrawl scrape markdown carries in front of (and
+# around) the article body. Verified against live scrapes 2026-11-17
+# (TechCrunch, arXiv abs pages): the Nov 17 edition's gists were built
+# from this chrome because gist() took the first sentences verbatim.
+_SHARE_BUTTONS = re.compile(
+    r"(?:Share on (?:Facebook|X|LinkedIn|Reddit|Email|WhatsApp|Telegram)"
+    r"|Share over Email|Copy Share Link|Share via Email)\s*", re.I)
+_OPEN_NEW_WINDOW = re.compile(r"\(opens in a new (?:window|tab)\)", re.I)
+_SKIP_LINK = re.compile(r"Skip to (?:main )?content", re.I)
+_NEW_TAB_HE = "נפתח בכרטיסייה חדשה"  # Ynet: "opens in a new tab", repeated
+# A byline fragment glued to the end of a dek, e.g.
+# "…defensive cybersecurity By Angus Loten WSJ Pro Nov."
+_BYLINE_FRAGMENT = re.compile(
+    r" By [A-Z][\w.'-]+ [A-Z][\w.'-]+[^.]{0,60}?\.( \d{1,2}, \d{4})?")
+# Unambiguous article-footer furniture phrases.
+_FOOTER_PHRASES = ("Add a comment", "Find an error?")
+_BYLINE_TIMESTAMP = re.compile(
+    r"\d{1,2}:\d{2}\s*[AP]M\s+[A-Z]{2,4}\s*[·|]\s*[A-Z][a-z]+\s+\d{1,2},\s+\d{4}")
+# Dateline variant with a lowercase am/pm ("7:00 am ET"), WSJ-style.
+_DATELINE_LOWER = re.compile(r" \d{1,2}:\d{2}\s*[ap]m\s+[A-Z]{2,4}\b")
+# Audio-player furniture ("Listen (2 min)" — often split across lines).
+_LISTEN = re.compile(r"Listen\s*\(\d+ min\)", re.I)
+# arXiv submission line, e.g. "[Submitted on 15 Nov 2025]".
+_ARXIV_SUBMITTED = re.compile(r"\[?Submitted on \d{1,2} [A-Za-z]{3,9} \d{4}\]?")
+# Lines that are pure site furniture, never article body.
+_CHROME_LINE = re.compile(
+    r"(?i)^\[?(cite as|view pdf|view a pdf|access paper|bookmark|current browse"
+    r"|prev|next|authors?|subjects?|comments?|submitted on|search arxiv"
+    r"|press enter to search|download pdf|export bibtex|bibliographic"
+    r"|submission history|which authors|arxivlabs|focus to learn more"
+    r"|html \(experimental\)|image credits)\b")
+
+
 def clean_text(desc):
-    """Strip markdown/boilerplate from a Firecrawl description."""
+    """Strip markdown/boilerplate from a Firecrawl description.
+
+    Removes site chrome (skip links, share-button runs, image-credit
+    parentheticals, arXiv furniture lines) so the first sentences of the
+    result are article body, not navigation.
+    """
     t = desc or ""
     t = re.sub(r"!\[[^\]]*\]\([^)]*\)", "", t)          # images
     t = re.sub(r"\[([^\]]*)\]\([^)]*\)", r"\1", t)      # links -> text
     t = re.sub(r"^#{1,6}\s*", "", t, flags=re.M)       # headings
     t = t.replace("|", " ").replace("*", "")
+    t = t.replace("\\[", "[").replace("\\]", "]")  # unescape markdown brackets
+    # Inline chrome phrases, wherever they occur (they repeat mid-article).
+    t = _OPEN_NEW_WINDOW.sub("", t)
+    t = _SHARE_BUTTONS.sub("", t)
+    t = _SKIP_LINK.sub("", t)
+    t = t.replace(_NEW_TAB_HE, "")
+    t = _LISTEN.sub("", t)
+    # A "Related Topics" footer cluster is the end of the article, never
+    # the middle of it — cut the text there.
+    t = t.split("Related Topics")[0]
+    for phrase in _FOOTER_PHRASES:
+        t = t.replace(phrase, "")
     lines = []
-    for line in t.splitlines():
-        s = line.strip()
+    raw_lines = [ln.strip() for ln in t.splitlines()]
+    for i, s in enumerate(raw_lines):
         if not s:
             continue
-        if re.match(r"(?i)^(cite as|view pdf|access paper|bookmark|current browse|prev|next)\b", s):
+        s = re.sub(r"^>\s*", "", s)                    # blockquote marker
+        s = re.sub(r"(?i)^abstract:\s*", "", s)        # keep the abstract
+        if _CHROME_LINE.match(s):
             continue
+        if _BYLINE_TIMESTAMP.match(s):
+            continue                                    # timestamp-only line
+        # Byline author line: a bare name directly above a timestamp line
+        # ("Ram Iyer" over "7:02 AM PST · November 16, 2026").
+        if re.match(r"^[A-Z][\w.'-]+(?: [A-Z][\w.'-]+){0,2}$", s):
+            nxt = next((x for x in raw_lines[i + 1:] if x), "")
+            if _BYLINE_TIMESTAMP.match(nxt):
+                continue
         lines.append(s)
+    # Leading nav run: a scrape that opens with a menu list ("- 24/7",
+    # "- Buzz", …) or a lone section kicker ("Agents") before the article.
+    # Drop that run so the text starts at content, not navigation.
+    while lines and (re.match(r"^[-*•]\s+\S+( \S+){0,2}$", lines[0])
+                     or re.match(r"^[A-Z][A-Za-z]{1,20}$", lines[0])):
+        lines.pop(0)
     t = " ".join(lines)
     t = re.sub(r"\s+", " ", t).strip()
+    return t
+
+
+def _title_key(title):
+    """Searchable form of a title: drop an arXiv-id prefix / suffix."""
+    t = (title or "").strip()
+    t = re.sub(r"^\[\d{4}\.\d{4,5}(v\d+)?\]\s*", "", t)
+    t = re.sub(r"\s+-\s*arXiv$", "", t, flags=re.I)
+    t = t.rstrip(".").rstrip()
+    return t
+
+
+def _drop_through_headline(raw, title):
+    """Drop scraped markdown up to and including the headline line.
+
+    Firecrawl markdown opens with nav/credits/share buttons, then the
+    headline as its own line. Drop through that whole line: item titles
+    are often truncated ("…in just three …"), so cutting to the end of
+    the title *text* leaves the headline's tail behind ("months with
+    $125 million Series A"). Line-based matching avoids that entirely.
+    Returns (markdown from the line after the headline, found?): ``found``
+    is False when the headline is not in the scrape at all — a degraded,
+    nav-only render — so the caller can fall back to the snippet.
+    """
+    key = _title_key(title)
+    if not key:
+        return raw, False
+    candidates = [key]
+    words = key.split()
+    for n in (12, 8, 5):
+        if len(words) > n:
+            candidates.append(" ".join(words[:n]))
+    lines = raw.splitlines()
+    for i, line in enumerate(lines):
+        norm = re.sub(r"!\[[^\]]*\]\([^)]*\)", "", line)
+        norm = re.sub(r"\[([^\]]*)\]\([^)]*\)", r"\1", norm)
+        norm = re.sub(r"^#{1,6}\s*", "", norm).replace("*", "").strip()
+        low = norm.lower()
+        if any(cand.lower() in low for cand in candidates):
+            return "\n".join(lines[i + 1:]), True
+    return raw, False
+
+
+def _trim_lead(t):
+    """Strip byline/dateline furniture from the lead of cleaned text."""
+    # Byline: author name + timestamp within the lead of the body.
+    for pat in (_BYLINE_TIMESTAMP, _ARXIV_SUBMITTED):
+        m = pat.search(t[:400])
+        if m:
+            t = t[m.end():].strip()
+    # Byline fragment glued to a dek ("…cybersecurity By Angus Loten
+    # WSJ Pro Nov. 16, 2026"): cut it out of the lead, keep the dek.
+    m = _BYLINE_FRAGMENT.search(t[:400])
+    if m:
+        t = (t[:m.start()] + t[m.end():]).strip()
+    # Lone section kicker ahead of the dek ("Agents The year-old …").
+    # Narrow shape (kicker + "The" + lowercase word) so a real lead
+    # starting "The Trump administration…" is never touched.
+    t = re.sub(r"^[A-Z][A-Za-z]{1,20} (The [a-z])", r"\1", t, count=1)
+    # Lowercase-am dateline in the lead ("7:00 am ET").
+    m = _DATELINE_LOWER.search(t[:300])
+    if m:
+        t = (t[:m.start()] + t[m.end():]).strip()
     return t
 
 
@@ -61,9 +190,22 @@ def gist(item, max_len=340):
 
     Prefers ``full_text`` (scraped article body) when the item was
     enriched — briefings are then written from the real article, not the
-    snippet.
+    snippet. Scraped chrome ahead of the body is trimmed first.
     """
-    t = clean_text(item.get("full_text") or item.get("description", ""))
+    full = item.get("full_text") or ""
+    desc = item.get("description", "")
+    if full:
+        body, found = _drop_through_headline(full, item.get("title", ""))
+        if found:
+            t = clean_text(body)
+            t = _trim_lead(t)
+        else:
+            # Degraded scrape (page shell / nav only, no headline): the
+            # snippet is more trustworthy than nav-first full text.
+            t = clean_text(desc or full)
+        t = re.sub(r"\s+", " ", t).strip()
+    else:
+        t = clean_text(desc)
     if not t:
         return ""
     parts = re.split(r"(?<=[.!?])\s+", t)

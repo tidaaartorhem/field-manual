@@ -22,9 +22,11 @@ CLI::
     .venv/bin/python -m services.user_sources scrape   # scrape all pending
     .venv/bin/python -m services.user_sources emails   # print "email<TAB>path" per subscriber
 """
+import http.client
 import json
 import re
 import sys
+import time
 import urllib.error
 import urllib.request
 from datetime import datetime, timezone
@@ -64,12 +66,24 @@ def _firestore(method, path, payload=None, params=""):
     req.add_header("Authorization", f"Bearer {token}")
     if payload is not None:
         req.add_header("Content-Type", "application/json")
-    try:
-        with urllib.request.urlopen(req, timeout=30) as resp:
-            return json.load(resp)
-    except urllib.error.HTTPError as exc:
-        body = exc.read().decode("utf-8", "replace")[:500]
-        raise RuntimeError(f"firestore {method} {path}: HTTP {exc.code}: {body}")
+    # Transient network drops (e.g. RemoteDisconnected) killed the Nov 17
+    # edition run after the digest was already written: retry them with
+    # bounded backoff instead of failing the whole run.
+    last_error = None
+    for attempt in range(1, 4):
+        try:
+            with urllib.request.urlopen(req, timeout=30) as resp:
+                return json.load(resp)
+        except urllib.error.HTTPError as exc:
+            body = exc.read().decode("utf-8", "replace")[:500]
+            raise RuntimeError(f"firestore {method} {path}: HTTP {exc.code}: {body}")
+        except (urllib.error.URLError, http.client.HTTPException,
+                TimeoutError, ConnectionError) as exc:
+            last_error = exc
+            if attempt < 3:
+                time.sleep(2 * attempt)
+    raise RuntimeError(f"firestore {method} {path}: network failed after "
+                       f"3 attempts: {last_error}")
 
 
 def _s(fields, key):

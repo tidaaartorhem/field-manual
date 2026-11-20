@@ -18,9 +18,11 @@ service cloud.firestore {
     }
     // Personal source adder. Visitors submit URLs; the pipeline scrapes
     // pending docs server-side and flips them to scraped/failed.
-    // NOTE: read is public so visitors can see the status of their own
-    // submissions without auth. Tradeoff: anyone can list submitted URLs
-    // (docs also carry the submitter's email — see README "Privacy notes").
+    // Reads are get-by-ID only: a visitor can check the status of a
+    // submission they made (its doc ID is stored in their browser's
+    // localStorage), but nobody can LIST the collection — listing would
+    // expose every submitted URL and submitter email. The doc ID is a
+    // random 20-char Firestore ID, so knowing it is the capability.
     // Per-user scoping of *content* is enforced pipeline-side: a scraped URL
     // only ever appears in its submitter's email, never the global edition.
     match /user_sources/{docId} {
@@ -37,7 +39,8 @@ service cloud.firestore {
         && request.resource.data.title.size() <= 200
         && request.resource.data.status == 'pending'
         && request.resource.data.addedAt is timestamp;
-      allow read: if true;
+      allow get: if true;
+      allow list: if false;
       allow update, delete: if false;
     }
     // Default deny for everything else.

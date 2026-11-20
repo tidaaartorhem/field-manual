@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react';
 import {
+  addStoredSourceId,
   addUserSource,
   getStoredEmail,
-  listUserSources,
+  getStoredSourceIds,
+  getUserSources,
   setStoredEmail,
   type UserSource,
 } from '../lib/firebase';
@@ -25,20 +27,21 @@ export function SourceAdder() {
   const [sources, setSources] = useState<UserSource[]>([]);
   const [loadingList, setLoadingList] = useState(false);
 
-  // Pre-fill the email if they signed up (or added a source before).
+  // Pre-fill the email if they signed up (or added a source before), and
+  // reload the status of sources added from this browser.
   useEffect(() => {
     const stored = getStoredEmail();
     if (stored) {
       setEmail(stored);
-      void refresh(stored);
     }
+    void refresh();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  async function refresh(forEmail: string) {
+  async function refresh() {
     setLoadingList(true);
     try {
-      setSources(await listUserSources(forEmail));
+      setSources(await getUserSources(getStoredSourceIds()));
     } catch {
       /* list is best-effort; the form still works */
     } finally {
@@ -54,11 +57,12 @@ export function SourceAdder() {
     setErrorDetail('');
     try {
       const clean = normalizeSource(url, email);
-      await addUserSource(clean.email, clean.url);
+      const id = await addUserSource(clean.email, clean.url);
+      addStoredSourceId(id);
       setStoredEmail(clean.email);
       setUrl('');
       setStatus('done');
-      void refresh(clean.email);
+      void refresh();
     } catch (err) {
       setStatus('error');
       setErrorDetail(err instanceof Error ? err.message : 'Something went wrong.');
@@ -125,7 +129,7 @@ export function SourceAdder() {
             {loadingList ? (
               <p className="source-list-empty">Loading…</p>
             ) : sources.length === 0 ? (
-              <p className="source-list-empty">Nothing added yet with this email.</p>
+              <p className="source-list-empty">Nothing added yet from this browser.</p>
             ) : (
               <ul>
                 {sources.map((s) => (

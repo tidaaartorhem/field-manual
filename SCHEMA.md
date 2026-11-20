@@ -104,7 +104,8 @@ appears in another user's email or the global edition.
 ```
 
 Rules (`firestore.rules`): public `create` (email/URL validation, status
-must be `pending`); public `read` (so visitors see their own submission
-status without auth — tradeoff documented in README "Privacy notes"); no
-client update/delete. The pipeline reads/writes server-side via the
+must be `pending`); `get` by doc ID only (the ID lives in the submitter's
+browser localStorage — see README "Privacy notes"); `list` denied, so no
+one can enumerate submitted URLs or submitter emails; no client
+update/delete. The pipeline reads/writes server-side via the
 Firestore REST API.

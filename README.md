@@ -33,12 +33,12 @@ Every edition covers exactly the last 48 hours. Nothing older.
 
 ## The app
 
-`web/` is a Vite + React + TypeScript reader in light, minimal editorial style: the digest (safe markdown rendering), the "By the numbers" chart strip (inline SVG), the full link list, the email signup form (name + email → Firestore `subscribers`), and the source adder ("Add a source": URL + email → Firestore `user_sources`; the visitor sees their own URLs with scrape status; the email is pre-filled from localStorage and becomes their identity — no auth yet).
+`web/` is a Vite + React + TypeScript reader in light, minimal editorial style: the digest (safe markdown rendering), the "By the numbers" chart strip (inline SVG), the full link list, the email signup form (name + email → Firestore `subscribers`), and the source adder ("Add a source": URL + email → Firestore `user_sources`; the visitor sees the status of sources added from this browser — their doc IDs are kept in localStorage and re-read one by one, since the collection cannot be listed; the email is pre-filled from localStorage and becomes their identity — no auth yet).
 
 ## Privacy notes
 
 - A user-added URL is scraped and used **only for that user**. It never enters the global edition, the charts, or anyone else's email. Per-user scoping is enforced in `services/user_sources.py` and `services/emailer.py` (there is a test asserting user A's URL never appears in user B's email).
-- Tradeoff (documented, accepted): the `user_sources` Firestore collection allows **public reads** so visitors can see the status of their own submissions without auth. That means submitted URLs — and the submitter emails on those docs — are listable by anyone. If this ever matters, the fix is Firebase Auth + per-user read rules; the pipeline already keys everything by email so the migration is small.
+- Closed 2026-11-20 (was a documented tradeoff): the `user_sources` collection used to allow **public reads**, so anyone could list every submitted URL and submitter email. Now clients may only `get` a single doc by ID — the ID is stored in the submitter's browser localStorage after they add a source — and `list` is denied. A doc ID is a random 20-char string, so knowing it is the capability. Sources added from another browser still get scraped and emailed (the pipeline keys by email); they just don't show in this browser's list. No Firebase Auth needed for this fix; per-user read rules would still be the next step if auth is ever added.
 - `subscribers` remains create-only from clients (no reads/updates/deletes).
 
 ## Email: how the scheduled send works
@@ -50,7 +50,7 @@ Every other morning at 08:00 ET a scheduled job runs:
 3. **Deploy** — `cd web && npm run build && firebase deploy --only hosting --project portfolio-3da31` (firebase CLI). The PNGs must be live at `https://aadit-field-manual.web.app/charts/<edition>/*.png` *before* sending, since the emails reference them by URL.
 4. **Send** — for each subscriber: the HTML at `data/emails/<slug>.html` goes out via Gmail (one email per subscriber, since content is personalized), subject `The Field Manual — <edition date>`. The subscriber list comes from `.venv/bin/python -m services.subscribers --emails`. Unsubscribes are handled by reply ("Reply to this email to unsubscribe" is in the footer).
 
-Firestore rules (`firestore.rules`, deployed) allow public `create` on `subscribers` (name/email validation) and on `user_sources` (email/URL validation, status must be `pending`), public `read` on `user_sources` only, and deny everything else.
+Firestore rules (`firestore.rules`, deployed) allow public `create` on `subscribers` (name/email validation) and on `user_sources` (email/URL validation, status must be `pending`), get-by-ID `read` on `user_sources` only (list denied — see Privacy notes), and deny everything else.
 
 ## Deploy
 
